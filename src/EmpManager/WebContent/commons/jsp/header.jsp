@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/commons/jsp/taglibs.jsp"%>
 <%
-com.opensymphony.xwork2.ActionContext.getContext().setLocale((java.util.Locale)session.getAttribute(com.systex.emp.base.util.ConstUtil.SESSION_ATTR_LOCALE));
+com.opensymphony.xwork2.ActionContext.getContext().setLocale((java.util.Locale)session.getAttribute(com.fb.util.ConstUtil.SESSION_ATTR_LOCALE));
 %>
 <c:set var="request_locale" value="${sessionScope.LOCALE}"/>
 <s:set var="global_message_confirm" value="%{getText('global.message.confirm')}"/>

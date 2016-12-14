@@ -40,7 +40,7 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 	<listener>
-		<listener-class>com.systex.emp.manager.listener.ContextListener</listener-class>
+		<listener-class>com.fb.listener.ContextListener</listener-class>
 	</listener>
 	
 	<!-- filter -->
@@ -59,7 +59,7 @@
 
 	<filter>
 		<filter-name>AuthenticateFilter</filter-name>
-		<filter-class>com.systex.emp.manager.web.filter.AuthenticateFilter</filter-class>
+		<filter-class>com.fb.web.filter.AuthenticateFilter</filter-class>
 		<init-param>
 			<param-name>excludePatterns</param-name>
 			<param-value>
@@ -75,7 +75,7 @@
 	
 	<filter>
 	    <filter-name>CsrfPreventionFilter</filter-name>
-	    <filter-class>com.systex.emp.manager.web.filter.CsrfPreventionFilter</filter-class>
+	    <filter-class>com.fb.web.filter.CsrfPreventionFilter</filter-class>
 	    <init-param> 
 	        <param-name>excludeURLs</param-name>  
 	        <param-value>
@@ -98,7 +98,7 @@
 	
 	<filter>
 		<filter-name>PermissionFilter</filter-name>
-		<filter-class>com.systex.emp.manager.web.filter.PermissionFilter</filter-class>
+		<filter-class>com.fb.web.filter.PermissionFilter</filter-class>
 		<init-param>
 			<param-name>excludePatterns</param-name>
 			<param-value>

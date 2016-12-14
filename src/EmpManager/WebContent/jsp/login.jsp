@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
-com.opensymphony.xwork2.ActionContext.getContext().setLocale((java.util.Locale)session.getAttribute(com.systex.emp.base.util.ConstUtil.SESSION_ATTR_LOCALE));
+com.opensymphony.xwork2.ActionContext.getContext().setLocale((java.util.Locale)session.getAttribute(com.fb.util.ConstUtil.SESSION_ATTR_LOCALE));
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

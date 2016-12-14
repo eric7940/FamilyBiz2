@@ -65,7 +65,7 @@
 	</target>
 
 	<target name="package-war" depends="compile" description="">
-		<war destfile="${build.dir}/${name}.war" webxml="${webroot.dir}/WEB-INF/web.xml">
+		<war destfile="${build.dir}/fb2.war" webxml="${webroot.dir}/WEB-INF/web.xml">
 			<manifest>
 				<attribute name="Built-Date" value="${TODAY}" />
 				<attribute name="Built-By" value="${user.name}"/>
@@ -80,7 +80,7 @@
 	</target>
 
 	<target name="workflow" description="">
-		<echo message="target env: ${name}_${env}"/>
+		<echo message="target env: ${env}"/>
 		<echo message="ant.java.version = ${ant.java.version}"/>
 		<echo message="ant.version = ${ant.version}"/>
 		<echo message="java.classpath = ${java.class.path}"/>

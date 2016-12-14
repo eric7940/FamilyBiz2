@@ -13,6 +13,6 @@
 				maxTransactions="5"
 				useStatementNamespaces="true" />
 
-	<sqlMap resource="com/systex/emp/manager/dao/rdbms/maps/Main_SqlMap.xml" />
+	<sqlMap resource="com/fb/dao/maps/Main_SqlMap.xml" />
 
 </sqlMapConfig>

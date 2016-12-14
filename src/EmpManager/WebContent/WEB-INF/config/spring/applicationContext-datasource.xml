@@ -16,7 +16,7 @@
 	</bean> 
 
 	<!-- DAOs -->
-	<bean id="mainDAO" parent="baseDAO" class="com.systex.emp.manager.dao.rdbms.MainDAOImpl">
+	<bean id="mainDAO" parent="baseDAO" class="com.fb.dao.MainDAOImpl">
 		<property name="namespace" value="FB" />
 		<property name="sqlMapClient" ref="mainSqlMapClient" />
 	</bean>

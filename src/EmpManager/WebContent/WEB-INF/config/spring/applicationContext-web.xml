@@ -6,8 +6,8 @@
 <!--  	<bean id="queryAction" class="com.systex.emp.manager.web.action.QueryAction" scope="session">
 	</bean> -->      
 	
-	<bean id="soForm" class="com.systex.emp.manager.web.form.SoForm" scope="session" />
-	<bean id="soAction" class="com.systex.emp.manager.web.action.SoAction" scope="session">
+	<bean id="soForm" class="com.fb.web.form.SoForm" scope="session" />
+	<bean id="soAction" class="com.fb.web.action.SoAction" scope="session">
 		<property name="form" ref="soForm" />
 	</bean>
 	   
