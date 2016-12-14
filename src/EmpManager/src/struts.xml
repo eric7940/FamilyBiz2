@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.action.extension" value="do"/>
+	<constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.devMode" value="false" />
+    <constant name="struts.multipart.maxSize" value="52428800"/> <!-- 上傳檔案最大值:50M -->
+    
+    <constant name="struts.custom.i18n.resources" value="global" />
+	
+	<package name="default" namespace="/" extends="struts-default,json-default">
+		<global-results>
+			<result name="error">/jsp/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		
+		<action name="loginform">
+			<result>/jsp/login.jsp</result>
+		</action>
+		
+		<action name="index">
+			<result type="redirectAction">
+				<param name="actionName">main</param>
+			</result>
+		</action>
+		
+		<action name="login" class="com.systex.emp.manager.web.action.LoginAction">	
+			<result name="success" type="redirect">
+				<param name="location">/main.do</param>
+			</result>
+			<result name="input">/jsp/login.jsp</result>
+		</action>
+		<action name="logout" class="com.systex.emp.manager.web.action.LoginAction" method="logout">	
+			<result name="success" type="redirectAction">loginform</result>
+		</action>
+		
+		<action name="so" class="soAction">
+			<result name="success">/jsp/pbt/list.jsp</result>
+			<result name="p_edit">/jsp/pbt/pipeline_edit.jsp</result>
+			<result name="b_edit">/jsp/pbt/backlog_edit.jsp</result>
+			<result name="i_edit">/jsp/pbt/backlog_edit.jsp</result>
+			<result name="p_view">/jsp/pbt/pipeline_view.jsp</result>
+			<result name="b_view">/jsp/pbt/backlog_view.jsp</result>
+			<result name="i_view">/jsp/pbt/backlog_view.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">main</param>
+				<param name="redirect">1</param>
+				<param name="t">${form.activeTab}</param>
+			</result>
+			<result name="view" type="redirectAction">
+				<param name="actionName">view</param>
+				<param name="redirect">1</param>
+				<param name="t">${form.activeTab}</param>
+				<param name="id">${form.bean.projectId}</param>
+			</result>
+		</action>
+				
+	</package>
+	
+</struts> 

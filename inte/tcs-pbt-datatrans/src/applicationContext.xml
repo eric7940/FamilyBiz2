@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- iBatis SqlMap Config file -->
+	<bean id="sqlmapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="classpath:sqlmap-config.xml" />
+	</bean>
+
+	<!-- Data Sources -->
+	<bean id="sourceDS" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="${source.jdbc.driverClassName}" />
+		<property name="url" value="${source.jdbc.url}" />
+		<property name="username" value="${source.jdbc.username}" />
+		<property name="password" value="${source.jdbc.password}" />
+	</bean>
+	
+	<bean id="targetDS" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="${target.jdbc.driverClassName}" />
+		<property name="url" value="${target.jdbc.url}" />
+		<property name="username" value="${target.jdbc.username}" />
+		<property name="password" value="${target.jdbc.password}" />
+	</bean>
+	
+	<!-- DAOs -->
+	<bean id="sourceDAO" class="com.systex.tcs.pbt.datatrans.dao.SourceDAOImpl">
+		<property name="sqlMapClient" ref="sqlmapClient" />
+		<property name="dataSource" ref="sourceDS" />
+	</bean>
+	
+	<bean id="targetDAO" class="com.systex.tcs.pbt.datatrans.dao.TargetDAOImpl">
+		<property name="sqlMapClient" ref="sqlmapClient" />
+		<property name="dataSource" ref="targetDS" />
+	</bean>
+	
+</beans>

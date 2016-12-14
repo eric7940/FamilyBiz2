@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- iBatis SqlMap file -->
+	<bean id="mainSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="WEB-INF/config/sqlmap-config.xml" />
+		<property name="dataSource" ref="mainDS" />
+	</bean>
+	
+	<!-- Data Sources -->	
+	<bean id="mainDS" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/${main.jndi}"/>
+	</bean> 
+
+	<!-- DAOs -->
+	<bean id="mainDAO" parent="baseDAO" class="com.systex.emp.manager.dao.rdbms.MainDAOImpl">
+		<property name="namespace" value="FB" />
+		<property name="sqlMapClient" ref="mainSqlMapClient" />
+	</bean>
+	
+	<!-- Transaction Managers -->
+	<bean id="mainTXM" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="mainDS" />
+	</bean>
+	
+</beans>

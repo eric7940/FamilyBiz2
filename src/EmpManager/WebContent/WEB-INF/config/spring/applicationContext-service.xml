@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Services -->
+	<bean id="serviceParent" abstract="true" parent="serviceParentBase" class="com.systex.emp.manager.service.impl.ServiceImpl">
+		<property name="mainDAO" ref="mainDAO" />
+	</bean>
+	<bean id="serviceProxyParent" abstract="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED, -Exception, -org.springframework.dao.DataAccessException, -java.sql.SQLException</prop>
+			</props>
+		</property>
+	</bean>		
+	<bean id="mainServiceProxyParent" parent="serviceProxyParent" abstract="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager" ref="mainTXM" />
+	</bean>		
+
+	<bean id="soService" parent="serviceParent" scope="singleton" class="com.systex.emp.manager.service.impl.SoServiceImpl"/>
+	<bean id="soServiceProxy" parent="mainServiceProxyParent">
+		<property name="target" ref="soService" />
+	</bean>		
+
+	<bean id="commonService" parent="serviceParent" scope="singleton" class="com.systex.emp.manager.service.impl.CommonServiceImpl" />
+	<bean id="commonServiceProxy" parent="mainServiceProxyParent">
+		<property name="target" ref="commonService" />
+	</bean>
+
+	<bean id="authenticateDummyService" parent="serviceParent" scope="singleton" class="com.systex.emp.manager.service.impl.AuthenticateServiceDummyImpl"/>
+	<bean id="authenticateDummyServiceProxy" parent="mainServiceProxyParent">
+		<property name="target" ref="authenticateDummyService" />
+	</bean>		
+
+</beans>

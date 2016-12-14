@@ -1,0 +1,54 @@
+﻿/*!
+ * Start Bootstrap - SB Admin 2 Bootstrap Admin Theme (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ * [div  css] http://getbootstrap.com/css/#grid
+ * [icon css] http://fontawesome.io/icons/
+ */
+
+body {
+  padding-top: 20px;
+}
+
+#divError {
+	color:red;
+}
+#divInfo {
+	color:blue;
+}
+
+.table-break-all td{
+	word-break:break-all;/*自動換行*/
+}
+
+.table-list thead tr th{
+	/*background-color: #d9edf7;*/	
+}
+
+.div-search {	 
+	margin-bottom:20px;/*邊界-下*/
+}
+
+.form-input-line-magrin{
+	padding-right:5px;
+}
+
+.error-message{
+	word-break: break-all;
+}
+
+.scroll-auto{
+	overflow:auto; 
+	max-height:350px;
+}
+
+.div-result{
+	border:1px #ccc solid;
+	border-radius:5px;
+	background-color:#eee;
+}
+
+.div-result table {
+	margin-bottom: 1px;
+}
+    

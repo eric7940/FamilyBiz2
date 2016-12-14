@@ -1,0 +1,12 @@
+<html>
+    <body>
+        <div>
+${notify.salesUserName} 您好：<br><br>
+${notify.pmUserName} 已於 $date.format('yyyy-MM-dd HH:mm', $notify.createDate) 完成 <b>${notify.stage}</b> 之PBT登打，資料如下：<br><br>
+OIN：${notify.projectId}<br>
+專案名稱：${notify.projectName}<br><br>
+詳細成本資料請點選<a href="${notify.link}">本連結</a>
+        </div>
+    </body>
+</html>
+
