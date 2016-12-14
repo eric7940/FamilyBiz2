@@ -28,7 +28,7 @@ public class AuthenticationFilter implements Filter {
 	public void init(FilterConfig config) throws ServletException {
 		ServletContext servletContext = config.getServletContext();
 		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
-		this.serviceFactory = (ServiceFactory) wac.getBean("serviceFactoryProxy");
+		this.serviceFactory = (ServiceFactory) wac.getBean("serviceFactory");
 	}
 
 	public void doFilter(ServletRequest aRequest, ServletResponse aResponse,

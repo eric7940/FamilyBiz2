@@ -11,8 +11,6 @@
 		</property>
 	</bean>
 
-	<import resource="classpath:spring/context-config.xml" />
-	
 	<import resource="applicationContext-datasource.xml" />
 	<import resource="applicationContext-service.xml" />
 	<import resource="applicationContext-web.xml" />

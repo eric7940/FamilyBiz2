@@ -3,9 +3,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-<!--  	<bean id="queryAction" class="com.systex.emp.manager.web.action.QueryAction" scope="session">
-	</bean> -->      
-	
 	<bean id="soForm" class="com.fb.web.form.SoForm" scope="session" />
 	<bean id="soAction" class="com.fb.web.action.SoAction" scope="session">
 		<property name="form" ref="soForm" />

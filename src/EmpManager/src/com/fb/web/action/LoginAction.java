@@ -14,16 +14,12 @@ public class LoginAction extends BaseAction {
 
 	private String userId;
 	private String password;
-	private String server;
 
 	private Boolean error;
 
 	public String execute() {
 		error = false;
-		if (server.equals("")) {
-			addLocalizationActionError("login.error.required.server");
-			error = true;
-		} else if (userId.equals("")) {
+		if (userId.equals("")) {
 			addLocalizationActionError("login.error.required.userId");
 			error = true;
 		} else if (password.equals("")) {
@@ -36,7 +32,7 @@ public class LoginAction extends BaseAction {
 		} 
 
 		try {
-			AuthenticationService service = (AuthenticationService) this.getServiceFactory().getService("authenticationService");
+			AuthenticationService service = (AuthenticationService) this.getServiceFactory().getService("authentication");
 			UserProfVO user = service.login(userId, password);
 			if (user == null) {
 				addLocalizationActionError("login.error.invalid");
@@ -63,14 +59,6 @@ public class LoginAction extends BaseAction {
 		request.getSession().setAttribute(ConstUtil.SESSION_ATTR_USER, null);
 		request.getSession().removeAttribute(ConstUtil.SESSION_ATTR_USER);
 		return SUCCESS;
-	}
-
-	public String getServer() {
-		return server;
-	}
-
-	public void setServer(String server) {
-		this.server = server;
 	}
 
 	public String getUserId() {

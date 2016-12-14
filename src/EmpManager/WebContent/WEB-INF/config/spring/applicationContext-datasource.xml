@@ -5,25 +5,25 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- iBatis SqlMap file -->
-	<bean id="mainSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+	<bean id="sqlmapFB" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 		<property name="configLocation" value="WEB-INF/config/sqlmap-config.xml" />
-		<property name="dataSource" ref="mainDS" />
+		<property name="dataSource" ref="dsFB" />
 	</bean>
 	
 	<!-- Data Sources -->	
-	<bean id="mainDS" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<bean id="dsFB" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/${main.jndi}"/>
 	</bean> 
 
 	<!-- DAOs -->
-	<bean id="mainDAO" parent="baseDAO" class="com.fb.dao.MainDAOImpl">
+	<bean id="daoFB" class="com.fb.dao.FBDaoImpl">
 		<property name="namespace" value="FB" />
-		<property name="sqlMapClient" ref="mainSqlMapClient" />
+		<property name="sqlMapClient" ref="sqlmapFB" />
 	</bean>
 	
 	<!-- Transaction Managers -->
-	<bean id="mainTXM" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="mainDS" />
+	<bean id="txmFB" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dsFB" />
 	</bean>
 	
 </beans>

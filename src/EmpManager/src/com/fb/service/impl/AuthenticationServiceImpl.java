@@ -31,8 +31,8 @@ public class AuthenticationServiceImpl extends ServiceImpl implements Authentica
 		
 		UserProfVO user = new UserProfVO();
 		user.setUserId(id);
-		user.setUserPwd(pwd);;
-		UserProfVO userProfVO = (UserProfVO) this.getFbDao().queryForObject("selectUserProf", user);
+		user.setUserPwd(pwd);
+		UserProfVO userProfVO = (UserProfVO) this.getFbDao().queryForObject("selectUser", user);
 		if (userProfVO == null) {
 			throw new FamilyBizException("帳號/密碼錯誤");
 		}

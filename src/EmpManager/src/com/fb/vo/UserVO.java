@@ -8,10 +8,7 @@ public class UserVO implements Serializable {
 
 	private String id;
 	private String name;
-	private String deptId;
-	private String companyCode;
-	private int jobLevel;
-	private double costRate;
+	private String grade;
 	
 	public UserVO() {}
 
@@ -36,36 +33,12 @@ public class UserVO implements Serializable {
 		this.name = name;
 	}
 
-	public int getJobLevel() {
-		return jobLevel;
+	public String getGrade() {
+		return grade;
 	}
 
-	public void setJobLevel(int jobLevel) {
-		this.jobLevel = jobLevel;
-	}
-
-	public double getCostRate() {
-		return costRate;
-	}
-
-	public void setCostRate(double costRate) {
-		this.costRate = costRate;
-	}
-
-	public String getDeptId() {
-		return deptId;
-	}
-
-	public void setDeptId(String deptId) {
-		this.deptId = deptId;
-	}
-
-	public String getCompanyCode() {
-		return companyCode;
-	}
-
-	public void setCompanyCode(String companyCode) {
-		this.companyCode = companyCode;
+	public void setGrade(String grade) {
+		this.grade = grade;
 	}
 
 }
