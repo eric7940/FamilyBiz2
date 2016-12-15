@@ -18,7 +18,7 @@ import com.fb.vo.CustProdHisVO;
 import com.fb.vo.OfferDetailVO;
 import com.fb.vo.OfferMasterVO;
 import com.fb.vo.ProdStockQtyVO;
-import com.fb.vo.UserProfVO;
+import com.fb.vo.UserVO;
 
 public class OfferServiceImpl extends ServiceImpl implements OfferService {
 
@@ -256,7 +256,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		List<String> classes = new ArrayList<String>();
 		classes.add("BOSS");
 		classes.add("STAF");
-		UserProfVO user = new UserProfVO();
+		UserVO user = new UserVO();
 		user.setUserClass(CommonUtil.convertListToString(classes, ",", true));
 		return this.getFbDao().queryForList("selectUserProf", user);
 	}

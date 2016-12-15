@@ -2,28 +2,29 @@ package com.fb.vo;
 
 import java.io.Serializable;
 
-public class FactProfVO implements Serializable{
+public class FactVO implements Serializable {
+	
 	private static final long serialVersionUID = -8617030213822592181L;
 
-	private Integer factId;
-	private String factNme;
+	private Integer id;
+	private String name;
 	private String bizNo;
 	private String contact;
 	private String addr;
 	private String tel;
 	private String memo;
 	
-	public Integer getFactId() {
-		return factId;
+	public Integer getId() {
+		return id;
 	}
-	public void setFactId(Integer factId) {
-		this.factId = factId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public String getFactNme() {
-		return factNme;
+	public String getName() {
+		return name;
 	}
-	public void setFactNme(String factNme) {
-		this.factNme = factNme;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getBizNo() {
 		return bizNo;

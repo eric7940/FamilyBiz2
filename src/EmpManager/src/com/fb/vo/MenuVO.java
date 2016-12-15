@@ -6,24 +6,25 @@ import java.util.List;
 public class MenuVO implements Serializable{
 	private static final long serialVersionUID = -1890362551254939268L;
 
-	private Integer menuId;
-	private String menuLabel;
+	private Integer id;
+	private String label;
 	private String folderFlag;
-	private Integer order;
+	private Integer displayOrder;
+	
 	private MenuVO parent;
 	private List<MenuFuncVO> funcs;
 	
-	public Integer getMenuId() {
-		return menuId;
+	public Integer getId() {
+		return id;
 	}
-	public void setMenuId(Integer menuId) {
-		this.menuId = menuId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public String getMenuLabel() {
-		return menuLabel;
+	public String getLabel() {
+		return label;
 	}
-	public void setMenuLabel(String menuLabel) {
-		this.menuLabel = menuLabel;
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	public String getFolderFlag() {
 		return folderFlag;
@@ -31,11 +32,11 @@ public class MenuVO implements Serializable{
 	public void setFolderFlag(String folderFlag) {
 		this.folderFlag = folderFlag;
 	}
-	public Integer getOrder() {
-		return order;
+	public Integer getDisplayOrder() {
+		return displayOrder;
 	}
-	public void setOrder(Integer order) {
-		this.order = order;
+	public void setDisplayOrder(Integer displayOrder) {
+		this.displayOrder = displayOrder;
 	}
 	public MenuVO getParent() {
 		return parent;

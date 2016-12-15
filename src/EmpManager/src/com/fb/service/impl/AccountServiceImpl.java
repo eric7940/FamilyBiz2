@@ -7,7 +7,7 @@ import java.util.Map;
 import com.fb.service.AccountService;
 import com.fb.util.FamilyBizException;
 import com.fb.vo.LabelValueBean;
-import com.fb.vo.Lookup;
+import com.fb.vo.LookupVO;
 import com.fb.vo.MenuFuncVO;
 
 public class AccountServiceImpl extends ServiceImpl implements AccountService {
@@ -22,7 +22,7 @@ public class AccountServiceImpl extends ServiceImpl implements AccountService {
 
 	@SuppressWarnings("unchecked")
 	public List<LabelValueBean> getUserClasses() throws FamilyBizException {
-		Lookup lookup = new Lookup();
+		LookupVO lookup = new LookupVO();
 		lookup.setLookupType("UCLS");
 		lookup.setDisplayFlag(true);
 		return this.getFbDao().queryForList("selectLookup", lookup);

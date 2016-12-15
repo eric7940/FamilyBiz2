@@ -7,22 +7,23 @@ public class FactProdHisVO implements Serializable {
 	private static final long serialVersionUID = -4319792409036669614L;
 
 	private Integer factId;
-	private FactProfVO fact;
 	private Integer prodId;
-	private ProdProfVO prod;
 	private Double price;
 	private String purchaseId;
-	
+
+	private FactVO fact;
+	private ProdVO prod;
+
 	public Integer getFactId() {
 		return factId;
 	}
 	public void setFactId(Integer factId) {
 		this.factId = factId;
 	}
-	public FactProfVO getFact() {
+	public FactVO getFact() {
 		return fact;
 	}
-	public void setFact(FactProfVO fact) {
+	public void setFact(FactVO fact) {
 		this.fact = fact;
 	}
 	public Integer getProdId() {
@@ -31,10 +32,10 @@ public class FactProdHisVO implements Serializable {
 	public void setProdId(Integer prodId) {
 		this.prodId = prodId;
 	}
-	public ProdProfVO getProd() {
+	public ProdVO getProd() {
 		return prod;
 	}
-	public void setProd(ProdProfVO prod) {
+	public void setProd(ProdVO prod) {
 		this.prod = prod;
 	}
 	public Double getPrice() {

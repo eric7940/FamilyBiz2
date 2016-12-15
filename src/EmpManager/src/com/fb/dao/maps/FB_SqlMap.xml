@@ -2,167 +2,164 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="FB">
 
-	<typeAlias alias="LabelValueBean"	type="com.fb.vo.LabelValueBean" />
-	<typeAlias alias="Lookup"			type="com.fb.vo.Lookup" />
+	<typeAlias alias="LookupVO"			type="com.fb.vo.LookupVO" />
 	<typeAlias alias="MenuVO"			type="com.fb.vo.MenuVO" />
 	<typeAlias alias="MenuFuncVO"		type="com.fb.vo.MenuFuncVO" />
-	<typeAlias alias="UserProfVO"		type="com.fb.vo.UserProfVO" />
-	<typeAlias alias="CustProfVO"		type="com.fb.vo.CustProfVO" />
-	<typeAlias alias="ProdProfVO"		type="com.fb.vo.ProdProfVO" />
-	<typeAlias alias="FactProfVO"		type="com.fb.vo.FactProfVO" />
-	<typeAlias alias="StockProfVO"		type="com.fb.vo.StockProfVO" />
-	<typeAlias alias="CustProdHisVO"	type="com.fb.vo.CustProdHisVO" />
-	<typeAlias alias="FactProdHisVO"	type="com.fb.vo.FactProdHisVO" />
+	<typeAlias alias="UserVO"			type="com.fb.vo.UserVO" />
+	<typeAlias alias="CustVO"			type="com.fb.vo.CustVO" />
+	<typeAlias alias="ProdVO"			type="com.fb.vo.ProdVO" />
+	<typeAlias alias="FactVO"			type="com.fb.vo.FactVO" />
+	<typeAlias alias="StockVO"			type="com.fb.vo.StockVO" />
+	<typeAlias alias="CustProdHisVO"		type="com.fb.vo.CustProdHisVO" />
+	<typeAlias alias="FactProdHisVO"		type="com.fb.vo.FactProdHisVO" />
 	<typeAlias alias="ProdStockQtyVO"	type="com.fb.vo.ProdStockQtyVO" />
-	<typeAlias alias="OfferMasterVO"	type="com.fb.vo.OfferMasterVO" />
+	<typeAlias alias="OfferMasterVO"		type="com.fb.vo.OfferMasterVO" />
 	<typeAlias alias="OfferDetailVO" 	type="com.fb.vo.OfferDetailVO" />
 	<typeAlias alias="PurchaseMasterVO"	type="com.fb.vo.PurchaseMasterVO" />
 	<typeAlias alias="PurchaseDetailVO"	type="com.fb.vo.PurchaseDetailVO" />
 	<typeAlias alias="PickProdVO"		type="com.fb.vo.PickProdVO" />
 	<typeAlias alias="PickOfferVO"		type="com.fb.vo.PickOfferVO" />
 
-	<resultMap id="UserResult" class="UserProfVO">
-		<result property="userId"		column="U.USER_ID"/>
-		<result property="userNme"		column="U.USER_NME"/>
-		<result property="userPwd"		column="U.USER_PWD"/>
-		<result property="userClass"	column="U.USER_CLASS"/>
+	<resultMap id="UserResult" class="UserVO">
+		<result property="id"		column="u.id"/>
+		<result property="name"		column="u.name"/>
 	</resultMap>
 	<resultMap id="MenuResult" class="MenuVO">
-		<result property="menuId"		column="M.MENU_ID"/>
-		<result property="menuLabel"	column="M.MENU_LABEL"/>
-		<result property="folderFlag"	column="M.FOLDER_FLAG"/>
-		<result property="order"		column="M.DISPLAY_orDER"/>
+		<result property="id"			column="m.id"/>
+		<result property="label"			column="m.label"/>
+		<result property="folderFlag"	column="m.folder_flag"/>
+		<result property="displayOrder"	column="m.display_order"/>
 	</resultMap>
 	<resultMap id="MenuFuncResult" class="MenuFuncVO">
-		<result property="funcId"		column="MF.FUNC_ID"/>
-		<result property="funcLabel"	column="MF.FUNC_LABEL"/>
-		<result property="url"			column="MF.URL"/>
-		<result property="linkType"		column="MF.LINK_TYPE"/>
-		<result property="order"		column="MF.DISPLAY_orDER"/>
+		<result property="funcId"		column="mf.func_id"/>
+		<result property="funcLabel"		column="mf.func_label"/>
+		<result property="url"			column="mf.url"/>
+		<result property="linkType"		column="mf.link_type"/>
+		<result property="displayOrder"	column="mf.display_order"/>
 		<result property="menu"			resultMap="FB.MenuResult"/>
 	</resultMap>
-	<resultMap id="CustResult" class="CustProfVO">
-		<result property="custId"		column="C.CUST_ID"/>
-		<result property="custNme"		column="C.CUST_NME"/>
-		<result property="bizNo"		column="C.BIZ_NO"/>
-		<result property="deliverAddr"	column="C.DELIVER_ADDR"/>
-		<result property="tel"			column="C.TEL"/>
-		<result property="memo"			column="C.MEMO"/>
+	<resultMap id="CustResult" class="CustVO">
+		<result property="id"			column="c.id"/>
+		<result property="name"			column="c.name"/>
+		<result property="bizNo"			column="c.biz_no"/>
+		<result property="deliverAddr"	column="c.deliver_addr"/>
+		<result property="tel"			column="c.tel"/>
+		<result property="memo"			column="c.memo"/>
 	</resultMap>
-	<resultMap id="ProdResult" class="ProdProfVO">
-		<result property="prodId"		column="P.PROD_ID"/>
-		<result property="prodNme"		column="P.PROD_NME"/>
-		<result property="unit"			column="P.UNIT"/>
-		<result property="price"		column="P.PRICE"/>
-		<result property="cost"			column="P.COST"/>
-		<result property="saveQty"		column="P.SAVE_QTY"/>
+	<resultMap id="ProdResult" class="ProdVO">
+		<result property="id"			column="p.id"/>
+		<result property="name"			column="p.name"/>
+		<result property="unit"			column="p.unit"/>
+		<result property="price"			column="p.price"/>
+		<result property="cost"			column="p.cost"/>
+		<result property="saveQty"		column="p.save_qty"/>
 	</resultMap>
-	<resultMap id="FactResult" class="FactProfVO">
-		<result property="factId"		column="F.FACT_ID"/>
-		<result property="factNme"		column="F.FACT_NME"/>
-		<result property="bizNo"		column="F.BIZ_NO"/>
-		<result property="contact"		column="F.CONTACT"/>
-		<result property="addr"			column="F.ADDR"/>
-		<result property="tel"			column="F.TEL"/>
-		<result property="memo"			column="F.MEMO"/>
+	<resultMap id="FactResult" class="FactVO">
+		<result property="id"			column="f.id"/>
+		<result property="name"			column="f.name"/>
+		<result property="bizNo"			column="f.biz_no"/>
+		<result property="contact"		column="f.contact"/>
+		<result property="addr"			column="f.addr"/>
+		<result property="tel"			column="f.tel"/>
+		<result property="memo"			column="f.memo"/>
 	</resultMap>
-	<resultMap id="StockResult" class="StockProfVO">
-		<result property="stockId"		column="S.STOCK_ID"/>
-		<result property="stockNme"		column="S.STOCK_NME"/>
-		<result property="addr"			column="S.ADDR"/>
+	<resultMap id="StockResult" class="StockVO">
+		<result property="id"			column="s.id"/>
+		<result property="name"			column="s.name"/>
+		<result property="addr"			column="s.addr"/>
 	</resultMap>
 	<resultMap id="OfferMasterResult" class="OfferMasterVO" groupBy="id">
-		<result property="id"			column="M.ID"/>
-		<result property="offerDate"	column="M.OFFER_DATE"/>
-		<result property="invoiceNbr"	column="M.INVOICE_NBR"/>
-		<result property="amt"			column="M.AMT"/>
-		<result property="discount"		column="M.DISCOUNT"/>
-		<result property="total"		column="M.TOTAL"/>
-		<result property="cost"			column="M.COST"/>
-		<result property="receiveAmt"	column="M.RECEIVE_AMT"/>
-		<result property="memo"			column="M.MEMO"/>
-		<result property="back"			column="M.BACK"/>
-		<result property="status"		column="M.STATUS"/>
+		<result property="id"			column="m.id"/>
+		<result property="offerDate"		column="m.offer_date"/>
+		<result property="invoiceNbr"	column="m.invoice_nbr"/>
+		<result property="amt"			column="m.amt"/>
+		<result property="discount"		column="m.discount"/>
+		<result property="total"			column="m.total"/>
+		<result property="cost"			column="m.cost"/>
+		<result property="receiveAmt"	column="m.receive_amt"/>
+		<result property="memo"			column="m.memo"/>
+		<result property="back"			column="m.back"/>
+		<result property="status"		column="m.status"/>
 		<result property="cust"			resultMap="FB.CustResult"/>
 		<result property="deliveryUser"	resultMap="FB.UserResult"/>
-		<result property="stock"		resultMap="FB.StockResult"/>
+		<result property="stock"			resultMap="FB.StockResult"/>
 		<result property="details"		resultMap="FB.OfferDetailResult"/>
 	</resultMap>
 	<resultMap id="OfferDetailResult" class="OfferDetailVO">
-		<result property="id"			column="D.ID"/>
-		<result property="masterId"		column="D.MASTER_ID"/>
-		<result property="qty"			column="D.QTY"/>
-		<result property="amt"			column="D.AMT"/>
+		<result property="id"			column="d.id"/>
+		<result property="masterId"		column="d.master_id"/>
+		<result property="qty"			column="d.qty"/>
+		<result property="amt"			column="d.amt"/>
 		<result property="prod"			resultMap="FB.ProdResult"/>
 	</resultMap>
 	<resultMap id="PurchaseMasterResult" class="PurchaseMasterVO" groupBy="id">
-		<result property="id"			column="M.ID"/>
+		<result property="id"			column="M.id"/>
 		<result property="purchaseDate"	column="M.PURCHASE_DATE"/>
-		<result property="invoiceNbr"	column="M.INVOICE_NBR"/>
+		<result property="invoiceNbr"	column="M.invoice_nbr"/>
 		<result property="amt"			column="M.AMT"/>
-		<result property="discount"		column="M.DISCOUNT"/>
+		<result property="discount"		column="m.discount"/>
 		<result property="total"		column="M.TOTAL"/>
 		<result property="memo"			column="M.MEMO"/>
-		<result property="back"			column="M.BACK"/>
-		<result property="status"		column="M.STATUS"/>
+		<result property="back"			column="M.return"/>
+		<result property="status"		column="M.status"/>
 		<result property="fact"			resultMap="FB.FactResult"/>
 		<result property="stock"		resultMap="FB.StockResult"/>
 		<result property="details"		resultMap="FB.PurchaseDetailResult"/>
 	</resultMap>
 	<resultMap id="PurchaseDetailResult" class="PurchaseDetailVO">
-		<result property="id"			column="D.ID"/>
-		<result property="masterId"		column="D.MASTER_ID"/>
-		<result property="qty"			column="D.QTY"/>
-		<result property="amt"			column="D.AMT"/>
+		<result property="id"			column="d.id"/>
+		<result property="masterId"		column="d.master_id"/>
+		<result property="qty"			column="d.qty"/>
+		<result property="amt"			column="d.amt"/>
 		<result property="prod"			resultMap="FB.ProdResult"/>
 	</resultMap>	
 	<resultMap id="ProdStockQtyResult" class="ProdStockQtyVO">
-		<result property="stockId"		column="PSQ.STOCK_ID"/>
-		<result property="prodId"		column="PSQ.PROD_ID"/>
-		<result property="qty"			column="PSQ.QTY"/>
-		<result property="stock"		resultMap="FB.StockResult"/>
+		<result property="stockId"		column="psq.STOCK_id"/>
+		<result property="prodId"		column="psq.PROD_id"/>
+		<result property="qty"			column="psq.QTY"/>
+		<result property="stock"			resultMap="FB.StockResult"/>
 		<result property="prod"			resultMap="FB.ProdResult"/>
 	</resultMap>
 	<resultMap id="UnReceivedOfferResult" class="OfferMasterVO">
-		<result property="id"			column="M.ID"/>
-		<result property="offerDate"	column="M.OFFER_DATE"/>
-		<result property="invoiceNbr"	column="M.INVOICE_NBR"/>
-		<result property="amt"			column="M.AMT"/>
-		<result property="discount"		column="M.DISCOUNT"/>
-		<result property="total"		column="M.TOTAL"/>
-		<result property="cost"			column="M.COST"/>
-		<result property="receiveAmt"	column="M.RECEIVE_AMT"/>
-		<result property="memo"			column="M.MEMO"/>
-		<result property="back"			column="M.BACK"/>
+		<result property="id"			column="m.id"/>
+		<result property="offerDate"		column="m.offer_date"/>
+		<result property="invoiceNbr"	column="m.invoice_nbr"/>
+		<result property="amt"			column="m.amt"/>
+		<result property="discount"		column="m.discount"/>
+		<result property="total"			column="m.total"/>
+		<result property="cost"			column="m.cost"/>
+		<result property="receiveAmt"	column="m.receive_amt"/>
+		<result property="memo"			column="m.memo"/>
+		<result property="back"			column="m.back"/>
 		<result property="cust"			resultMap="FB.CustResult"/>
 	</resultMap>
 	<resultMap id="TopDiscountOfferResult" class="OfferMasterVO">
-		<result property="id"			column="M.ID"/>
-		<result property="offerDate"	column="M.OFFER_DATE"/>
-		<result property="amt"			column="M.AMT"/>
-		<result property="discount"		column="M.DISCOUNT"/>
-		<result property="receiveAmt"	column="M.RECEIVE_AMT"/>
+		<result property="id"			column="m.id"/>
+		<result property="offerDate"		column="m.offer_date"/>
+		<result property="amt"			column="m.amt"/>
+		<result property="discount"		column="m.discount"/>
+		<result property="receiveAmt"	column="m.receive_amt"/>
 	</resultMap>
-	<resultMap id="PickCustResult" class="CustProfVO">
-		<result property="custId"		column="X.CUST_ID"/>
-		<result property="custNme"		column="Y.CUST_NME"/>
+	<resultMap id="PickCustResult" class="CustVO">
+		<result property="id"			column="c.id"/>
+		<result property="name"			column="c.name"/>
 	</resultMap>
 	<resultMap id="PickProdResult" class="PickProdVO" groupBy="prodId">
-		<result property="prodId"		column="A.PROD_ID"/>
+		<result property="prodId"		column="A.PROD_id"/>
 		<result property="prodNme"		column="A.PROD_NME"/>
 		<result property="unit"			column="A.UNIT"/>
-		<result property="sumQty"		column="A.SUM_QTY"/>
+		<result property="sumQty"		column="A.sum_QTY"/>
 		<result property="offers"		resultMap="FB.PickOfferResult"/>
 	</resultMap>
 	<resultMap id="PickOfferResult" class="PickOfferVO">
-		<result property="masterId"		column="MASTER_ID"/>
-		<result property="custId"		column="B.CUST_ID"/>
+		<result property="masterId"		column="MASTER_id"/>
+		<result property="custId"		column="B.CUST_id"/>
 		<result property="custNme"		column="B.CUST_NME"/>
 		<result property="qty"			column="B.QTY"/>
 	</resultMap>
 
 	<parameterMap id="getSequenceParam" class="map">
-		<parameter property="PI_SEQ_ID"		mode="IN"	jdbcType="VARCHAR" />
+		<parameter property="PI_SEQ_id"		mode="IN"	jdbcType="VARCHAR" />
 		<parameter property="PI_SEQ_PREFIX"	mode="IN"	jdbcType="VARCHAR" />
 		<parameter property="PO_SEQ_NBR"	mode="OUT"	jdbcType="NUMBER" />
 	</parameterMap>
@@ -170,517 +167,469 @@
 		{call sp_get_sequence(?, ?, ?)}
 	</procedure>
 
-	<insert id="insertLookup" parameterClass="Lookup">
+	<insert id="insertLookup" parameterClass="LookupVO">
 		insert into tb_lookup 
-		values (
-			#type#,
-			#code#,
-			#name#,
-			#display#,
-			#displayOrder#,
-			#desc#
+		values (#type#, #code#, #label#, #display#, #displayOrder#, #desc#
 		)
 	</insert>
 	<insert id="insertFuncAuth" parameterClass="map">
-		insert into tb_FUNC_AUTH values (#userClass#, #funcId#)
+		insert into tb_func_auth values (#userClass#, #funcId#)
 	</insert>
 	<insert id="insertMenuFunc" parameterClass="MenuFuncVO">
-		insert into tb_MENU_FUNC values (NULL, #funcLabel#, #menuId#, #url#, #linkType#, 'Y', #order#)
+		insert into tb_menu_func values (null, #label#, #menuId#, #url#, #linkType#, 'Y', #displayOrder#)
 	</insert>
 	<insert id="insertMenu" parameterClass="MenuVO">
-		insert into tb_MENU values (NULL, #menuLabel#, NULL, 'Y', #order#, #folderFlag#)
+		insert into tb_menu values (null, #label#, null, 'Y', #displayOrder#, #folderFlag#)
 	</insert>
-	<insert id="insertCust" parameterClass="CustProfVO">
-		insert into tb_CUST values (NULL, #custNme#, #bizNo#, #deliverAddr#, #tel#, #memo#, '', USER(), NOW())
+	<insert id="insertCust" parameterClass="CustVO">
+		insert into tb_cust values (null, #name#, #bizNo#, #deliverAddr#, #tel#, #memo#, '', user(), now())
 	</insert>
-	<insert id="insertProd" parameterClass="ProdProfVO">
-		insert into tb_PROD values (NULL, #prodNme#, #unit#, #price#, #cost#, #saveQty#, '', USER(), NOW())
+	<insert id="insertProd" parameterClass="ProdVO">
+		insert into tb_prod values (null, #name#, #unit#, #price#, #cost#, #saveQty#, '', user(), now())
 	</insert>
-	<insert id="insertFact" parameterClass="FactProfVO">
-		insert into tb_FACT values (NULL, #factNme#, #bizNo#, #contact#, #addr#, #tel#, #memo#, '', USER(), NOW())
+	<insert id="insertFact" parameterClass="FactVO">
+		insert into tb_fact values (null, #name#, #bizNo#, #contact#, #addr#, #tel#, #memo#, '', user(), now())
 	</insert>
 	<insert id="insertProdStockQty" parameterClass="ProdStockQtyVO">
-		insert into tb_PROD_STOCK_QTY values (#stockId#, LAST_INSERT_ID(), #qty#)
+		insert into tb_prod_stock_qty values (#stockId#, last_insert_id(), #qty#)
 	</insert>
 	<insert id="insertOfferMaster" parameterClass="OfferMasterVO">
-		insert into tb_OFFER_MASTER values (#id#, #offerDate#, #custId#, #invoiceNbr#, #stockId#, #amt#, #discount#, #total#, #cost#, #receiveAmt#, #memo#, #back#, #status#, #deliveryUserId#)
+		insert into tb_offer_master values (#id#, #offerDate#, #custId#, #invoiceNbr#, #stockId#, #amt#, #discount#, #total#, #cost#, #receiveAmt#, #memo#, #back#, #status#, #deliveryUserId#)
 	</insert>
 	<insert id="insertOfferDetail" parameterClass="OfferDetailVO">
-		insert into tb_OFFER_DETAIL values (NULL, #masterId#, #prodId#, #qty#, #amt#)
+		insert into tb_offer_detail values (null, #masterId#, #prodId#, #qty#, #amt#)
 	</insert>
 	<insert id="insertCustProdHis" parameterClass="CustProdHisVO">
-		insert into tb_CUST_PROD_HIS values (NULL, #custId#, #prodId#, #price#, #offerId#)
+		insert into tb_cust_prod_his values (null, #custId#, #prodId#, #price#, #offerId#)
 	</insert>
 	<insert id="insertPurchaseMaster" parameterClass="PurchaseMasterVO">
-		insert into tb_PURCHASE_MASTER values (#id#, #purchaseDate#, #factId#, #invoiceNbr#, #stockId#, #amt#, #discount#, #total#, #memo#, #back#, #status#)
+		insert into tb_purchase_master values (#id#, #purchaseDate#, #factId#, #invoiceNbr#, #stockId#, #amt#, #discount#, #total#, #memo#, #back#, #status#)
 	</insert>
 	<insert id="insertPurchaseDetail" parameterClass="PurchaseDetailVO">
-		insert into tb_PURCHASE_DETAIL values (NULL, #masterId#, #prodId#, #qty#, #amt#)
+		insert into tb_purchase_detail values (null, #masterId#, #prodId#, #qty#, #amt#)
 	</insert>
 	<insert id="insertFactProdHis" parameterClass="FactProdHisVO">
-		insert into tb_FACT_PROD_HIS values (NULL, #factId#, #prodId#, #price#, #purchaseId#)
+		insert into tb_fact_prod_his values (null, #factId#, #prodId#, #price#, #purchaseId#)
 	</insert>
 	
-	<update id="updateLookup" parameterClass="Lookup">
-		update tb_LOOKUP 
-		set 
-			LOOKUP_CDE = #lookupCde#, 
-			LOOKUP_NME = #lookupNme#, 
-			DISPLAY_FLAG = #displayFlag#, 
-			DISPLAY_orDER = #displayorder#, 
-			DSCR = #dscr#
-		where LOOKUP_TYPE = #lookupType#
+	<update id="updateLookup" parameterClass="LookupVO">
+		update tb_lookup set 
+			code = #code#, label = #label#, display = #display#, 
+			display_order = #displayOrder#, desc = #desc#
+		where type = #type#
 	</update>
 	<update id="updateMenuFunc" parameterClass="MenuFuncVO">
-		update tb_MENU_FUNC 
-		set 
-			FUNC_LABEL = #funcLabel#,
-			MENU_ID = #menuId#,
-			URL = #url#,
-			LINK_TYPE = #linkType#,
-			DISPLAY_orDER = #order# 
-		where FUNC_ID = #funcId#
+		update tb_menu_func set 
+			label = #label#, menu_id = #menuId#, url = #url#, link_type = #linkType#, 
+			display_order = #displayOrder# 
+		where id = #id#
 	</update>
 	<update id="updateMenu" parameterClass="MenuVO">
-		update tb_MENU 
-		set 
-			MENU_LABEL = #menuLabel#,
-			FOLDER_FLAG = #folderFlag#,
-			DISPLAY_orDER = #order# 
-		where MENU_ID = #menuId#
+		update tb_menu set 
+			label = #label#, folder_flag = #folderFlag#, display_order = #displayOrder# 
+		where id = #id#
 	</update>
-	<update id="updateCust" parameterClass="CustProfVO">
-		update tb_CUST 
-		set 
-			CUST_NME = #custNme#, 
-			BIZ_NO = #bizNo#, 
-			DELIVER_ADDR = #deliverAddr#, 
-			TEL = #tel#, 
-			MEMO = #memo#, 
-			USTAMP = USER(), TSTAMP = NOW() 
-		where CUST_ID = #custId#
+	<update id="updateCust" parameterClass="CustVO">
+		update tb_cust set 
+			name = #name#, biz_no = #bizNo#, deliver_addr = #deliverAddr#, tel = #tel#, memo = #memo#, 
+			ustamp = user(), tstamp = now() 
+		where id = #id#
 	</update>
-	<update id="updateFact" parameterClass="FactProfVO">
-		update tb_FACT 
-		set 
-			FACT_NME = #factNme#, 
-			BIZ_NO = #bizNo#,
-			CONTACT = #contact#, 
-			ADDR = #addr#, 
-			TEL = #tel#, 
-			MEMO = #memo#, 
-			USTAMP = USER(), TSTAMP = NOW() 
-		where FACT_ID = #factId#
+	<update id="updateFact" parameterClass="FactVO">
+		update tb_fact set 
+			name = #name#, biz_no = #bizNo#, contact = #contact#, 
+			addr = #addr#,  tel = #tel#, memo = #memo#, 
+			ustamp = user(), tstamp = now() 
+		where id = #id#
 	</update>
-	<update id="updateProd" parameterClass="ProdProfVO">
-		update tb_PROD 
-		set 
-			PROD_NME = #prodNme#, 
-			UNIT = #unit#, 
-			PRICE = #price#, 
-			SAVE_QTY = #saveQty#, 
-			USTAMP = USER(), TSTAMP = NOW() 
-		where PROD_ID = #prodId#
+	<update id="updateProd" parameterClass="ProdVO">
+		update tb_prod set 
+			name = #name#, unit = #unit#, price = #price#, save_qty = #saveQty#, 
+			ustamp = user(), tstamp = now() 
+		where id = #id#
 	</update>
-	<update id="updateProdCost" parameterClass="ProdProfVO">
-		update tb_PROD 
-		set 
-			COST = #cost#, 
-			USTAMP = USER(), TSTAMP = NOW() 
-		where PROD_ID = #prodId#
+	<update id="updateProdCost" parameterClass="ProdVO">
+		update tb_prod set cost = #cost#, ustamp = user(), tstamp = now() 
+		where id = #id#
 	</update>
 	<update id="updateOfferMaster" parameterClass="OfferMasterVO">
-		update tb_OFFER_MASTER 
+		update tb_offer_master 
 		set 
-			DELIVERY_USER_ID = #deliveryUserId#,
-			OFFER_DATE = #offerDate#,
-			INVOICE_NBR = #invoiceNbr#, 
-			STOCK_ID = #stockId#, 
-			AMT = #amt#, 
-			DISCOUNT = #discount#, 
-			TOTAL = #total#,
-			COST = #cost#, 
-			RECEIVE_AMT = #receiveAmt#, 
-			MEMO = #memo#, 
-			STATUS = #status#
-		where ID = #id#
+			delivery_user_id = #deliveryUserId#,
+			offer_date = #offerDate#,
+			invoice_nbr = #invoiceNbr#, 
+			stock_id = #stockId#, 
+			amt = #amt#, 
+			discount = #discount#, 
+			total = #total#,
+			cost = #cost#, 
+			receive_amt = #receiveAmt#, 
+			memo = #memo#, 
+			status = #status#
+		where id = #id#
 	</update>
 	<update id="updateOfferReceiveAmt" parameterClass="OfferMasterVO">
-		update tb_OFFER_MASTER 
-		set RECEIVE_AMT = #receiveAmt#
-		where ID = #id#
+		update tb_offer_master set receive_amt = #receiveAmt# where id = #id#
 	</update>
 	<update id="updateProdStockQty" parameterClass="ProdStockQtyVO">
-		update tb_PROD_STOCK_QTY 
-		set 
-			QTY = QTY + #qty# 
-		where STOCK_ID = #stockId# and PROD_ID = #prodId#
+		update tb_prod_stock_qty set qty = qty + #qty# 
+		where stock_id = #stockId# and prod_id = #prodId#
 	</update>
 
-	<delete id="deleteLookup" parameterClass="Lookup">
-		DELETE from tb_LOOKUP where LOOKUP_TYPE = #lookupType#
+	<delete id="deleteLookup" parameterClass="LookupVO">
+		delete from tb_lookup where type = #type#
 	</delete>
 	<update id="deleteMenuFunc" parameterClass="int">
-		update tb_MENU_FUNC 
-		set STATUS_FLAG = 'D' 
-		where FUNC_ID = #value#
+		update tb_menu_func 
+		set status = 'D' 
+		where func_id = #value#
 	</update>
 	<update id="deleteMenu" parameterClass="int">
-		update tb_MENU 
-		set STATUS_FLAG = 'D' 
-		where MENU_ID = #value#
+		update tb_menu 
+		set status = 'D' 
+		where id = #value#
 	</update>
 	<update id="deleteFuncAuth" parameterClass="string">
-		DELETE from tb_FUNC_AUTH where USER_CLASS = #value#
+		delete from tb_func_auth where grade = #value#
 	</update>
 	<update id="deleteCust" parameterClass="int">
-		update tb_CUST 
-		set STATUS_FLAG = 'D', USTAMP = USER(), TSTAMP = NOW() 
-		where CUST_ID = #value#
+		update tb_cust 
+		set status = 'D', ustamp = user(), tstamp = now() 
+		where id = #value#
 	</update>
 	<update id="deleteCusts" parameterClass="string">
-		update tb_CUST 
-		set STATUS_FLAG = 'D', USTAMP = USER(), TSTAMP = NOW() 
-		where CUST_ID IN ($value$)
+		update tb_cust 
+		set status = 'D', ustamp = user(), tstamp = now() 
+		where id in ($value$)
 	</update>
 	<update id="deleteFact" parameterClass="int">
-		update tb_FACT 
-		set STATUS_FLAG = 'D', USTAMP = USER(), TSTAMP = NOW() 
-		where FACT_ID = #value#
+		update tb_fact 
+		set status = 'D', ustamp = user(), tstamp = now() 
+		where id = #value#
 	</update>
 	<update id="deleteFacts" parameterClass="string">
-		update tb_FACT 
-		set STATUS_FLAG = 'D', USTAMP = USER(), TSTAMP = NOW() 
-		where FACT_ID IN ($value$)
+		update tb_fact 
+		set status = 'D', ustamp = user(), tstamp = now() 
+		where id in ($value$)
 	</update>	
 	<update id="deleteProd" parameterClass="int">
-		update tb_PROD 
-		set STATUS_FLAG = 'D', USTAMP = USER(), TSTAMP = NOW() 
-		where PROD_ID = #value#
+		update tb_prod 
+		set status = 'D', ustamp = user(), tstamp = now() 
+		where id = #value#
 	</update>
 	<update id="deleteProds" parameterClass="string">
-		update tb_PROD 
-		set STATUS_FLAG = 'D', USTAMP = USER(), TSTAMP = NOW() 
-		where PROD_ID IN ($value$)
+		update tb_prod 
+		set status = 'D', ustamp = user(), tstamp = now() 
+		where id in ($value$)
 	</update>
 	<delete id="deleteCustProdHis" parameterClass="string">
-		DELETE from tb_CUST_PROD_HIS where OFFER_ID = #value#
+		delete from tb_cust_prod_his where offer_id = #value#
 	</delete>
 	<update id="deleteOffer" parameterClass="string">
-		update tb_OFFER_MASTER 
-		set STATUS = 'D' 
-		where ID = #value#
+		update tb_offer_master 
+		set status = 'D' 
+		where id = #value#
 	</update>
 	<delete id="deleteOfferDetails" parameterClass="string">
-		DELETE from tb_OFFER_DETAIL 
-		where MASTER_ID = #value#
+		delete from tb_offer_detail 
+		where master_id = #value#
 	</delete>
 	<update id="deletePurchase" parameterClass="string">
-		update tb_PURCHASE_MASTER 
-		set STATUS = 'D' 
-		where ID = #value#
+		update tb_purchase_master 
+		set status = 'D' 
+		where id = #value#
 	</update>
 
-	<select id="selectLookup" parameterClass="Lookup" resultClass="LabelValueBean">
-		select 
-		LOOKUP_CDE AS value,
-		LOOKUP_NME AS label
-		from tb_LOOKUP
-		where LOOKUP_TYPE = #lookupType# and DISPLAY_FLAG = #displayFlag#
-		order by DISPLAY_orDER
+	<select id="selectLookup" parameterClass="LookupVO" resultClass="LookupVO">
+		select code, label from tb_lookup where type = #type# and display = #display# order by display_order
 	</select>
 	<select id="selectAuthMenuFuncs" parameterClass="map" resultMap="MenuFuncResult">
 		select * 
 		from
-			tb_FUNC_AUTH FA, 
-			tb_MENU_FUNC MF, 
-			tb_MENU M 
+			tb_func_auth fa, 
+			tb_menu_func mf, 
+			tb_menu m 
 		where 
-			FA.USER_CLASS = #userClass# and 
-			FA.FUNC_ID = MF.FUNC_ID and 
-			MF.MENU_ID = M.MENU_ID and 
-			MF.STATUS_FLAG = 'Y' and
-			M.STATUS_FLAG = 'Y'
-		<isNotNull property="url" prepend="and"> MF.URL like #url#</isNotNull>
-		order by M.DISPLAY_orDER, MF.DISPLAY_orDER
+			fa.grade = #userClass# and 
+			fa.func_id = mf.func_id and 
+			mf.menu_id = m.id and 
+			mf.status = 'Y' and
+			m.status = 'Y'
+		<isNotNull property="url" prepend="and"> mf.url like #url#</isNotNull>
+		order by m.display_order, mf.display_order
 	</select>	
 	<select id="selectMenu" parameterClass="MenuVO" resultMap="MenuResult">
-		select * from tb_MENU M
-		where M.STATUS_FLAG = 'Y'
-		<isNotNull property="menuId" prepend="and"> M.MENU_ID = #menuId#</isNotNull>
-		order by M.MENU_ID ASC
+		select * from tb_menu m
+		where m.status = 'Y'
+		<isNotNull property="id" prepend="and"> m.id = #id#</isNotNull>
+		order by m.id asc
 	</select>
 	<select id="selectMenuFunc" parameterClass="MenuFuncVO" resultMap="MenuFuncResult">
-		select * 
-		from
-			tb_MENU M,
-			tb_MENU_FUNC MF
-		where 
-			MF.STATUS_FLAG = 'Y' and
-			M.MENU_ID = MF.MENU_ID
-		<isNotNull property="funcId" prepend="and"> MF.FUNC_ID = #funcId#</isNotNull>
-		order by MF.FUNC_ID ASC
+		select * from tb_menu m, tb_menu_func mf
+		where mf.status = 'Y' and m.id = mf.menu_id
+		<isNotNull property="id" prepend="and"> mf.id = #id#</isNotNull>
+		order by mf.id asc
 	</select>
 	<select id="selectUser" parameterClass="UserVO" resultMap="UserResult">
-		select * from tb_user
-		where status = ''
-		<isNotNull property="id" prepend="and"> U.USER_ID = #userId#</isNotNull>
-		<isNotNull property="passwd" prepend="and"> U.USER_PWD = #userPwd#</isNotNull>
-		<isNotNull property="grade" prepend="and"> U.USER_CLASS IN ($userClass$)</isNotNull>
+		select * from tb_user u
+		where u.status = ''
+		<isNotNull property="id" prepend="and"> u.id = #userId#</isNotNull>
+		<isNotNull property="passwd" prepend="and"> u.passwd = #userPwd#</isNotNull>
+		<isNotNull property="grade" prepend="and"> u.grade in ($userClass$)</isNotNull>
 	</select>
-	<select id="selectStockProf" parameterClass="int" resultMap="StockResult">
-		select * from tb_STOCK where STOCK_ID = #value#
+	<select id="selectStock" parameterClass="int" resultMap="StockResult">
+		select * from tb_stock where id = #value#
 	</select>
-	<select id="selectCustProf" parameterClass="CustProfVO" resultMap="CustResult">
-		select * from tb_CUST C
-		where C.STATUS_FLAG = ''
-		<isNotNull property="custId" prepend="and"> C.CUST_ID = #custId#</isNotNull>
-		<isNotNull property="custNme" prepend="and"> C.CUST_NME like #custNme#</isNotNull>
-		order by C.CUST_NME ASC
+	<select id="selectCust" parameterClass="CustVO" resultMap="CustResult">
+		select * from tb_cust c
+		where c.status = ''
+		<isNotNull property="id" prepend="and"> c.id = #id#</isNotNull>
+		<isNotNull property="name" prepend="and"> c.name like #name#</isNotNull>
+		order by c.name asc
 	</select>
-	<select id="selectFactProf" parameterClass="FactProfVO" resultMap="FactResult">
-		select * from tb_FACT F
-		where F.STATUS_FLAG = ''
-		<isNotNull property="factId" prepend="and"> F.FACT_ID = #factId#</isNotNull>
-		<isNotNull property="factNme" prepend="and"> F.FACT_NME like #factNme#</isNotNull>
-		order by FACT_NME ASC
+	<select id="selectFact" parameterClass="FactVO" resultMap="FactResult">
+		select * from tb_fact f
+		where f.status = ''
+		<isNotNull property="id" prepend="and"> f.id = #id#</isNotNull>
+		<isNotNull property="name" prepend="and"> f.name like #name#</isNotNull>
+		order by f.name asc
 	</select>
-	<select id="selectProdProf" parameterClass="ProdProfVO" resultMap="ProdResult">
-		select * from tb_PROD P
-		where P.STATUS_FLAG = ''
-		<isNotNull property="prodId" prepend="and"> P.PROD_ID = #prodId#</isNotNull>
-		<isNotNull property="prodNme" prepend="and"> P.PROD_NME like #prodNme#</isNotNull>
-		order by PROD_NME ASC
+	<select id="selectProd" parameterClass="ProdVO" resultMap="ProdResult">
+		select * from tb_prod p
+		where p.status = ''
+		<isNotNull property="id" prepend="and"> p.id = #id#</isNotNull>
+		<isNotNull property="name" prepend="and"> p.name like #name#</isNotNull>
+		order by p.name asc
 	</select>
-	<select id="selectProdByCust" parameterClass="map" resultClass="ProdProfVO">
-		(select PROD_ID AS prodId, PROD_NME AS prodNme, PRICE AS price
-			from tb_PROD
-			where 
-				PROD_ID NOT IN (select PROD_ID from tb_CUST_PROD_HIS where CUST_ID = #custId#)
-				<isNotNull property="prodNme" prepend="and"> PROD_NME like #prodNme#</isNotNull>
-		) UNION DISTINCT
-		(select HIS.PROD_ID AS prodId, PROD.PROD_NME AS prodNme, HIS.PRICE AS price
-			from tb_PROD PROD, tb_CUST_PROD_HIS HIS
+	<select id="selectProdByCust" parameterClass="map" resultClass="ProdVO">
+		(select id, name, price from tb_prod
+		where 
+			id not in (select prod_id from tb_cust_prod_his where cust_id = #custId#)
+			<isNotNull property="prodNme" prepend="and"> name like #prodNme#</isNotNull>
+		) union distinct
+		(select his.prod_id as prod_id, prod.name as prod_name, his.price as price
+			from tb_prod prod, tb_cust_prod_his his
 			where
-				HIS.CUST_ID = #custId# and
-				PROD.PROD_ID = HIS.PROD_ID
-				<isNotNull property="prodNme" prepend="and"> PROD_NME like #prodNme#</isNotNull>
+				his.cust_id = #custId# and
+				prod.id = his.prod_id
+				<isNotNull property="prodNme" prepend="and"> prod.name like #prodNme#</isNotNull>
 		)
-		order by prodId ASC
+		order by prod_id asc
 	</select>
-	<select id="selectCustProdHis" parameterClass="CustProdHisVO" resultClass="CustProdHisVO">
+	<select id="selectCustProdHis_TODO" parameterClass="CustProdHisVO" resultClass="CustProdHisVO">
 		select
-			CUST.CUST_ID AS custId, CUST.CUST_NME AS custNme,
-			PROD.PROD_ID AS prodId, PROD.PROD_NME AS prodNme,
-			HIS.PRICE AS price
-		from tb_CUST_PROD_HIS HIS, tb_CUST CUST, tb_PROD PROD 
-		where CUST.CUST_ID = HIS.CUST_ID and PROD.PROD_ID = HIS.PROD_ID
-		<isNotNull property="custId" prepend="and"> HIS.CUST_ID = #custId#</isNotNull>
-		<isNotNull property="prodId" prepend="and"> HIS.PROD_ID = #prodId#</isNotNull>
-		order by HIS.ID DESC LIMIT 1
+			cust.id as custId, cust.name as cust_name,
+			prod.id as prodId, prod.name as prod_name,
+			his.price as price
+		from tb_cust_prod_his his, tb_cust cust, tb_prod prod 
+		where cust.id = his.cust_id and prod.id = his.prod_id
+		<isNotNull property="custId" prepend="and"> his.cust_id = #custId#</isNotNull>
+		<isNotNull property="prodId" prepend="and"> his.prod_id = #prodId#</isNotNull>
+		order by his.id desc limit 1
 	</select>
 	<select id="selectOffer" parameterClass="int" resultMap="OfferMasterResult">
 		select * 
 		from 
-			tb_OFFER_MASTER M LEFT OUTER JOIN tb_OFFER_DETAIL D ON M.ID = D.MASTER_ID,
-			tb_PROD P, 
-			tb_STOCK S,
-			tb_CUST C,
-			tb_USER U
+			tb_offer_master m left outer join tb_offer_detail d on m.id = d.master_id,
+			tb_prod p, 
+			tb_stock s,
+			tb_cust c,
+			tb_user u
 		where
-			P.PROD_ID = D.PROD_ID and 
-			M.STOCK_ID = S.STOCK_ID and
-			M.CUST_ID = C.CUST_ID and 
-			M.DELIVERY_USER_ID = U.USER_ID and 
-			M.STATUS = 'N' and
-			M.ID = #value#
+			d.prod_id = p.id and 
+			m.stock_id = s.id and
+			m.cust_id = c.id and 
+			m.delivery_user_id = u.id and 
+			m.status = 'N' and
+			m.id = #value#
 	</select>
 	<select id="selectOffers" parameterClass="map" resultMap="OfferMasterResult">
 		select * 
 		from 
-			tb_OFFER_MASTER M LEFT OUTER JOIN tb_OFFER_DETAIL D ON M.ID = D.MASTER_ID,
-			tb_PROD P, 
-			tb_STOCK S,
-			tb_CUST C,
-			tb_USER U 
+			tb_offer_master m left outer join tb_offer_detail d on m.id = d.master_id,
+			tb_prod p, 
+			tb_stock s,
+			tb_cust c,
+			tb_user u 
 		where
-			P.PROD_ID = D.PROD_ID and 
-			M.STOCK_ID = S.STOCK_ID and
-			M.CUST_ID = C.CUST_ID and
-			M.DELIVERY_USER_ID = U.USER_ID and
-			M.STATUS = 'N'
-			<isNotNull property="masterId" prepend="and"> M.ID IN ($masterId$)</isNotNull>
-			<isNotNull property="custId" prepend="and"> M.CUST_ID = #custId#</isNotNull>
-			<isNotNull property="deliveryUserId" prepend="and"> M.DELIVERY_USER_ID = #deliveryUserId#</isNotNull>
-			<isNotNull property="offerDate" prepend="and"> M.OFFER_DATE = #offerDate#</isNotNull>
-			<isNotNull property="startDate" prepend="and"> M.OFFER_DATE <![CDATA[>=]]> #startDate#</isNotNull>
-			<isNotNull property="endDate" prepend="and"> M.OFFER_DATE <![CDATA[<=]]> #endDate#</isNotNull>
-			<isNotNull property="prodId" prepend="and"> P.PROD_ID = #prodId#</isNotNull>
-			<isNotNull property="back" prepend="and"> M.BACK = #back#</isNotNull>
-			<isNull property="back" prepend="and"> M.BACK IS NULL</isNull>
-		order by M.CUST_ID ASC, M.OFFER_DATE ASC
+			d.prod_id = p.id and 
+			m.stock_id = s.id and
+			m.cust_id = c.id and
+			m.delivery_user_id = u.id and
+			m.status = 'N'
+			<isNotNull property="masterId" prepend="and"> m.id in ($masterId$)</isNotNull>
+			<isNotNull property="custId" prepend="and"> m.cust_id = #custId#</isNotNull>
+			<isNotNull property="deliveryUserId" prepend="and"> m.delivery_user_id = #deliveryUserId#</isNotNull>
+			<isNotNull property="offerDate" prepend="and"> m.offer_date = #offerDate#</isNotNull>
+			<isNotNull property="startDate" prepend="and"> m.offer_date <![CDATA[>=]]> #startDate#</isNotNull>
+			<isNotNull property="endDate" prepend="and"> m.offer_date <![CDATA[<=]]> #endDate#</isNotNull>
+			<isNotNull property="prodId" prepend="and"> p.id = #prodId#</isNotNull>
+			<isNotNull property="back" prepend="and"> m.return = #back#</isNotNull>
+			<isNull property="back" prepend="and"> m.return is null</isNull>
+		order by m.cust_id asc, m.offer_date asc
 	</select>
-	<select id="selectFactProdHis" parameterClass="FactProdHisVO" resultClass="FactProdHisVO">
+	<select id="selectFactProdHis_TODO" parameterClass="FactProdHisVO" resultClass="FactProdHisVO">
 		select
-			FACT.FACT_ID AS factId, FACT.FACT_NME AS factNme,
-			PROD.PROD_ID AS prodId, PROD.PROD_NME AS prodNme,
-			HIS.PRICE AS price
-		from tb_FACT_PROD_HIS HIS, tb_FACT FACT, tb_PROD PROD 
-		where CUST.CUST_ID = HIS.CUST_ID and PROD.PROD_ID = HIS.PROD_ID
-		<isNotNull property="factId" prepend="and"> HIS.FACT_ID = #factId#</isNotNull>
-		<isNotNull property="prodId" prepend="and"> HIS.PROD_ID = #prodId#</isNotNull>
-		order by HIS.ID DESC LIMIT 1
+			fact.id as fact_id, fact.name as fact_name,
+			prod.id as prod_id, prod.name as prod_name,
+			his.price as price
+		from tb_fact_prod_his his, tb_fact fact, tb_prod prod 
+		where fact.id = his.fact_id and prod.id = his.prod_id
+		<isNotNull property="factId" prepend="and"> his.fact_id = #factId#</isNotNull>
+		<isNotNull property="prodId" prepend="and"> his.prod_id = #prodId#</isNotNull>
+		order by his.id desc limit 1
 	</select>
 	<select id="selectPurchase" parameterClass="int" resultMap="PurchaseMasterResult">
 		select * 
 		from 
-			tb_PURCHASE_MASTER M LEFT OUTER JOIN tb_PURCHASE_DETAIL D ON M.ID = D.MASTER_ID,
-			tb_PROD P, 
-			tb_STOCK S,
-			tb_FACT F
+			tb_purchase_master m left outer join tb_purchase_detail d on m.id = d.master_id,
+			tb_prod p, 
+			tb_stock s,
+			tb_fact f
 		where
-			P.PROD_ID = D.PROD_ID and 
-			M.STOCK_ID = S.STOCK_ID and
-			M.FACT_ID = F.FACT_ID and 
-			M.STATUS = 'N' and
-			M.ID = #value#
+			d.prod_id = p.id =  and 
+			m.stock_id = s.stock_id and
+			m.fact_id = f.id and 
+			m.status = 'N' and
+			m.id = #value#
 	</select>
 	<select id="selectPurchases" parameterClass="map" resultMap="PurchaseMasterResult">
 		select * 
 		from 
-			tb_PURCHASE_MASTER M LEFT OUTER JOIN tb_PURCHASE_DETAIL D ON M.ID = D.MASTER_ID,
-			tb_PROD P, 
-			tb_STOCK S,
-			tb_FACT F 
+			tb_purchase_master m left outer join tb_purchase_detail d on m.id = d.master_id,
+			tb_prod p, 
+			tb_stock s,
+			tb_fact f 
 		where
-			P.PROD_ID = D.PROD_ID and 
-			M.STOCK_ID = S.STOCK_ID and
-			M.FACT_ID = F.FACT_ID and
-			M.STATUS = 'N' and
-			M.FACT_ID = #factId#
-			<isNotNull property="back" prepend="and"> M.BACK = #back#</isNotNull>
-			<isNull property="back" prepend="and"> M.BACK IS NULL</isNull>
-		order by M.ID DESC
+			d.prod_id = p.id and 
+			m.stock_id = s.stock_id and
+			m.fact_id = f.id and
+			m.status = 'N' and
+			m.fact_id = #factId#
+			<isNotNull property="back" prepend="and"> m.return = #back#</isNotNull>
+			<isNull property="back" prepend="and"> m.return is null</isNull>
+		order by m.id desc
 	</select>
 	<select id="selectProdStockQty" parameterClass="int" resultMap="ProdStockQtyResult">
 		select * 
 		from 
-			tb_PROD_STOCK_QTY PSQ,
-			tb_PROD P, 
-			tb_STOCK S
+			tb_prod_stock_qty psq,
+			tb_prod p, 
+			tb_stock s
 		where
-			PSQ.PROD_ID = P.PROD_ID and 
-			PSQ.STOCK_ID = S.STOCK_ID
-			<isParameterPresent prepend="and"> PSQ.PROD_ID = #value#</isParameterPresent>
+			psq.prod_id = p.id and 
+			psq.stock_id = s.stock_id
+			<isParameterPresent prepend="and"> psq.prod_id = #value#</isParameterPresent>
 	</select>
 	<select id="selectUnReceivedOffers" parameterClass="map" resultMap="UnReceivedOfferResult">
 		select * 
 		from
-			tb_OFFER_MASTER M,
-			tb_CUST C
+			tb_offer_master m,
+			tb_cust c
 		where
-			M.BACK IS NULL and
-			M.STATUS = 'N' and
-			M.RECEIVE_AMT <![CDATA[<]]> TOTAL and
-			M.CUST_ID = C.CUST_ID
-			<isNotNull property="custId" prepend="and"> M.CUST_ID = #custId#</isNotNull>
-			<isNull property="beforeFlag" prepend="and"> M.OFFER_DATE <![CDATA[>=]]> #startDate#</isNull>
-			and M.OFFER_DATE <![CDATA[<=]]> #endDate#
-		order by M.CUST_ID ASC, M.OFFER_DATE ASC
+			m.return is null and
+			m.status = 'N' and
+			m.receive_amt <![CDATA[<]]> m.total and
+			m.cust_id = c.id
+			<isNotNull property="custId" prepend="and"> m.cust_id = #custId#</isNotNull>
+			<isNull property="beforeFlag" prepend="and"> m.offer_date <![CDATA[>=]]> #startDate#</isNull>
+			and m.offer_date <![CDATA[<=]]> #endDate#
+		order by m.cust_id asc, m.offer_date asc
 	</select>
 	<select id="selectOfferQty" parameterClass="map" resultClass="java.util.HashMap">
-		select M.CUST_ID AS CUST_ID, C.CUST_NME AS CUST_NME, SUM(D.QTY) AS QTY, P.UNIT AS UNIT
-		from tb_OFFER_MASTER M, tb_OFFER_DETAIL D, tb_CUST C, tb_PROD P
+		select m.cust_id, c.name cust_name, sum(d.qty) as qty, p.unit
+		from tb_offer_master m, tb_offer_detail d, tb_cust c, tb_prod p
 		where 
-			M.STATUS = 'N'
-			<isNotNull property="back" prepend="and"> M.BACK = #back#</isNotNull>
-			<isNull property="back" prepend="and"> M.BACK IS NULL</isNull>
-			and DATE_ForMAT(M.OFFER_DATE,'%Y%m') = #month# and 
-			M.ID = D.MASTER_ID and 
-			M.CUST_ID = C.CUST_ID and
-			D.PROD_ID = P.PROD_ID and
-			D.PROD_ID = #prodId#
-		GROUP BY M.CUST_ID
+			m.status = 'N'
+			<isNotNull property="back" prepend="and"> m.return = #back#</isNotNull>
+			<isNull property="back" prepend="and"> m.return is null</isNull>
+			and date_format(m.offer_date,'%Y%m') = #month# and 
+			m.id = d.master_id and 
+			m.cust_id = c.id and
+			d.prod_id = p.id and
+			d.prod_id = #prodId#
+		group by m.cust_id
 	</select>
-	<select id="selectorderProducts" parameterClass="string" resultMap="ProdResult">
-		select * from tb_PROD P where P.PROD_ID IN (
-			select DISTINCT PROD_ID from tb_OFFER_MASTER where CUST_ID IN (
-				select CUST_ID from tb_CUST where CATG = #value#
+	<select id="selectOrderProducts" parameterClass="string" resultMap="ProdResult">
+		select * from tb_prod p where p.id in (
+			select distinct prod_id from tb_offer_master where cust_id in (
+				select id from tb_cust where catg = #value#
 			)
 		)
 	</select>
 
 	<select id="selectTotalDiscount" parameterClass="string" resultClass="decimal">
-		select SUM(M.DISCOUNT) 
+		select sum(m.discount) 
 		from
-			tb_OFFER_MASTER M
+			tb_offer_master M
 		where
-			M.BACK IS NULL and
-			M.STATUS = 'N' and
-			DATE_ForMAT(M.OFFER_DATE,'%Y%m') = #month#
+			m.return is null and
+			m.status = 'N' and
+			date_format(m.offer_date,'%Y%m') = #month#
 	</select>
 	
 	<select id="selectTopDiscountCusts" parameterClass="string" resultClass="java.util.HashMap">
-		select M.CUST_ID AS CUST_ID, SUM(M.DISCOUNT) AS DISCOUNT, C.CUST_NME AS CUST_NME 
+		select m.cust_id, sum(m.discountT) as discount, c.name as cust_name
 		from
-			tb_OFFER_MASTER M, tb_CUST C
+			tb_offer_master m, tb_cust c
 		where
-			M.CUST_ID = C.CUST_ID and
-			M.BACK IS NULL and
-			M.STATUS = 'N' and 
-			M.DISCOUNT != 0 and
-			DATE_ForMAT(M.OFFER_DATE,'%Y%m') = #month#
-		GROUP BY M.CUST_ID
-		order by DISCOUNT DESC
+			m.cust_id = c.id and
+			m.return is null and
+			m.status = 'N' and 
+			m.discount != 0 and
+			date_format(m.offer_date,'%Y%m') = #month#
+		group by m.cust_id
+		order by m.discount desc
 	</select>
 
 	<select id="selectDiscountOffers" parameterClass="map" resultMap="TopDiscountOfferResult">
 		select *
 		from
-			tb_OFFER_MASTER M
+			tb_offer_master m
 		where
-			M.BACK IS NULL and
-			M.STATUS = 'N' and 
-			M.DISCOUNT != 0 and
-			DATE_ForMAT(M.OFFER_DATE,'%Y%m') = #month# and
-			M.CUST_ID = #custId#
-		order by M.DISCOUNT DESC
+			m.return is null and
+			m.status = 'N' and 
+			m.discount != 0 and
+			date_format(m.offer_date,'%Y%m') = #month# and
+			m.cust_id = #custId#
+		order by m.discount desc
 	</select>
 	
 	<select id="selectCustByOfferDate" parameterClass="string" resultMap="PickCustResult">
-		select DISTINCT X.CUST_ID,Y.CUST_NME from tb_OFFER_MASTER X, tb_CUST Y 
-		where X.CUST_ID = Y.CUST_ID and X.OFFER_DATE = STR_TO_DATE(#offerDate#, '%Y/%m/%d') and X.STATUS != 'D'
-		order by X.ID
+		select distinct c.id, c.name 
+		from tb_offer_master m, tb_cust c 
+		where m.cust_id = c.id and m.offer_date = str_to_date(#offerDate#, '%Y/%m/%d') and m.status != 'D'
+		order by m.id
 	</select>
 	
 	<select id="selectProdQtyByOfferDate" parameterClass="map" resultMap="PickProdResult">
 		select 
-		    A.PROD_ID,
-		    A.PROD_NME,
-		    A.UNIT,
-		    A.SUM_QTY,
-		    B.ID MASTER_ID,
-		    B.CUST_ID,
-		    B.CUST_NME,
-		    B.QTY
+		    a.prod_id,
+		    a.name prod_name,
+		    a.unit,
+		    a.sum_qty,
+		    b.id master_id,
+		    b.cust_id,
+		    b.name cust_name,
+		    b.qty
 		from
-		    (select D.MASTER_ID, D.PROD_ID, P.PROD_NME, P.UNIT, SUM(D.QTY) SUM_QTY
-		    from tb_OFFER_DETAIL D, tb_PROD P
-		    where D.PROD_ID = P.PROD_ID and D.MASTER_ID IN (
-		    	select X.ID from tb_OFFER_MASTER X where X.OFFER_DATE = STR_TO_DATE(#offerDate#, '%Y/%m/%d') and X.STATUS != 'D'
-		    	<isNotNull property="custs" prepend="and"> X.CUST_ID IN 
+		    (select d.master_id, d.prod_id, p.name, p.unit, sum(d.qty) sum_qty
+		    from tb_offer_detail d, tb_prod p
+		    where d.prod_id = p.id and d.master_id in (
+		    	select x.id from tb_offer_master x where x.offer_date = str_to_date(#offerDate#, '%Y/%m/%d') and x.status != 'D'
+		    		<isNotNull property="custs" prepend="and"> x.cust_id in 
 					<iterate property="custs" open="(" close=")" conjunction="," > #custs[]# </iterate>
 				</isNotNull>
-		    	) GROUP BY D.PROD_ID) A,
-		    (select M.ID, M.CUST_ID, C.CUST_NME, D.PROD_ID, D.QTY
-		    from tb_OFFER_MASTER M, tb_OFFER_DETAIL D, tb_CUST C where D.MASTER_ID IN (
-		        select X.ID from tb_OFFER_MASTER X where X.OFFER_DATE = STR_TO_DATE(#offerDate#, '%Y/%m/%d') and X.STATUS != 'D'
-		    	<isNotNull property="custs" prepend="and"> X.CUST_ID IN 
+		    	) group by d.prod_id) a,
+		    (select m.id, m.cust_id, c.name, d.prod_id, d.qty
+		    from tb_offer_master m, tb_offer_detail d, tb_cust c where d.master_id in (
+		        select x.id from tb_offer_master x where x.offer_date = str_to_date(#offerDate#, '%Y/%m/%d') and x.status != 'D'
+		    		<isNotNull property="custs" prepend="and"> x.cust_id in 
 					<iterate property="custs" open="(" close=")" conjunction="," > #custs[]# </iterate>
 				</isNotNull>
-		        ) and M.ID = D.MASTER_ID and M.CUST_ID = C.CUST_ID) B
-		where A.PROD_ID = B.PROD_ID
-		order by A.PROD_NME
+		        ) and m.id = d.master_id and m.cust_id = c.id) b
+		where a.prod_id = b.prod_id
+		order by a.name
 	</select>
 	
 </sqlMap>

@@ -7,15 +7,15 @@ import java.util.Map;
 import com.fb.service.ProductService;
 import com.fb.util.CommonUtil;
 import com.fb.util.FamilyBizException;
-import com.fb.vo.ProdProfVO;
+import com.fb.vo.ProdVO;
 import com.fb.vo.ProdStockQtyVO;
 
 public class ProductServiceImpl extends ServiceImpl implements ProductService {
 
-	public ProdProfVO getProd(int prodId) throws FamilyBizException {
-		ProdProfVO prod = new ProdProfVO();
+	public ProdVO getProd(int prodId) throws FamilyBizException {
+		ProdVO prod = new ProdVO();
 		prod.setProdId(prodId);
-		return (ProdProfVO) this.getFbDao().queryForObject("selectProdProf", prod);
+		return (ProdVO) this.getFbDao().queryForObject("selectProdProf", prod);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -25,7 +25,7 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 
 	@SuppressWarnings("unchecked")
 	public List getProds(String prodNme) throws FamilyBizException {
-		ProdProfVO prod = new ProdProfVO();
+		ProdVO prod = new ProdVO();
 		if (prodNme != null) {
 			prod.setProdNme("%" + prodNme + "%");
 		}
@@ -57,7 +57,7 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 		return this.getFbDao().queryForList("selectOfferByCustAndProd", paramMap);
 	}
 
-	public void addProd(ProdProfVO prod) throws FamilyBizException {
+	public void addProd(ProdVO prod) throws FamilyBizException {
 		this.getFbDao().insert("insertProd", prod);
 
 		ProdStockQtyVO qty = new ProdStockQtyVO();
@@ -66,7 +66,7 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 		this.getFbDao().insert("insertProdStockQty", qty);
 	}	
 
-	public void modifyProd(ProdProfVO prod) throws FamilyBizException {
+	public void modifyProd(ProdVO prod) throws FamilyBizException {
 		this.getFbDao().update("updateProd", prod);
 	}
 

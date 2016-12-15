@@ -10,7 +10,7 @@ import com.fb.service.PurchaseService;
 import com.fb.util.DateUtil;
 import com.fb.util.FamilyBizException;
 import com.fb.vo.FactProdHisVO;
-import com.fb.vo.ProdProfVO;
+import com.fb.vo.ProdVO;
 import com.fb.vo.ProdStockQtyVO;
 import com.fb.vo.PurchaseDetailVO;
 import com.fb.vo.PurchaseMasterVO;
@@ -67,7 +67,7 @@ public class PurchaseServiceImpl extends ServiceImpl implements PurchaseService 
 			}
 			this.getFbDao().update("updateProdStockQty", qty);
 			
-			ProdProfVO prod = new ProdProfVO();
+			ProdVO prod = new ProdVO();
 			prod.setProdId(detail.getProdId());
 			prod.setCost(detail.getAmt() / detail.getQty());
 			this.getFbDao().update("updateProdCost", prod);

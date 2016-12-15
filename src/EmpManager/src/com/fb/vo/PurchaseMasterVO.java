@@ -10,16 +10,17 @@ public class PurchaseMasterVO implements Serializable{
 	private String id;
 	private Date purchaseDate;
 	private Integer factId;
-	private FactProfVO fact;
 	private String invoiceNbr;
 	private Integer stockId;
-	private StockProfVO stock;
 	private Double amt;
 	private Double discount;
 	private Double total;
 	private String memo;
 	private String back;
 	private String status;
+
+	private FactVO fact;
+	private StockVO stock;
 	private List<PurchaseDetailVO> details;
 	
 	public String getId() {
@@ -40,10 +41,10 @@ public class PurchaseMasterVO implements Serializable{
 	public void setFactId(Integer factId) {
 		this.factId = factId;
 	}
-	public FactProfVO getFact() {
+	public FactVO getFact() {
 		return fact;
 	}
-	public void setFact(FactProfVO fact) {
+	public void setFact(FactVO fact) {
 		this.fact = fact;
 	}
 	public String getInvoiceNbr() {
@@ -58,10 +59,10 @@ public class PurchaseMasterVO implements Serializable{
 	public void setStockId(Integer stockId) {
 		this.stockId = stockId;
 	}
-	public StockProfVO getStock() {
+	public StockVO getStock() {
 		return stock;
 	}
-	public void setStock(StockProfVO stock) {
+	public void setStock(StockVO stock) {
 		this.stock = stock;
 	}
 	public Double getAmt() {

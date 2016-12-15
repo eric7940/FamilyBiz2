@@ -7,7 +7,7 @@ import java.util.List;
 import com.fb.util.FamilyBizException;
 import com.fb.vo.OfferDetailVO;
 import com.fb.vo.OfferMasterVO;
-import com.fb.vo.UserProfVO;
+import com.fb.vo.UserVO;
 
 public interface OfferService extends Service {
 
@@ -40,7 +40,7 @@ public interface OfferService extends Service {
 	@SuppressWarnings("unchecked")
 	public List getOfferQty(Integer prodId, String month) throws FamilyBizException;
 
-	public List<UserProfVO> getDeliveryUsers() throws FamilyBizException;
+	public List<UserVO> getDeliveryUsers() throws FamilyBizException;
 
 	public BigDecimal getTotalDiscount(String month) throws FamilyBizException;
 	

@@ -5,34 +5,34 @@ import java.util.List;
 import com.fb.service.CustomerService;
 import com.fb.util.CommonUtil;
 import com.fb.util.FamilyBizException;
-import com.fb.vo.CustProfVO;
+import com.fb.vo.CustVO;
 
 public class CustomerServiceImpl extends ServiceImpl implements CustomerService {
 
-	public CustProfVO getCust(int custId) throws FamilyBizException {
-		CustProfVO cust = new CustProfVO();
+	public CustVO getCust(int custId) throws FamilyBizException {
+		CustVO cust = new CustVO();
 		cust.setCustId(Integer.valueOf(custId));
-		return (CustProfVO) this.getFbDao().queryForObject("selectCustProf", cust);
+		return (CustVO) this.getFbDao().queryForObject("selectCustProf", cust);
 	}
 	
-	public List<CustProfVO> getCusts() throws FamilyBizException {
+	public List<CustVO> getCusts() throws FamilyBizException {
 		return getCusts(null);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<CustProfVO> getCusts(String custNme) throws FamilyBizException {
-		CustProfVO cust = new CustProfVO();
+	public List<CustVO> getCusts(String custNme) throws FamilyBizException {
+		CustVO cust = new CustVO();
 		if (custNme != null) {
 			cust.setCustNme(custNme + "%");
 		}
 		return this.getFbDao().queryForList("selectCustProf", cust);
 	}
 
-	public void addCust(CustProfVO cust) throws FamilyBizException {
+	public void addCust(CustVO cust) throws FamilyBizException {
 		this.getFbDao().insert("insertCust", cust);
 	}
 
-	public void modifyCust(CustProfVO cust) throws FamilyBizException {
+	public void modifyCust(CustVO cust) throws FamilyBizException {
 		this.getFbDao().update("updateCust", cust);
 	}
 

@@ -18,7 +18,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.fb.service.AuthenticationService;
 import com.fb.service.ServiceFactory;
-import com.fb.vo.UserProfVO;
+import com.fb.vo.UserVO;
 
 public class AuthenticationFilter implements Filter {
 
@@ -51,7 +51,7 @@ public class AuthenticationFilter implements Filter {
 		}
 
 		HttpSession session = request.getSession();
-		UserProfVO userProfVO = (UserProfVO) session.getAttribute("USER_INFO");
+		UserVO userProfVO = (UserVO) session.getAttribute("USER_INFO");
 		if (userProfVO != null) {
 			if (requestedPage.equals("nav.do")) {
 				logger.info("authenticated");

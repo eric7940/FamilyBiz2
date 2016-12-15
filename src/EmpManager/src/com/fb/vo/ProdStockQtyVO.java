@@ -10,8 +10,8 @@ public class ProdStockQtyVO implements Serializable {
 	private Integer prodId;
 	private Double qty;
 	
-	private StockProfVO stock;
-	private ProdProfVO prod;
+	private StockVO stock;
+	private ProdVO prod;
 	
 	public Integer getStockId() {
 		return stockId;
@@ -31,16 +31,16 @@ public class ProdStockQtyVO implements Serializable {
 	public void setQty(Double qty) {
 		this.qty = qty;
 	}
-	public StockProfVO getStock() {
+	public StockVO getStock() {
 		return stock;
 	}
-	public void setStock(StockProfVO stock) {
+	public void setStock(StockVO stock) {
 		this.stock = stock;
 	}
-	public ProdProfVO getProd() {
+	public ProdVO getProd() {
 		return prod;
 	}
-	public void setProd(ProdProfVO prod) {
+	public void setProd(ProdVO prod) {
 		this.prod = prod;
 	}
 

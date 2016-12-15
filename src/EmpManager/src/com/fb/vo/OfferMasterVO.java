@@ -10,12 +10,9 @@ public class OfferMasterVO implements Serializable{
 	private String id;
 	private Date offerDate;
 	private Integer custId;
-	private CustProfVO cust;
 	private String deliveryUserId;
-	private UserProfVO deliveryUser;
 	private String invoiceNbr;
 	private Integer stockId;
-	private StockProfVO stock;
 	private Double amt;
 	private Double discount;
 	private Double total;
@@ -24,6 +21,10 @@ public class OfferMasterVO implements Serializable{
 	private String memo;
 	private String back;
 	private String status;
+	
+	private CustVO cust;
+	private UserVO deliveryUser;
+	private StockVO stock;
 	private List<OfferDetailVO> details;
 	
 	public String getId() {
@@ -44,10 +45,10 @@ public class OfferMasterVO implements Serializable{
 	public void setCustId(Integer custId) {
 		this.custId = custId;
 	}
-	public CustProfVO getCust() {
+	public CustVO getCust() {
 		return cust;
 	}
-	public void setCust(CustProfVO cust) {
+	public void setCust(CustVO cust) {
 		this.cust = cust;
 	}
 	public String getInvoiceNbr() {
@@ -62,10 +63,10 @@ public class OfferMasterVO implements Serializable{
 	public void setStockId(Integer stockId) {
 		this.stockId = stockId;
 	}
-	public StockProfVO getStock() {
+	public StockVO getStock() {
 		return stock;
 	}
-	public void setStock(StockProfVO stock) {
+	public void setStock(StockVO stock) {
 		this.stock = stock;
 	}
 	public Double getAmt() {
@@ -128,10 +129,10 @@ public class OfferMasterVO implements Serializable{
 	public void setDeliveryUserId(String deliveryUserId) {
 		this.deliveryUserId = deliveryUserId;
 	}
-	public UserProfVO getDeliveryUser() {
+	public UserVO getDeliveryUser() {
 		return deliveryUser;
 	}
-	public void setDeliveryUser(UserProfVO deliveryUser) {
+	public void setDeliveryUser(UserVO deliveryUser) {
 		this.deliveryUser = deliveryUser;
 	}
 

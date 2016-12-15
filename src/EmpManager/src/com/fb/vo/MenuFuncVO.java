@@ -2,28 +2,30 @@ package com.fb.vo;
 
 import java.io.Serializable;
 
-public class MenuFuncVO implements Serializable{
+public class MenuFuncVO implements Serializable {
+	
 	private static final long serialVersionUID = -1890362551254939268L;
 
-	private Integer funcId;
-	private String funcLabel;
+	private Integer id;
+	private String label;
 	private Integer menuId;
 	private String url;
 	private String linkType;
-	private Integer order;
+	private Integer displayOrder;
+
 	private MenuVO menu;
 	
-	public Integer getFuncId() {
-		return funcId;
+	public Integer getId() {
+		return id;
 	}
-	public void setFuncId(Integer funcId) {
-		this.funcId = funcId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public String getFuncLabel() {
-		return funcLabel;
+	public String getLabel() {
+		return label;
 	}
-	public void setFuncLabel(String funcLabel) {
-		this.funcLabel = funcLabel;
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	public Integer getMenuId() {
 		return menuId;
@@ -43,11 +45,11 @@ public class MenuFuncVO implements Serializable{
 	public void setLinkType(String linkType) {
 		this.linkType = linkType;
 	}
-	public Integer getOrder() {
-		return order;
+	public Integer getDisplayOrder() {
+		return displayOrder;
 	}
-	public void setOrder(Integer order) {
-		this.order = order;
+	public void setDisplayOrder(Integer displayOrder) {
+		this.displayOrder = displayOrder;
 	}
 	public MenuVO getMenu() {
 		return menu;

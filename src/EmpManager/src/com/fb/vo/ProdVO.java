@@ -2,28 +2,28 @@ package com.fb.vo;
 
 import java.io.Serializable;
 
-public class ProdProfVO implements Serializable{
+public class ProdVO implements Serializable{
 
 	private static final long serialVersionUID = -2256320739753652965L;
 
-	private Integer prodId;
-	private String prodNme;
+	private Integer id;
+	private String name;
 	private String unit;
 	private Double price;
 	private Double cost;
 	private Integer saveQty;
 	
-	public Integer getProdId() {
-		return prodId;
+	public Integer getId() {
+		return id;
 	}
-	public void setProdId(Integer prodId) {
-		this.prodId = prodId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public String getProdNme() {
-		return prodNme;
+	public String getName() {
+		return name;
 	}
-	public void setProdNme(String prodNme) {
-		this.prodNme = prodNme;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getUnit() {
 		return unit;

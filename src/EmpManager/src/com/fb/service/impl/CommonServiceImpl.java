@@ -5,20 +5,20 @@ import java.util.List;
 import com.fb.service.CommonService;
 import com.fb.util.FamilyBizException;
 import com.fb.vo.LabelValueBean;
-import com.fb.vo.Lookup;
+import com.fb.vo.LookupVO;
 
 public class CommonServiceImpl extends ServiceImpl implements CommonService {
 
 	@SuppressWarnings("unchecked")
 	public List<LabelValueBean> getUnits() throws FamilyBizException {
-		Lookup lookup = new Lookup();
+		LookupVO lookup = new LookupVO();
 		lookup.setLookupType("UNIT");
 		lookup.setDisplayFlag(true);
 		return this.getFbDao().queryForList("selectLookup", lookup);
 	}
 
 	public String getOfferDefaultMemo() throws FamilyBizException {
-		Lookup lookup = new Lookup();
+		LookupVO lookup = new LookupVO();
 		lookup.setLookupType("OFFER_MEMO");
 		lookup.setDisplayFlag(true);
 		
@@ -31,7 +31,7 @@ public class CommonServiceImpl extends ServiceImpl implements CommonService {
 	}
 	
 	public void modifyOfferDefaultMemo(String memo) throws FamilyBizException {
-		Lookup lookup = new Lookup();
+		LookupVO lookup = new LookupVO();
 		lookup.setLookupType("OFFER_MEMO");
 		this.getFbDao().delete("deleteLookup", lookup);
 
@@ -44,7 +44,7 @@ public class CommonServiceImpl extends ServiceImpl implements CommonService {
 	}
 	
 	public void modifyUnits(List<String> units) throws FamilyBizException {
-		Lookup lookup = new Lookup();
+		LookupVO lookup = new LookupVO();
 		lookup.setLookupType("UNIT");
 		this.getFbDao().delete("deleteLookup", lookup);
 

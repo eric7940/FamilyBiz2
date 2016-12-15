@@ -8,10 +8,11 @@ public class PurchaseDetailVO implements Serializable{
 	private Integer id;
 	private String masterId;
 	private Integer prodId;
-	private ProdProfVO prod;
 	private Double qty;
 	private Double amt;
-	
+
+	private ProdVO prod;
+
 	public Integer getId() {
 		return id;
 	}
@@ -30,10 +31,10 @@ public class PurchaseDetailVO implements Serializable{
 	public void setProdId(Integer prodId) {
 		this.prodId = prodId;
 	}
-	public ProdProfVO getProd() {
+	public ProdVO getProd() {
 		return prod;
 	}
-	public void setProd(ProdProfVO prod) {
+	public void setProd(ProdVO prod) {
 		this.prod = prod;
 	}
 	public Double getQty() {

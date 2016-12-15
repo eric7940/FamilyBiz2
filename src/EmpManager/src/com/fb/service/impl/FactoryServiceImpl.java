@@ -5,34 +5,34 @@ import java.util.List;
 import com.fb.service.FactoryService;
 import com.fb.util.CommonUtil;
 import com.fb.util.FamilyBizException;
-import com.fb.vo.FactProfVO;
+import com.fb.vo.FactVO;
 
 public class FactoryServiceImpl extends ServiceImpl implements FactoryService {
 
-	public FactProfVO getFact(int factId) throws FamilyBizException {
-		FactProfVO fact = new FactProfVO();
+	public FactVO getFact(int factId) throws FamilyBizException {
+		FactVO fact = new FactVO();
 		fact.setFactId(Integer.valueOf(factId));
-		return (FactProfVO) this.getFbDao().queryForObject("selectFactProf", fact);
+		return (FactVO) this.getFbDao().queryForObject("selectFactProf", fact);
 	}
 	
-	public List<FactProfVO> getFacts() throws FamilyBizException {
+	public List<FactVO> getFacts() throws FamilyBizException {
 		return getFacts(null);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<FactProfVO> getFacts(String factNme) throws FamilyBizException {
-		FactProfVO fact = new FactProfVO();
+	public List<FactVO> getFacts(String factNme) throws FamilyBizException {
+		FactVO fact = new FactVO();
 		if (factNme != null) {
 			fact.setFactNme(factNme + "%");
 		}
 		return this.getFbDao().queryForList("selectFactProf", fact);
 	}
 
-	public void addFact(FactProfVO fact) throws FamilyBizException {
+	public void addFact(FactVO fact) throws FamilyBizException {
 		this.getFbDao().insert("insertFact", fact);
 	}
 
-	public void modifyFact(FactProfVO fact) throws FamilyBizException {
+	public void modifyFact(FactVO fact) throws FamilyBizException {
 		this.getFbDao().update("updateFact", fact);
 	}
 

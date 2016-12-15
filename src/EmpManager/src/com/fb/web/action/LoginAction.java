@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 import com.fb.service.AuthenticationService;
 import com.fb.util.ConstUtil;
-import com.fb.vo.UserProfVO;
+import com.fb.vo.UserVO;
 
 public class LoginAction extends BaseAction {
 
@@ -33,7 +33,7 @@ public class LoginAction extends BaseAction {
 
 		try {
 			AuthenticationService service = (AuthenticationService) this.getServiceFactory().getService("authentication");
-			UserProfVO user = service.login(userId, password);
+			UserVO user = service.login(userId, password);
 			if (user == null) {
 				addLocalizationActionError("login.error.invalid");
 				error = true;
