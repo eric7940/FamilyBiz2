@@ -37,18 +37,22 @@ public interface OfferService extends Service {
 	
 	public int removeOffer(String masterId, boolean back) throws FamilyBizException;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public List getOfferQty(Integer prodId, String month) throws FamilyBizException;
 
 	public List<UserVO> getDeliveryUsers() throws FamilyBizException;
 
 	public BigDecimal getTotalDiscount(String month) throws FamilyBizException;
 	
+	@SuppressWarnings("rawtypes")
 	public List getTopDiscountCusts(String month) throws FamilyBizException;
 
+	@SuppressWarnings("rawtypes")
 	public List getTopDiscountOffers(String month, String custId) throws FamilyBizException;
 	
+	@SuppressWarnings("rawtypes")
 	public List getProdQty(Date offerDate, List<String> custs) throws FamilyBizException;
 
+	@SuppressWarnings("rawtypes")
 	public List getCustByOfferDate(Date offerDate) throws FamilyBizException;
 }

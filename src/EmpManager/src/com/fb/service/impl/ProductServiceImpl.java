@@ -14,30 +14,30 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 
 	public ProdVO getProd(int prodId) throws FamilyBizException {
 		ProdVO prod = new ProdVO();
-		prod.setProdId(prodId);
+		prod.setId(prodId);
 		return (ProdVO) this.getFbDao().queryForObject("selectProdProf", prod);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getProds() throws FamilyBizException {
 		return getProds(null);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getProds(String prodNme) throws FamilyBizException {
 		ProdVO prod = new ProdVO();
 		if (prodNme != null) {
-			prod.setProdNme("%" + prodNme + "%");
+			prod.setName("%" + prodNme + "%");
 		}
 		return this.getFbDao().queryForList("selectProdProf", prod);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getProds(int custId) throws FamilyBizException {
 		return getProds(custId, null);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getProds(int custId, String prodNme) throws FamilyBizException {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("custId", new Integer(custId));
@@ -47,7 +47,7 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 		return this.getFbDao().queryForList("selectProdByCust", paramMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public List getOffers(int custId, String prodNme) throws FamilyBizException {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("custId", new Integer(custId));
@@ -74,7 +74,7 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 		return this.getFbDao().update("deleteProd", Integer.valueOf(prodId));
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public int removeProds(List prodIds) throws FamilyBizException {
 		String s = CommonUtil.convertListToString(prodIds, ",", true);
 		return this.getFbDao().update("deleteProds", s);

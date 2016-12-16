@@ -11,7 +11,7 @@ public class CustomerServiceImpl extends ServiceImpl implements CustomerService 
 
 	public CustVO getCust(int custId) throws FamilyBizException {
 		CustVO cust = new CustVO();
-		cust.setCustId(Integer.valueOf(custId));
+		cust.setId(Integer.valueOf(custId));
 		return (CustVO) this.getFbDao().queryForObject("selectCustProf", cust);
 	}
 	
@@ -23,7 +23,7 @@ public class CustomerServiceImpl extends ServiceImpl implements CustomerService 
 	public List<CustVO> getCusts(String custNme) throws FamilyBizException {
 		CustVO cust = new CustVO();
 		if (custNme != null) {
-			cust.setCustNme(custNme + "%");
+			cust.setName(custNme + "%");
 		}
 		return this.getFbDao().queryForList("selectCustProf", cust);
 	}
@@ -40,7 +40,7 @@ public class CustomerServiceImpl extends ServiceImpl implements CustomerService 
 		return this.getFbDao().update("deleteCust", Integer.valueOf(custId));
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public int removeCusts(List custIds) throws FamilyBizException {
 		String s = CommonUtil.convertListToString(custIds, ",", true);
 		return this.getFbDao().update("deleteCusts", s);

@@ -26,7 +26,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return (OfferMasterVO) this.getFbDao().queryForObject("selectOffer", new Integer(masterId));
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getOffers(int custId, boolean back) throws FamilyBizException {
 		Date today = new Date();
 		Calendar c = Calendar.getInstance();
@@ -35,7 +35,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return this.getOffers(custId, startDate, today, back);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getOffers(int custId, Date startDate, Date endDate, boolean back) throws FamilyBizException {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("custId", new Integer(custId));
@@ -46,7 +46,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return queryForList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getOffers(List<String> masterIds, boolean back) throws FamilyBizException {
 		String s = CommonUtil.convertListToString(masterIds, ",", true);
 		Map<String,String> paramMap = new HashMap<String,String>();
@@ -55,7 +55,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return this.getFbDao().queryForList("selectOffers", paramMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getOffers(Date startDate, Date endDate, boolean back) throws FamilyBizException {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("startDate", startDate);
@@ -64,7 +64,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return this.getFbDao().queryForList("selectOffers", paramMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getOffers(int custId, String prodId, Date startDate, Date endDate, boolean back) throws FamilyBizException {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("custId", new Integer(custId));
@@ -160,11 +160,11 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		OfferMasterVO offer = this.getOffer(Integer.parseInt(masterId));
 		
 		ProdStockQtyVO qty1 = new ProdStockQtyVO();
-		Integer stockId = offer.getStock().getStockId();
+		Integer stockId = offer.getStock().getId();
 		qty1.setStockId(stockId);
 		for(int i = 0; i < offer.getDetails().size(); i++) {
 			OfferDetailVO detail = (OfferDetailVO) offer.getDetails().get(i);
-			qty1.setProdId(detail.getProd().getProdId());
+			qty1.setProdId(detail.getProd().getId());
 			qty1.setQty(detail.getQty());
 			this.getFbDao().update("updateProdStockQty", qty1);
 		}
@@ -204,10 +204,10 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		OfferMasterVO offer = this.getOffer(Integer.parseInt(masterId));
 		
 		ProdStockQtyVO qty = new ProdStockQtyVO();
-		qty.setStockId(offer.getStock().getStockId());
+		qty.setStockId(offer.getStock().getId());
 		for(int i = 0; i < offer.getDetails().size(); i++) {
 			OfferDetailVO detail = (OfferDetailVO) offer.getDetails().get(i);
-			qty.setProdId(detail.getProd().getProdId());
+			qty.setProdId(detail.getProd().getId());
 			if (back == false) {
 				qty.setQty(detail.getQty());
 			} else {
@@ -222,7 +222,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return this.getFbDao().update("deleteOffer", masterId);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getOfferQty(Integer prodId, String month) throws FamilyBizException {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("prodId", prodId);
@@ -251,13 +251,13 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return result1;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getDeliveryUsers() throws FamilyBizException {
 		List<String> classes = new ArrayList<String>();
 		classes.add("BOSS");
 		classes.add("STAF");
 		UserVO user = new UserVO();
-		user.setUserClass(CommonUtil.convertListToString(classes, ",", true));
+		user.setGrade(CommonUtil.convertListToString(classes, ",", true));
 		return this.getFbDao().queryForList("selectUserProf", user);
 	}
 
@@ -265,10 +265,12 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return (BigDecimal) this.getFbDao().queryForObject("selectTotalDiscount", month);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public List getTopDiscountCusts(String month) throws FamilyBizException {
 		return this.getFbDao().queryForList("selectTopDiscountCusts", month);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public List getTopDiscountOffers(String month, String custId) throws FamilyBizException {
 		Map<String,String> paramMap = new HashMap<String,String>();
 		paramMap.put("month", month);
@@ -276,12 +278,12 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return this.getFbDao().queryForList("selectDiscountOffers", paramMap);
 	}
 
-	@Override
+	@SuppressWarnings("rawtypes")
 	public List getCustByOfferDate(Date offerDate) throws FamilyBizException {
 		return this.getFbDao().queryForList("selectCustByOfferDate", DateUtil.getDateString(offerDate, "yyyy/MM/dd"));
 	}
 	
-	@Override
+	@SuppressWarnings("rawtypes")
 	public List getProdQty(Date offerDate, List<String> custs) throws FamilyBizException {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("offerDate", DateUtil.getDateString(offerDate, "yyyy/MM/dd"));

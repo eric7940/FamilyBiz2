@@ -3,11 +3,11 @@ package com.fb.service;
 import java.util.List;
 
 import com.fb.util.FamilyBizException;
-import com.fb.vo.LabelValueBean;
+import com.fb.vo.LookupVO;
 
 public interface CommonService extends Service {
 
-	public List<LabelValueBean> getUnits() throws FamilyBizException;
+	public List<LookupVO> getUnits() throws FamilyBizException;
 	
 	public void modifyUnits(List<String> units) throws FamilyBizException;
 

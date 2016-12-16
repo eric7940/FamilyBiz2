@@ -11,7 +11,7 @@ public class FactoryServiceImpl extends ServiceImpl implements FactoryService {
 
 	public FactVO getFact(int factId) throws FamilyBizException {
 		FactVO fact = new FactVO();
-		fact.setFactId(Integer.valueOf(factId));
+		fact.setId(Integer.valueOf(factId));
 		return (FactVO) this.getFbDao().queryForObject("selectFactProf", fact);
 	}
 	
@@ -23,7 +23,7 @@ public class FactoryServiceImpl extends ServiceImpl implements FactoryService {
 	public List<FactVO> getFacts(String factNme) throws FamilyBizException {
 		FactVO fact = new FactVO();
 		if (factNme != null) {
-			fact.setFactNme(factNme + "%");
+			fact.setName(factNme + "%");
 		}
 		return this.getFbDao().queryForList("selectFactProf", fact);
 	}
@@ -40,7 +40,7 @@ public class FactoryServiceImpl extends ServiceImpl implements FactoryService {
 		return this.getFbDao().update("deleteFact", Integer.valueOf(factId));
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public int removeFacts(List factIds) throws FamilyBizException {
 		String s = CommonUtil.convertListToString(factIds, ",", true);
 		return this.getFbDao().update("deleteFacts", s);

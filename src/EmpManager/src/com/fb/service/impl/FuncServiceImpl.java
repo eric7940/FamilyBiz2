@@ -11,13 +11,13 @@ public class FuncServiceImpl extends ServiceImpl implements FuncService {
 
 	public MenuFuncVO getFunc(int funcId) throws FamilyBizException {
 		MenuFuncVO func = new MenuFuncVO();
-		func.setFuncId(Integer.valueOf(funcId));
+		func.setId(Integer.valueOf(funcId));
 		return (MenuFuncVO) this.getFbDao().queryForObject("selectMenuFunc", func);
 	}
 	
 	public MenuVO getMenu(int menuId) throws FamilyBizException {
 		MenuVO menu = new MenuVO();
-		menu.setMenuId(Integer.valueOf(menuId));
+		menu.setId(Integer.valueOf(menuId));
 		return (MenuVO) this.getFbDao().queryForObject("selectMenu", menu);
 	}
 
@@ -27,6 +27,7 @@ public class FuncServiceImpl extends ServiceImpl implements FuncService {
 		return this.getFbDao().queryForList("selectMenuFunc", func);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<MenuVO> getMenus() throws FamilyBizException {
 		MenuVO menu = new MenuVO();
 		return this.getFbDao().queryForList("selectMenu", menu);

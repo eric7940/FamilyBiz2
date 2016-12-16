@@ -8,7 +8,7 @@ public class LookupVO implements Serializable{
 
 	private String type;
 	private String code;
-	private String label;
+	private String value;
 	private Boolean display;
 	private Integer displayOrder;
 	private String desc;
@@ -25,11 +25,11 @@ public class LookupVO implements Serializable{
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public String getLabel() {
-		return label;
+	public String getValue() {
+		return value;
 	}
-	public void setLabel(String label) {
-		this.label = label;
+	public void setValue(String value) {
+		this.value = value;
 	}
 	public Boolean getDisplay() {
 		return display;

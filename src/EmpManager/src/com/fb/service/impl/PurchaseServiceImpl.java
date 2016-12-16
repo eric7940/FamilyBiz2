@@ -21,7 +21,7 @@ public class PurchaseServiceImpl extends ServiceImpl implements PurchaseService 
 		return (PurchaseMasterVO) this.getFbDao().queryForObject("selectPurchase", new Integer(masterId));
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getPurchases(int factId, boolean back) throws FamilyBizException {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("factId", new Integer(factId));
@@ -68,7 +68,7 @@ public class PurchaseServiceImpl extends ServiceImpl implements PurchaseService 
 			this.getFbDao().update("updateProdStockQty", qty);
 			
 			ProdVO prod = new ProdVO();
-			prod.setProdId(detail.getProdId());
+			prod.setId(detail.getProdId());
 			prod.setCost(detail.getAmt() / detail.getQty());
 			this.getFbDao().update("updateProdCost", prod);
 		}
@@ -79,10 +79,10 @@ public class PurchaseServiceImpl extends ServiceImpl implements PurchaseService 
 		PurchaseMasterVO purchase = this.getPurchase(Integer.parseInt(masterId));
 		
 		ProdStockQtyVO qty = new ProdStockQtyVO();
-		qty.setStockId(purchase.getStock().getStockId());
+		qty.setStockId(purchase.getStock().getId());
 		for(int i = 0; i < purchase.getDetails().size(); i++) {
 			PurchaseDetailVO detail = (PurchaseDetailVO) purchase.getDetails().get(i);
-			qty.setProdId(detail.getProd().getProdId());
+			qty.setProdId(detail.getProd().getId());
 			if (back == false) {
 				if (detail.getQty() < 0)
 					qty.setQty(new Double(Math.abs(detail.getQty().doubleValue())));

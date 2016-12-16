@@ -15,7 +15,7 @@ public class QryPriceServiceImpl extends ServiceImpl implements QryPriceService 
 
 		if (hisVO == null) {
 			ProdVO param2VO = new ProdVO();
-			param2VO.setProdId(new Integer(prodId));
+			param2VO.setId(new Integer(prodId));
 			ProdVO prodVO = (ProdVO) this.getFbDao().queryForObject("selectProdProf", param2VO);
 			
 			if (prodVO == null) {

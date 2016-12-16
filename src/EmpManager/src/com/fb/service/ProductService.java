@@ -23,6 +23,6 @@ public interface ProductService extends Service {
 	
 	public int removeProd(int prodId) throws FamilyBizException;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public int removeProds(List prodIds) throws FamilyBizException;
 }

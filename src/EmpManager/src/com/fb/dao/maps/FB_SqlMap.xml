@@ -31,8 +31,8 @@
 		<result property="displayOrder"	column="m.display_order"/>
 	</resultMap>
 	<resultMap id="MenuFuncResult" class="MenuFuncVO">
-		<result property="funcId"		column="mf.func_id"/>
-		<result property="funcLabel"		column="mf.func_label"/>
+		<result property="id"			column="mf.id"/>
+		<result property="label"			column="mf.label"/>
 		<result property="url"			column="mf.url"/>
 		<result property="linkType"		column="mf.link_type"/>
 		<result property="displayOrder"	column="mf.display_order"/>
@@ -169,7 +169,7 @@
 
 	<insert id="insertLookup" parameterClass="LookupVO">
 		insert into tb_lookup 
-		values (#type#, #code#, #label#, #display#, #displayOrder#, #desc#
+		values (#type#, #code#, #value#, #display#, #displayOrder#, #desc#
 		)
 	</insert>
 	<insert id="insertFuncAuth" parameterClass="map">
@@ -214,7 +214,7 @@
 	
 	<update id="updateLookup" parameterClass="LookupVO">
 		update tb_lookup set 
-			code = #code#, label = #label#, display = #display#, 
+			code = #code#, value = #value#, display = #display#, 
 			display_order = #displayOrder#, desc = #desc#
 		where type = #type#
 	</update>
@@ -282,7 +282,7 @@
 	<update id="deleteMenuFunc" parameterClass="int">
 		update tb_menu_func 
 		set status = 'D' 
-		where func_id = #value#
+		where id = #value#
 	</update>
 	<update id="deleteMenu" parameterClass="int">
 		update tb_menu 
@@ -341,7 +341,7 @@
 	</update>
 
 	<select id="selectLookup" parameterClass="LookupVO" resultClass="LookupVO">
-		select code, label from tb_lookup where type = #type# and display = #display# order by display_order
+		select code, value from tb_lookup where type = #type# and display = #display# order by display_order
 	</select>
 	<select id="selectAuthMenuFuncs" parameterClass="map" resultMap="MenuFuncResult">
 		select * 
@@ -351,7 +351,7 @@
 			tb_menu m 
 		where 
 			fa.grade = #userClass# and 
-			fa.func_id = mf.func_id and 
+			fa.func_id = mf.id and 
 			mf.menu_id = m.id and 
 			mf.status = 'Y' and
 			m.status = 'Y'
@@ -373,9 +373,9 @@
 	<select id="selectUser" parameterClass="UserVO" resultMap="UserResult">
 		select * from tb_user u
 		where u.status = ''
-		<isNotNull property="id" prepend="and"> u.id = #userId#</isNotNull>
-		<isNotNull property="passwd" prepend="and"> u.passwd = #userPwd#</isNotNull>
-		<isNotNull property="grade" prepend="and"> u.grade in ($userClass$)</isNotNull>
+		<isNotNull property="id" prepend="and"> u.id = #id#</isNotNull>
+		<isNotNull property="passwd" prepend="and"> u.passwd = password(#passwd#)</isNotNull>
+		<isNotNull property="grade" prepend="and"> u.grade in ($grade$)</isNotNull>
 	</select>
 	<select id="selectStock" parameterClass="int" resultMap="StockResult">
 		select * from tb_stock where id = #value#

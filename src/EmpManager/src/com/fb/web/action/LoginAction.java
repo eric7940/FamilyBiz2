@@ -38,8 +38,8 @@ public class LoginAction extends BaseAction {
 				addLocalizationActionError("login.error.invalid");
 				error = true;
 			} else {	
-				logger.debug("login success: " + user.getUserId() + ", " + user.getUserNme());
-				request.getSession().setAttribute(ConstUtil.SESSION_ATTR_USER, user.getUserId());
+				logger.debug("login success: " + user.getId() + ", " + user.getName());
+				request.getSession().setAttribute(ConstUtil.SESSION_ATTR_USER, user.getId());
 				request.getSession().setAttribute(ConstUtil.SESSION_ATTR_USER_INFO, user);
 				
 				logger.debug("locale: " + request.getLocale());
