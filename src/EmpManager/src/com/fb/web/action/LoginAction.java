@@ -1,9 +1,17 @@
 package com.fb.web.action;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 import com.fb.service.AuthenticationService;
 import com.fb.util.ConstUtil;
+import com.fb.vo.MenuFuncVO;
+import com.fb.vo.MenuVO;
 import com.fb.vo.UserVO;
 
 public class LoginAction extends BaseAction {
@@ -44,6 +52,35 @@ public class LoginAction extends BaseAction {
 				
 				logger.debug("locale: " + request.getLocale());
 				request.getSession().setAttribute(ConstUtil.SESSION_ATTR_LOCALE, request.getLocale());
+
+				List<MenuFuncVO> menuFuncs = service.getMenuFunctions(user);
+				
+				Map<Integer,List<MenuFuncVO>> menuFuncMap = new HashMap<Integer,List<MenuFuncVO>>();
+				List<List<MenuFuncVO>> orderMenuFuncList = new ArrayList<List<MenuFuncVO>>();
+				
+				for(MenuFuncVO func : menuFuncs) {
+					MenuVO menu = func.getMenu();
+					List<MenuFuncVO> funcList = menuFuncMap.get(menu.getId());
+					if (funcList == null) {
+						funcList = new ArrayList<MenuFuncVO>(); 
+						orderMenuFuncList.add(funcList);
+					}
+					funcList.add(func);
+					menuFuncMap.put(menu.getId(), funcList);
+				}
+				
+				List<MenuVO> menus = new ArrayList<MenuVO>();
+				Iterator<List<MenuFuncVO>> it = orderMenuFuncList.iterator();
+				while(it.hasNext()) {
+					List<MenuFuncVO> funcList = it.next();
+					MenuVO menu = funcList.get(0).getMenu();
+					menu.setFuncs(menuFuncMap.get(menu.getId()));
+					menus.add(menu);
+				}
+				
+				logger.info("left menu = " + menus);
+				request.getSession().setAttribute(ConstUtil.SESSION_ATTR_LEFT_MENU, menus);
+				
 			}
 			
 		} catch (Exception e) {

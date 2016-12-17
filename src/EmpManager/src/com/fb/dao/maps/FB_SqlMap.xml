@@ -23,6 +23,7 @@
 	<resultMap id="UserResult" class="UserVO">
 		<result property="id"		column="u.id"/>
 		<result property="name"		column="u.name"/>
+		<result property="grade"		column="u.grade"/>
 	</resultMap>
 	<resultMap id="MenuResult" class="MenuVO">
 		<result property="id"			column="m.id"/>
@@ -350,7 +351,7 @@
 			tb_menu_func mf, 
 			tb_menu m 
 		where 
-			fa.grade = #userClass# and 
+			fa.grade = #grade# and 
 			fa.func_id = mf.id and 
 			mf.menu_id = m.id and 
 			mf.status = 'Y' and

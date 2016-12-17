@@ -1,11 +1,8 @@
 package com.fb.service.impl;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.codec.digest.DigestUtils;
 
 import com.fb.service.AuthenticationService;
 import com.fb.util.FamilyBizException;
@@ -17,7 +14,7 @@ public class AuthenticationServiceImpl extends ServiceImpl implements Authentica
 	@SuppressWarnings("unchecked")
 	public List<MenuFuncVO> getMenuFunctions(UserVO user) throws FamilyBizException {
 		Map<String,String> paramMap = new HashMap<String,String>();
-		paramMap.put("userClass", user.getGrade());
+		paramMap.put("grade", user.getGrade());
 		return this.getFbDao().queryForList("selectAuthMenuFuncs", paramMap);
 	}
 
@@ -25,11 +22,11 @@ public class AuthenticationServiceImpl extends ServiceImpl implements Authentica
 		UserVO user = new UserVO();
 		user.setId(id);
 		user.setPasswd(pwd);
-		UserVO userProfVO = (UserVO) this.getFbDao().queryForObject("selectUser", user);
-		if (userProfVO == null) {
+		UserVO vo = (UserVO) this.getFbDao().queryForObject("selectUser", user);
+		if (vo == null) {
 			throw new FamilyBizException("帳號/密碼錯誤");
 		}
-		return userProfVO;
+		return vo;
 	}
 
 	@SuppressWarnings("unchecked")

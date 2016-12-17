@@ -62,8 +62,14 @@ com.opensymphony.xwork2.ActionContext.getContext().setLocale((java.util.Locale)s
 
 <div id="page-wrapper" class="ch-container">
 <div class="row">
-
-<div id="content" class="col-lg-12 col-sm-12" style="display: block;">
+<div class="col-lg-2 col-sm-4">
+<div class="sidebar-nav">
+	<div class="nav-canvas" >
+	<%@ include file="/commons/jsp/menu.jsp" %>
+	</div>
+</div>
+</div>
+<div id="content" class="col-lg-10 col-sm-8">
 <div class="row">
 <div class="col-md-12">
 <div class="box-inner">
@@ -84,6 +90,6 @@ com.opensymphony.xwork2.ActionContext.getContext().setLocale((java.util.Locale)s
 </s:if>
         
 <!-- Message -->
-<input type="hidden" id="temp_notNullMsg" name="temp_notNullMsg" placeholder="" value="<s:text name="global.error.notEmpty" />" />
-<input type="hidden" id="temp_dateExceedMsg" name="temp_dateExceedMsg" placeholder="" value="<s:text name="global.error.date.exceed" />" />
+<input type="hidden" id="temp_notNullMsg" name="temp_notNullMsg" value="<s:text name="global.error.notEmpty" />" />
+<input type="hidden" id="temp_dateExceedMsg" name="temp_dateExceedMsg" value="<s:text name="global.error.date.exceed" />" />
 

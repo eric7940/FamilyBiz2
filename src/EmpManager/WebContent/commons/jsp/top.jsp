@@ -3,13 +3,13 @@
 <div class="navbar navbar-default" role="navigation" style="border:0px; background-color:#f5f5f5; background-image: -webkit-linear-gradient(#f5f5f5, #c9e8fa 60%, #97d2f4);">
 <div class="navbar-inner" style="${TOP_DISPLAY_NONE}">
 
-	<!-- Menu icon --><!--
+	<!-- Menu icon -->
 	<button type="button" class="navbar-toggle pull-left animated flip" data-toggle="collapse" data-target=".navbar-collapse">
 		<span class="sr-only">Toggle navigation</span>
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
-	</button>-->
+	</button>
 	
 	<!-- Logout -->
 	<s:url action="logout" namespace="/" var="logoutURL"/> 

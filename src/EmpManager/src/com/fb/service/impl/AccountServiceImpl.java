@@ -32,7 +32,7 @@ public class AccountServiceImpl extends ServiceImpl implements AccountService {
 
 		for (String funcId: funcIds) {
 			Map<String,String> paramMap = new HashMap<String,String>();
-			paramMap.put("userClass", userClass);
+			paramMap.put("grade", userClass);
 			paramMap.put("funcId", funcId);
 			this.getFbDao().insert("insertFuncAuth", paramMap);
 		}

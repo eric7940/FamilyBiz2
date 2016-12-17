@@ -3,7 +3,8 @@ package com.fb.vo;
 import java.io.Serializable;
 import java.util.List;
 
-public class MenuVO implements Serializable{
+public class MenuVO implements Serializable {
+	
 	private static final long serialVersionUID = -1890362551254939268L;
 
 	private Integer id;
