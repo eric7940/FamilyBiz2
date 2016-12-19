@@ -58,8 +58,28 @@
 				<param name="redirect">1</param>
 			</result>
 		</action>
+	</package>
 
-				
+	<package name="so" namespace="/so" extends="struts-default,json-default">
+		<global-results>
+			<result name="error">/jsp/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		
+		<action name="main" class="soAction">
+			<result name="view">/jsp/so/view.jsp</result>
+			<result name="edit">/jsp/so/edit.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">main</param>
+				<param name="form.masterId">%{form.masterId}</param>
+			</result>
+		</action>
+		<action name="view" class="soAction" method="view">
+			<result name="success">/jsp/so/view.jsp</result>
+		</action>
+		
 	</package>
 	
 </struts> 

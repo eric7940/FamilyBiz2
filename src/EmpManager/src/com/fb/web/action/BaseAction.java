@@ -33,6 +33,7 @@ public class BaseAction extends ActionSupport implements ServletContextAware, Se
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
 	
+	protected static final String VIEW = "view";
 	protected static final String EDIT = "edit";
 	protected static final String DEFAULT = "default";
 

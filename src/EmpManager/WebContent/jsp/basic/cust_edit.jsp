@@ -49,27 +49,9 @@
 					<s:textfield name="form.memo" id="memo" cssClass="form-control"/>
 				</div>
 			</div>
+		</div>
 
-		</div>
-		
-		<%-- <form class="form-horizontal">
-		<div class="row">
-		<div class="col-md-6">
-			<div class="form-group">
-				<label for="name"></label>
-				
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="form-group">
-				<label for="biz_no"></label>
-				>
-			</div>
-		</div>
-		</div></form> --%>
-		
 	</div>
-	
 </s:form>
 </div>
 

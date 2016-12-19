@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/commons/jsp/header.jsp"%>
 
-<div id="exTab2" class="container-fluid">	
+<div class="container-fluid">	
 <div class="tab-content">
 
 <s:form method="post" namespace="/basic" action="cust" theme="simple" cssClass="navbar-form">

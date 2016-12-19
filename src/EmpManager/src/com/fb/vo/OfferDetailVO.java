@@ -8,10 +8,11 @@ public class OfferDetailVO implements Serializable{
 	private Integer id;
 	private String masterId;
 	private Integer prodId;
-	private ProdVO prod;
 	private Double qty;
 	private Double amt;
-	
+
+	private ProdVO prod;
+
 	public Integer getId() {
 		return id;
 	}
