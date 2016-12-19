@@ -9,10 +9,10 @@
 					<ul id="ul-${menu.id}" class="nav nav-pills nav-stacked">
 						<s:iterator value="#menu.funcs" id="func">
 							<li>
-								<s:url value="/%{func.url}" var="menuURL">
+								<s:url value="/%{url}" var="funcURL">
 									<s:param name="form.menuId" value="%{id}"/>
 								</s:url>
-								<s:a href="%{menuURL}">${func.label}</s:a>
+								<s:a href="%{funcURL}">${func.label}</s:a>
 							</li>
 						</s:iterator>
 					</ul>
