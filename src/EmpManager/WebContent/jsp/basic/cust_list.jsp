@@ -4,22 +4,22 @@
 <div id="exTab2" class="container-fluid">	
 <div class="tab-content">
 
-<s:form method="post" namespace="/basic" action="cust!initAdd" theme="simple" cssClass="navbar-form">
-<input type="hidden" name="id"/>
+<s:form method="post" namespace="/basic" action="cust" theme="simple" cssClass="navbar-form">
+<s:hidden name="form.id"/>
 	<div role="main" class="container-fluid">
 
 		<div class="row">
 			<!-- 查詢條件 -->
 			<div class="col-md-8 div-search">
 				<div class="form-group form-input-line-magrin">
-					<s:textfield name="form.keyword" theme="simple" placeholder="%{getText('global.message.keywordSearch')}" cssClass="form-control RESET_ITEM"/>
+					<s:textfield name="form.keyword" theme="simple" placeholder="%{getText('global.message.keywordSearch')}" cssClass="form-control"/>
 				</div>
 
 				<s:submit key="global.action.query" cssClass="btn btn-primary" />
 				<s:submit key="global.action.reset" cssClass="btn btn-primary" type="button" onclick="fnReload(event)" />
 			</div>
 			<div class="col-md-4 text-right">
-				<button type="submit" class="btn btn-success"><s:text name="global.action.add" /></button>
+				<s:submit key="global.action.add" cssClass="btn btn-success" type="button" onclick="fnInitAdd(event,'','form.id')" />
 			</div>
 		</div>
 
@@ -44,7 +44,7 @@
 </c:if>
 <s:iterator value="form.pageElement.records" var="record" status="idx">
 				<tr>
-					<td data-title="<s:text name="cust.field.id" />"><a href="javascript:void(0)" onclick="viewPBT(event,'${record.id}');"><c:out value="${record.id}"/></a></td>
+					<td data-title="<s:text name="cust.field.id" />"><a href="javascript:void(0)" onclick="fnInitModify(event, '${record.id}', 'form.id');"><c:out value="${record.id}"/></a></td>
 					<td data-title="<s:text name="cust.field.name" />"><c:out value="${record.name}"/></td>
 					<td data-title="<s:text name="cust.field.biz_no" />"><c:out value="${record.bizNo}"/></td>
 					<td data-title="<s:text name="cust.field.deliver_addr" />"><c:out value="${record.deliverAddr}"/></td>

@@ -15,6 +15,8 @@ import com.fb.web.form.element.PageElement;
 
 public class CustAction extends BaseAction {
 
+	private static final long serialVersionUID = 8902273376946682789L;
+
 	private static Logger logger = Logger.getLogger(CustAction.class);
 	private CustForm form;
 	
@@ -56,6 +58,7 @@ public class CustAction extends BaseAction {
 	public String initAdd() throws Exception {
 		logger.debug("initAdd start");
 		this.clearErrorsAndMessages();
+		form.reset();
 		return EDIT;
 	}	
 
@@ -85,78 +88,56 @@ public class CustAction extends BaseAction {
 		return DEFAULT;
 	}
 
-//	public String initModify(ActionMapping mapping,
-//			ActionForm form, HttpServletRequest request,
-//			HttpServletResponse response) throws Exception {
-//	
-//		logger.info("initModify start");
-//		ActionMessages messages = new ActionMessages();
-//		
-//		try {
-//			CustForm formBean = (CustForm)form;
-//			CustomerService service = (CustomerService) this.getServiceFactory().getService("Customer");
-//
-//			CustProfVO cust = service.getCust(formBean.getCustId());
-//			
-//			formBean.setCustNme(cust.getCustNme());
-//			formBean.setBizNo(cust.getBizNo());
-//			formBean.setDeliverAddr(cust.getDeliverAddr());
-//			formBean.setTel(cust.getTel());
-//			formBean.setMemo(cust.getMemo());
-//			
-//		} catch (FamilyBizException sce) {
-//			logger.error("",sce);
-//			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("all.0", sce.getMessage()));
-//			saveMessages(request, messages);
-//		} catch (Exception e) {
-//			logger.error("",e);
-//			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("all.msg.1"));
-//			saveMessages(request, messages);
-//		}
-//
-//		request.setAttribute("action", "modify");
-//
-//		logger.info("initModify end");
-//		return mapping.findForward("form");
-//	}
-//	
-//	public String modify(ActionMapping mapping,
-//			ActionForm form, HttpServletRequest request,
-//			HttpServletResponse response) throws Exception {
-//
-//		logger.info("modify start");
-//		ActionMessages messages = new ActionMessages();
-//
-//		try {
-//			CustForm formBean = (CustForm)form;
-//			CustomerService service = (CustomerService) this.getServiceFactory().getService("Customer");
-//			
-//			CustProfVO cust = new CustProfVO();
-//			cust.setCustId(formBean.getCustId());
-//			cust.setCustNme(formBean.getCustNme());
-//			cust.setBizNo(formBean.getBizNo());
-//			cust.setDeliverAddr(formBean.getDeliverAddr());
-//			cust.setTel(formBean.getTel());
-//			cust.setMemo(formBean.getMemo());
-//			
-//			service.modifyCust(cust);
-//			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("basic.msg.3"));
-//			
-//		} catch (FamilyBizException sce) {
-//			logger.error("",sce);
-//			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("all.0", sce.getMessage()));
-//			saveMessages(request, messages);
-//		} catch (Exception e) {
-//			logger.error("",e);
-//			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("all.msg.1"));
-//			saveMessages(request, messages);
-//		}
-//		
-//		logger.info("modify end");
-//		saveMessages(request, messages);
-//		
-//		return new ActionForward("/cust.do?state=init", false);
-//	}
+	public String initModify() throws Exception {
+	
+		logger.info("initModify start");
+		
+		try {
+			this.clearErrorsAndMessages();
+
+			CustomerService service = (CustomerService) this.getServiceFactory().getService("customer");
+
+			CustVO cust = service.getCust(form.getId());
+			form.setName(cust.getName());
+			form.setBizNo(cust.getBizNo());
+			form.setDeliverAddr(cust.getDeliverAddr());
+			form.setTel(cust.getTel());
+			form.setMemo(cust.getMemo());
+			
+			request.setAttribute("modify", "y");
+		} catch (FamilyBizException e) {
+			logger.error("action fail.", e);
+			this.addActionError(e);
+		}
+
+		return EDIT;
+	}
+	
+	public String modify() throws Exception {
+
+		logger.info("modify start");
+		
+		try {
+			CustomerService service = (CustomerService) this.getServiceFactory().getService("customer");
+			
+			CustVO cust = new CustVO();
+			cust.setId(form.getId());
+			cust.setName(form.getName());
+			cust.setBizNo(form.getBizNo());
+			cust.setDeliverAddr(form.getDeliverAddr());
+			cust.setTel(form.getTel());
+			cust.setMemo(form.getMemo());
+			
+			service.modifyCust(cust);
+			addLocalizationActionSuccess("save");
+			
+		} catch (FamilyBizException e) {
+			logger.error("action fail.", e);
+			this.addActionError(e);
+		}
+		
+		return DEFAULT;
+	}
 //
 //	public ActionForward delete(ActionMapping mapping,
 //			ActionForm form, HttpServletRequest request,

@@ -68,6 +68,12 @@ public class CustForm extends BaseForm {
 	}
 	@Override
 	public void reset() {
+		this.id = null;
+		this.name = null;
+		this.bizNo = null;
+		this.deliverAddr = null;
+		this.tel = null;
+		this.memo = null;
 	}
 
 }

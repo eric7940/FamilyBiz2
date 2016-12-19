@@ -5,15 +5,15 @@
 
 <div class="container-fluid">	
 
-<s:form method="post" namespace="/basic" action="cust!add" theme="simple">
-
+<s:form method="post" namespace="/basic" action="cust" theme="simple">
+<s:hidden name="form.id"/>
 	<div role="main" class="container-fluid">
 
 		<div class="row">
 			<!-- 查詢條件 -->
 			<div class="col-md-12">
 				<a href="<s:property value="#mainURL" />" role="button" class="btn btn-primary"><s:text name="global.action.cancel" /></a>
-				<button type="button" class="btn btn-success" onclick="savePBT(event, false);"><s:text name="global.action.save" /></button>
+				<s:submit key="global.action.save" cssClass="btn btn-success" type="button" onclick="save(event)" />
 			</div>
 		</div>
 
@@ -74,7 +74,14 @@
 </div>
 
 <script type='text/javascript'>
-
+var modify = '${attr.modify}';
+function save(event) {
+	if (modify === 'y') {
+		fnModify(event);
+	} else {
+		fnAdd(event);
+	}
+}
 
 </script>
 
