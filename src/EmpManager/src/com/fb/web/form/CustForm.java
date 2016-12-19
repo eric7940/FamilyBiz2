@@ -11,8 +11,8 @@ public class CustForm extends BaseForm {
 	private String keyword;
 	private List<CustVO> custs;
 	
-	private Integer custId;
-	private String custNme;
+	private Integer id;
+	private String name;
 	private String bizNo;
 	private String deliverAddr;
 	private String tel;
@@ -30,17 +30,17 @@ public class CustForm extends BaseForm {
 	public void setCusts(List<CustVO> custs) {
 		this.custs = custs;
 	}
-	public Integer getCustId() {
-		return custId;
+	public Integer getId() {
+		return id;
 	}
-	public void setCustId(Integer custId) {
-		this.custId = custId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public String getCustNme() {
-		return custNme;
+	public String getName() {
+		return name;
 	}
-	public void setCustNme(String custNme) {
-		this.custNme = custNme;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getBizNo() {
 		return bizNo;
@@ -66,7 +66,6 @@ public class CustForm extends BaseForm {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
-	
 	@Override
 	public void reset() {
 	}

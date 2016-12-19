@@ -48,24 +48,26 @@ public class CustAction extends BaseAction {
 		return SUCCESS;
 	}
 	
-	public String initCreate() throws Exception {
+	public String reload() {
+		form.setKeyword(null);
+		return DEFAULT;
+	}
 	
+	public String initAdd() throws Exception {
 		logger.debug("initAdd start");
-
 		this.clearErrorsAndMessages();
-
 		return EDIT;
 	}	
 
-	public String create() throws Exception {
+	public String add() throws Exception {
 
-		logger.info("create start");
+		logger.info("add start");
 		
 		try {
 			CustomerService service = (CustomerService) this.getServiceFactory().getService("customer");
 			
 			CustVO cust = new CustVO();
-			cust.setName(form.getCustNme());
+			cust.setName(form.getName());
 			cust.setBizNo(form.getBizNo());
 			cust.setDeliverAddr(form.getDeliverAddr());
 			cust.setTel(form.getTel());
@@ -80,7 +82,6 @@ public class CustAction extends BaseAction {
 			this.addActionError(e);
 		}
 
-		logger.info("create end");
 		return DEFAULT;
 	}
 

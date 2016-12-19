@@ -52,6 +52,7 @@
 		
 		<action name="cust" class="custAction">
 			<result name="success">/jsp/basic/cust_list.jsp</result>
+			<result name="edit">/jsp/basic/cust_edit.jsp</result>
 			<result name="default" type="redirectAction">
 				<param name="actionName">cust</param>
 				<param name="redirect">1</param>
