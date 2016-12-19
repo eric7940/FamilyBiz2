@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
+import com.fb.util.RowBounds;
+
 public class FBDaoImpl extends SqlMapClientDaoSupport implements FBDao {
 
 	private static Logger logger = Logger.getLogger(FBDaoImpl.class);
@@ -26,6 +28,12 @@ public class FBDaoImpl extends SqlMapClientDaoSupport implements FBDao {
 	public List queryForList(String name, Object critObj) throws DataAccessException {
 		logger.info("QueryList: " + NAMESPACE + name);
 		return this.getSqlMapClientTemplate().queryForList(NAMESPACE + name, critObj);
+	}
+
+	@SuppressWarnings("rawtypes")
+	public List queryForList(String name, Object critObj, RowBounds rowBounds) throws DataAccessException {
+		logger.info("QueryList: " + NAMESPACE + name);
+		return this.getSqlMapClientTemplate().queryForList(NAMESPACE + name, critObj, rowBounds.getOffset(), rowBounds.getLimit());
 	}
 
 	public Object insert(String name, Object paramObj) throws DataAccessException {

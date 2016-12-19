@@ -381,12 +381,18 @@
 	<select id="selectStock" parameterClass="int" resultMap="StockResult">
 		select * from tb_stock where id = #value#
 	</select>
+	<select id="selectCustCount" parameterClass="CustVO" resultClass="int">
+		select count(id) from tb_cust c
+		where c.status = ''
+		<isNotNull property="id" prepend="and"> c.id = #id#</isNotNull>
+		<isNotNull property="name" prepend="and"> c.name like #name#</isNotNull>
+	</select>
 	<select id="selectCust" parameterClass="CustVO" resultMap="CustResult">
 		select * from tb_cust c
 		where c.status = ''
 		<isNotNull property="id" prepend="and"> c.id = #id#</isNotNull>
 		<isNotNull property="name" prepend="and"> c.name like #name#</isNotNull>
-		order by c.name asc
+		order by c.name
 	</select>
 	<select id="selectFact" parameterClass="FactVO" resultMap="FactResult">
 		select * from tb_fact f

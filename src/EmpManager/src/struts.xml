@@ -8,8 +8,8 @@
     <constant name="struts.multipart.maxSize" value="52428800"/> <!-- 上傳檔案最大值:50M -->
     
     <constant name="struts.custom.i18n.resources" value="global" />
-	
-	<package name="default" namespace="/" extends="struts-default,json-default">
+
+	<package name="default" namespace="/" extends="struts-default">
 		<global-results>
 			<result name="error">/jsp/exception.jsp</result>
 		</global-results>
@@ -40,26 +40,24 @@
 		<action name="main">
 			<result>/jsp/main.jsp</result>
 		</action>
-		<action name="so" class="soAction">
-			<result name="success">/jsp/so/list.jsp</result>
-			<result name="p_edit">/jsp/so/pipeline_edit.jsp</result>
-			<result name="b_edit">/jsp/so/backlog_edit.jsp</result>
-			<result name="i_edit">/jsp/so/backlog_edit.jsp</result>
-			<result name="p_view">/jsp/so/pipeline_view.jsp</result>
-			<result name="b_view">/jsp/so/backlog_view.jsp</result>
-			<result name="i_view">/jsp/so/backlog_view.jsp</result>
+	</package>
+		
+	<package name="basic" namespace="/basic" extends="struts-default,json-default">
+		<global-results>
+			<result name="error">/jsp/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		
+		<action name="cust" class="custAction">
+			<result name="success">/jsp/basic/cust_list.jsp</result>
 			<result name="default" type="redirectAction">
-				<param name="actionName">main</param>
+				<param name="actionName">cust</param>
 				<param name="redirect">1</param>
-				<param name="t">${form.activeTab}</param>
-			</result>
-			<result name="view" type="redirectAction">
-				<param name="actionName">view</param>
-				<param name="redirect">1</param>
-				<param name="t">${form.activeTab}</param>
-				<param name="id">${form.bean.projectId}</param>
 			</result>
 		</action>
+
 				
 	</package>
 	

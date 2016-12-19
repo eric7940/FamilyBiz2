@@ -5,27 +5,36 @@ import java.util.List;
 import com.fb.service.CustomerService;
 import com.fb.util.CommonUtil;
 import com.fb.util.FamilyBizException;
+import com.fb.util.RowBounds;
 import com.fb.vo.CustVO;
 
 public class CustomerServiceImpl extends ServiceImpl implements CustomerService {
 
 	public CustVO getCust(int custId) throws FamilyBizException {
 		CustVO cust = new CustVO();
-		cust.setId(Integer.valueOf(custId));
-		return (CustVO) this.getFbDao().queryForObject("selectCustProf", cust);
+		cust.setId(custId);
+		return (CustVO) this.getFbDao().queryForObject("selectCust", cust);
 	}
 	
-	public List<CustVO> getCusts() throws FamilyBizException {
-		return getCusts(null);
+	public int getCustsCount(String keyword) throws FamilyBizException {
+		keyword = (keyword != null)? keyword.trim(): null;
+
+		CustVO cust = new CustVO();
+		if (keyword != null) {
+			cust.setName(keyword + "%");
+		}
+		return (int) this.getFbDao().queryForObject("selectCustCount", cust);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<CustVO> getCusts(String custNme) throws FamilyBizException {
+	public List<CustVO> getCusts(String keyword, int offset, int limit) throws FamilyBizException {
+		keyword = (keyword != null)? keyword.trim(): null;
+
 		CustVO cust = new CustVO();
-		if (custNme != null) {
-			cust.setName(custNme + "%");
+		if (keyword != null) {
+			cust.setName(keyword + "%");
 		}
-		return this.getFbDao().queryForList("selectCustProf", cust);
+		return this.getFbDao().queryForList("selectCust", cust, new RowBounds(offset, limit));
 	}
 
 	public void addCust(CustVO cust) throws FamilyBizException {
