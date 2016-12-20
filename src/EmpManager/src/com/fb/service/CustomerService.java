@@ -10,7 +10,9 @@ public interface CustomerService extends Service {
 	public CustVO getCust(int custId) throws FamilyBizException;
 	
 	public int getCustsCount(String keyword) throws FamilyBizException;
-	
+
+	public List<CustVO> getCusts() throws FamilyBizException;
+
 	public List<CustVO> getCusts(String keyword, int offset, int limit) throws FamilyBizException;
 	
 	public void addCust(CustVO cust) throws FamilyBizException;

@@ -258,7 +258,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		classes.add("STAF");
 		UserVO user = new UserVO();
 		user.setGrade(CommonUtil.convertListToString(classes, ",", true));
-		return this.getFbDao().queryForList("selectUserProf", user);
+		return this.getFbDao().queryForList("selectUser", user);
 	}
 
 	public BigDecimal getTotalDiscount(String month) throws FamilyBizException {

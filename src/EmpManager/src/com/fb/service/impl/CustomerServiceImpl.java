@@ -2,6 +2,8 @@ package com.fb.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fb.service.CustomerService;
 import com.fb.util.CommonUtil;
 import com.fb.util.FamilyBizException;
@@ -26,15 +28,23 @@ public class CustomerServiceImpl extends ServiceImpl implements CustomerService 
 		return (int) this.getFbDao().queryForObject("selectCustCount", cust);
 	}
 
+	public List<CustVO> getCusts() throws FamilyBizException {
+		return getCusts(null, -1, -1);
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<CustVO> getCusts(String keyword, int offset, int limit) throws FamilyBizException {
-		keyword = (keyword != null)? keyword.trim(): null;
+		keyword = (StringUtils.isNotEmpty(keyword))? keyword.trim(): null;
 
 		CustVO cust = new CustVO();
 		if (keyword != null) {
 			cust.setName(keyword + "%");
 		}
-		return this.getFbDao().queryForList("selectCust", cust, new RowBounds(offset, limit));
+		if (limit < 0)
+			return this.getFbDao().queryForList("selectCust", cust);
+		else
+			return this.getFbDao().queryForList("selectCust", cust, new RowBounds(offset, limit));
+
 	}
 
 	public void addCust(CustVO cust) throws FamilyBizException {
