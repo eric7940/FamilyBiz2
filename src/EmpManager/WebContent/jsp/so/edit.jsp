@@ -17,7 +17,7 @@
 				</div>
 			</div>
 			<div class="col-md-4 text-right">
-				<s:submit key="global.action.save" cssClass="btn btn-success" type="button" onclick="fnAdd(event)" />
+				<s:submit key="global.action.save" cssClass="btn btn-success save" type="button" disabled="true" onclick="fnAdd(event)" />
 			</div>
 		</div>
 
@@ -29,7 +29,7 @@
 			<tr>
 				<th class="col-md-1"><s:text name="cust.field.name" /></th><td class="col-md-3 cust_name"></td>
 				<th class="col-md-1"><s:text name="offer.field.cust_id" /></th><td class="col-md-3 cust_id"></td>
-				<th class="col-md-1"><s:text name="offer.field.offer_date" /></th><td class="col-md-3 offer_date"></td>
+				<th class="col-md-1"><s:text name="offer.field.offer_date" /></th><td class="col-md-3"><s:textfield name="form.offerDate" size="10" cssClass="form-control DateText offer_date"/></td>
 			</tr>
 			<tr>
 				<th class="col-md-1"><s:text name="cust.field.biz_no" /></th><td class="col-md-3 biz_no"></td>
@@ -40,12 +40,7 @@
 				<th class="col-md-1"><s:text name="offer.field.master_id" /></th><td class="col-md-3">&nbsp;</td>
 			</tr>
 			<tr>
-				<th class="col-md-1"><s:text name="offer.field.total" /></th><td class="col-md-3 total"></td>
-				<th class="col-md-1"><s:text name="offer.field.discount" /></th><td class="col-md-3">0.0</td>
-				<th class="col-md-1"><s:text name="offer.field.amt" /></th><td class="col-md-3 amt"></td>
-			</tr>
-			<tr>
-				<th class="col-md-1"><s:text name="offer.field.memo" /></th><td class="col-md-11 memo" colspan="5"></td>
+				<th class="col-md-1"><s:text name="cust.field.memo" /></th><td class="col-md-11 cust_memo" colspan="5"></td>
 			</tr>
 			</tbody>
 		</table>
@@ -69,16 +64,22 @@
 				</tr>
 			</thead>
 			<tbody>
-<s:iterator value="form.details" var="detail" status="idx">
-				<tr>
-					<td data-title="<s:text name="offer.field.seq" />">${idx.count}</td>
-					<td data-title="<s:text name="prod.field.name" />"><c:out value="${detail.prod.name}"/></td>
-					<td data-title="<s:text name="offer.field.qty" />"><c:out value="${detail.qty}"/></td>
-					<td data-title="<s:text name="prod.field.unit" />"><c:out value="${detail.prod.unit}"/></td>
-					<td data-title="<s:text name="prod.field.price" />"><c:out value="${detail.prod.price}"/></td>
-					<td data-title="<s:text name="offer.field.amt" />"><c:out value="${detail.amt}"/></td>
-				</tr>
-</s:iterator>
+			</tbody>
+		</table>
+		</div>
+
+		<div>
+		<h4><s:text name="offer.message.footer"/></h4>
+		<table id="footer" class="table table-striped table-hover table-list break-table">
+			<tbody>
+			<tr>
+				<th class="col-md-1"><s:text name="offer.field.total" /></th><td class="col-md-3 total"></td>
+				<th class="col-md-1"><s:text name="offer.field.discount" /></th><td class="col-md-3">0.0</td>
+				<th class="col-md-1"><s:text name="offer.field.amt" /></th><td class="col-md-3 amt"></td>
+			</tr>
+			<tr>
+				<th class="col-md-1"><s:text name="offer.field.memo" /></th><td class="col-md-11 memo" colspan="5"></td>
+			</tr>
 			</tbody>
 		</table>
 		</div>
@@ -91,7 +92,9 @@
 </div>
 
 <script>
-var custs = [<s:iterator value="form.custs" var="cust" status="idx">{id:"<c:out value="${cust.id}"/>",name:"<c:out value="${cust.name}"/>",biz_no:"<c:out value="${cust.bizNo}"/>",tel:"<c:out value="${cust.tel}"/>",addr:"<c:out value="${cust.deliverAddr}"/>"},</s:iterator>];
+var custs = [<s:iterator value="form.custs" var="cust" status="idx">
+{id:"<c:out value="${cust.id}"/>",name:"<c:out value="${cust.name}"/>",biz_no:"<c:out value="${cust.bizNo}"/>",tel:"<c:out value="${cust.tel}"/>",addr:"<c:out value="${cust.deliverAddr}"/>",memo:"<c:out value="${cust.memo}"/>"},
+</s:iterator>];
 
 $(".cust").on('keydown.autocomplete', function() {
 	$(this).autocomplete({
@@ -104,7 +107,8 @@ $(".cust").on('keydown.autocomplete', function() {
 						value: v.id,
 						addr: v.addr,
 						biz_no: v.biz_no,
-						tel: v.tel
+						tel: v.tel,
+						memo: v.memo
 					}
 				};
 			}));
@@ -121,11 +125,39 @@ $(".cust").on('keydown.autocomplete', function() {
 			$('.biz_no').text(ui.item.biz_no);
 			$('.deliver_addr').text(ui.item.addr);
 			$('.tel').text(ui.item.tel);
+			$('.cust_memo').text(ui.item.memo);
 
+			var d = new Date();
+			var month = d.getMonth() + 1;
+			var day = d.getDate();
+			var today = d.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
+			$(".offer_date").val(today);
+			
+			$('.add').removeAttr('disabled');
 			return false;
 		}
 	});
 });
 
+function addDetailRow() {
+	var len = $('table#details tbody tr').length;
+	var row = '<tr>' + 
+			'<td data-title="<s:text name="offer.field.seq" />"><span class="form-control-static detail_seq">' + (len + 1) + '</span> <button title="" type="button" class="btn btn-danger remove show_tip" data-original-title="<s:text name="global.action.remove"/>"><i class="fa fa-trash-o"></i></td>' + 
+			'<td data-title="<s:text name="prod.field.name"/>">' + 
+			'	<select name="prod" class="form-control form-control-fullwidth detail_prod">' + 
+			'		<option value=""></option>' + 
+			'	</select>' + 
+			'</td>' + 
+			'<td data-title="<s:text name="offer.field.qty" />"><input name="qty" type="text" value="" class="form-control form-control-fullwidth detail_qty NumDecText" maxlength="6" style="width:40px;"/></td>' + 
+			'<td data-title="<s:text name="prod.field.unit"/>"><p class="form-control-static detail_unit">0</p></td>' + 
+			'<td data-title="<s:text name="prod.field.price"/>"><p class="form-control-static detail_price">0</p></td>' + 
+			'<td data-title="<s:text name="offer.field.amt"/>"><p class="form-control-static detail_amt">0</p></td>';
+	row += '</tr>';
+	$('table#details tbody').append(row);
+}
+
+$(function () {
+	$(".add").on("click", addDetailRow);
+});
 </script>
 <%@ include file="/commons/jsp/footer.jsp"%>

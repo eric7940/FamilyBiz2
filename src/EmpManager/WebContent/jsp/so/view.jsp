@@ -25,7 +25,7 @@
 
 		<!-- 查詢結果 -->
 		<div class="div-result">
-		<h4>貨單主檔</h4>
+		<h4><s:text name="offer.message.master"/></h4>
 		<table id="master" class="table table-striped table-hover table-list break-table">
 			<tbody>
 			<tr>
@@ -42,16 +42,11 @@
 				<th class="col-md-1"><s:text name="offer.field.master_id" /></th><td class="col-md-3"><c:out value="${form.masterId}"/></td>
 			</tr>
 			<tr>
-				<th class="col-md-1"><s:text name="offer.field.total" /></th><td class="col-md-3"><c:out value="${form.total}"/></td>
-				<th class="col-md-1"><s:text name="offer.field.discount" /></th><td class="col-md-3"><c:out value="${form.discount}"/></td>
-				<th class="col-md-1"><s:text name="offer.field.amt" /></th><td class="col-md-3"><c:out value="${form.amt}"/></td>
-			</tr>
-			<tr>
-				<th class="col-md-1"><s:text name="offer.field.memo" /></th><td class="col-md-11" colspan="5"><c:out value="${form.memo}"/></td>
+				<th class="col-md-1"><s:text name="cust.field.memo" /></th><td class="col-md-11" colspan="5"><c:out value="${form.cust.memo}"/></td>
 			</tr>
 			</tbody>
 		</table>
-		<h4>貨單明細</h4>
+		<h4><s:text name="offer.message.detail"/></h4>
 		<table id="details" class="table table-striped table-hover table-list break-table">
 			<thead>
 				<tr>
@@ -74,6 +69,19 @@
 					<td data-title="<s:text name="offer.field.amt" />"><c:out value="${detail.amt}"/></td>
 				</tr>
 </s:iterator>
+			</tbody>
+		</table>
+		<h4><s:text name="offer.message.footer"/></h4>
+		<table id="footer" class="table table-striped table-hover table-list break-table">
+			<tbody>
+			<tr>
+				<th class="col-md-1"><s:text name="offer.field.total" /></th><td class="col-md-3"><c:out value="${form.total}"/></td>
+				<th class="col-md-1"><s:text name="offer.field.discount" /></th><td class="col-md-3"><c:out value="${form.discount}"/></td>
+				<th class="col-md-1"><s:text name="offer.field.amt" /></th><td class="col-md-3"><c:out value="${form.amt}"/></td>
+			</tr>
+			<tr>
+				<th class="col-md-1"><s:text name="offer.field.memo" /></th><td class="col-md-11" colspan="5"><c:out value="${form.memo}"/></td>
+			</tr>
 			</tbody>
 		</table>
 		</div>

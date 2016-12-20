@@ -123,6 +123,17 @@ public class SoForm extends BaseForm {
 
 	@Override
 	public void reset() {
+		this.masterId = null;
+		this.custId = null;
+		this.deliveryUserId = null;
+		this.offerDate = null;
+		this.invoiceNbr = null;
+		this.amt = null;
+		this.discount = null;
+		this.total = null;
+		this.memo = null;
+		this.cust = null;
+		this.details = null;
 	}
 
 }
