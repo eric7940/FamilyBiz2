@@ -19,13 +19,13 @@
 			<div class="col-md-4 text-right">
 				<s:submit key="global.action.edit" cssClass="btn btn-success" type="button" onclick="fnInitModify(event,'%{form.masterId}','form.masterId')" />
 				<s:submit key="offer.action.print" cssClass="btn btn-success" type="button" onclick="fnInitAdd(event,'%{form.masterId}','form.masterId')" />
-				<s:submit key="global.action.remove" cssClass="btn btn-success" type="button" onclick="fnRemove(event,'%{getText('offer.message.remove_confirm')}')" />
+				<s:submit key="global.action.remove" cssClass="btn btn-success" type="button" onclick="fnRemove(event,'%{getText('offer.message.confirm.remove')}')" />
 			</div>
 		</div>
 
 		<!-- 查詢結果 -->
-		<div class="div-result">
 		<h4><s:text name="offer.message.master"/></h4>
+		<div class="div-result">
 		<table id="master" class="table table-striped table-hover table-list break-table">
 			<tbody>
 			<tr>
@@ -46,7 +46,10 @@
 			</tr>
 			</tbody>
 		</table>
+		</div>
+		
 		<h4><s:text name="offer.message.detail"/></h4>
+		<div class="div-result">
 		<table id="details" class="table table-striped table-hover table-list break-table">
 			<thead>
 				<tr>
@@ -71,7 +74,10 @@
 </s:iterator>
 			</tbody>
 		</table>
+		</div>
+		
 		<h4><s:text name="offer.message.footer"/></h4>
+		<div class="div-result">
 		<table id="footer" class="table table-striped table-hover table-list break-table">
 			<tbody>
 			<tr>

@@ -97,7 +97,7 @@
 		<result property="id"			column="M.id"/>
 		<result property="purchaseDate"	column="M.PURCHASE_DATE"/>
 		<result property="invoiceNbr"	column="M.invoice_nbr"/>
-		<result property="amt"			column="M.AMT"/>
+		<result property="amt"			column="M.amt"/>
 		<result property="discount"		column="m.discount"/>
 		<result property="total"		column="M.TOTAL"/>
 		<result property="memo"			column="M.MEMO"/>
@@ -160,9 +160,9 @@
 	</resultMap>
 
 	<parameterMap id="getSequenceParam" class="map">
-		<parameter property="PI_SEQ_id"		mode="IN"	jdbcType="VARCHAR" />
+		<parameter property="PI_SEQ_ID"		mode="IN"	jdbcType="VARCHAR" />
 		<parameter property="PI_SEQ_PREFIX"	mode="IN"	jdbcType="VARCHAR" />
-		<parameter property="PO_SEQ_NBR"	mode="OUT"	jdbcType="NUMBER" />
+		<parameter property="PO_SEQ_NBR"	mode="OUT"	jdbcType="INTEGER" />
 	</parameterMap>
 	<procedure id="getSequence" parameterMap="getSequenceParam">
 		{call sp_get_sequence(?, ?, ?)}
@@ -423,7 +423,7 @@
 		)
 		order by prod_id asc
 	</select>
-	<select id="selectCustProdHis_TODO" parameterClass="CustProdHisVO" resultClass="CustProdHisVO">
+	<select id="selectCustProdHis" parameterClass="CustProdHisVO" resultClass="CustProdHisVO">
 		select
 			cust.id as custId, cust.name as cust_name,
 			prod.id as prodId, prod.name as prod_name,
@@ -576,7 +576,7 @@
 	</select>
 	
 	<select id="selectTopDiscountCusts" parameterClass="string" resultClass="java.util.HashMap">
-		select m.cust_id, sum(m.discountT) as discount, c.name as cust_name
+		select m.cust_id, sum(m.discount) as discount, c.name as cust_name
 		from
 			tb_offer_master m, tb_cust c
 		where

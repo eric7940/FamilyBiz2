@@ -1,18 +1,29 @@
 package com.fb.web.action;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.fb.service.CommonService;
 import com.fb.service.CustomerService;
 import com.fb.service.OfferService;
+import com.fb.service.ProductService;
+import com.fb.service.QryPriceService;
 import com.fb.util.CommonUtil;
 import com.fb.util.FamilyBizException;
 import com.fb.vo.OfferDetailVO;
 import com.fb.vo.OfferMasterVO;
+import com.fb.vo.ProdVO;
 import com.fb.web.form.SoForm;
 
 public class SoAction extends BaseAction {
@@ -87,6 +98,11 @@ public class SoAction extends BaseAction {
 			
 			logger.info("custId:" + form.getCustId());
 
+			String[] prodIdArr = request.getParameterValues("prodId");
+			String[] qtyArr = request.getParameterValues("qty");
+			String[] priceArr = request.getParameterValues("price");
+			String[] costArr = request.getParameterValues("cost");
+
 			double sum = 0;
 			double total = 0;
 			double totalCost = 0;
@@ -101,19 +117,16 @@ public class SoAction extends BaseAction {
 			master.setMemo(form.getMemo());
 			master.setBack(null);
 			
-			int detailCount = Integer.parseInt(request.getParameter("detailCount"));
 			List<OfferDetailVO> details = new ArrayList<OfferDetailVO>();
-			int i = 0;
-			while(i < detailCount) {
-				String prodId = request.getParameter("detail-" + i + "-prodId");
-				if (prodId == null || "".equals(prodId)) {
-					i++;
-					continue;
-				}
-				
-				String price = request.getParameter("detail-" + i + "-price");
-				String cost = request.getParameter("detail-" + i + "-cost");
-				String qty = request.getParameter("detail-" + i + "-qty");
+			for (int i = 0; i < prodIdArr.length; i++) {
+				String prodId = prodIdArr[i];
+				if (StringUtils.isEmpty(prodId)) continue;
+
+				logger.debug(i + ",prodId:" + prodId);
+
+				String price = priceArr[i];
+				String cost = costArr[i];
+				String qty = qtyArr[i];
 				BigDecimal a = BigDecimal.valueOf(Double.parseDouble(price));
 				BigDecimal b = BigDecimal.valueOf(Double.parseDouble(qty));
 				BigDecimal c = BigDecimal.valueOf(Double.parseDouble(cost));
@@ -153,6 +166,70 @@ public class SoAction extends BaseAction {
 		}
 
 		return VIEW;
+	}
+	
+	public String getProdList() {
+		logger.debug("getProdList start");
+
+		try {
+
+			String custId = request.getParameter("a");
+			String keyword = request.getParameter("b");
+
+			logger.info("param: custId=" + custId);
+			logger.info("param: keyword=" + keyword);
+			
+			ProductService service1 = (ProductService) this.getServiceFactory().getService("product");
+			QryPriceService service2 = (QryPriceService) this.getServiceFactory().getService("qryPrice");
+			
+			//TODO: 整合SERVICE
+			List<OfferDetailVO> list = new ArrayList<OfferDetailVO>();
+			
+			List<ProdVO> prods = service1.getProds(keyword);
+			if (prods != null && prods.size() > 0) {
+				Iterator<ProdVO> it = prods.iterator();
+				while(it.hasNext()) {
+					ProdVO prod = it.next();
+					double price = service2.getCustProdPrice(Integer.parseInt(custId), prod.getId());
+					OfferDetailVO vo = new OfferDetailVO();
+					vo.setProd(prod);
+					vo.setAmt(price);
+					list.add(vo);
+//					sb.append(prod.getProdId() + "|" + prod.getProdNme() + "|" + df.format(price) + "|" + prod.getUnit() + "|" + df.format(prod.getCost()) + "\n");
+				}
+			}
+			
+			JsonConfig cfg = new JsonConfig();
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "00");
+			map.put("result", list);
+			
+			JSONObject jsonObject  = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			this.writeResponseJson(jsonObject.toString());
+			
+		} catch (Exception e) {
+			logger.error("fail", e);
+
+			JsonConfig cfg = new JsonConfig();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "01");
+			map.put("errMsg", e.getMessage());
+
+			JSONObject jsonObject  = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			try {
+				this.writeResponseJson(jsonObject.toString());
+			} catch (IOException e1) {
+				logger.error("fail", e1);
+			}
+		}
+		
+		return null;
 	}
 	
 	public void setForm(SoForm form) {

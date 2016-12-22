@@ -54,6 +54,7 @@ com.opensymphony.xwork2.ActionContext.getContext().setLocale((java.util.Locale)s
 	<script type="text/javascript" src="<s:url value="/commons/js/plugins/charisma/charisma.js"/>"></script>
 	  
 	<script type="text/javascript" src="<s:url value="/commons/js/util.js"/>"></script>
+	<script type="text/javascript" src="<s:url value="/commons/js/action.js"/>"></script>
 	
 </head>
 <body>

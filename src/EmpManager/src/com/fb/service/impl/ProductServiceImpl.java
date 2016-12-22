@@ -15,7 +15,7 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 	public ProdVO getProd(int prodId) throws FamilyBizException {
 		ProdVO prod = new ProdVO();
 		prod.setId(prodId);
-		return (ProdVO) this.getFbDao().queryForObject("selectProdProf", prod);
+		return (ProdVO) this.getFbDao().queryForObject("selectProd", prod);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -29,7 +29,7 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 		if (prodNme != null) {
 			prod.setName("%" + prodNme + "%");
 		}
-		return this.getFbDao().queryForList("selectProdProf", prod);
+		return this.getFbDao().queryForList("selectProd", prod);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

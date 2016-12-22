@@ -16,7 +16,7 @@ public class QryPriceServiceImpl extends ServiceImpl implements QryPriceService 
 		if (hisVO == null) {
 			ProdVO param2VO = new ProdVO();
 			param2VO.setId(new Integer(prodId));
-			ProdVO prodVO = (ProdVO) this.getFbDao().queryForObject("selectProdProf", param2VO);
+			ProdVO prodVO = (ProdVO) this.getFbDao().queryForObject("selectProd", param2VO);
 			
 			if (prodVO == null) {
 				throw new FamilyBizException("查無此產品資料");

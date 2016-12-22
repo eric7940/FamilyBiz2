@@ -12,7 +12,7 @@ public class FactoryServiceImpl extends ServiceImpl implements FactoryService {
 	public FactVO getFact(int factId) throws FamilyBizException {
 		FactVO fact = new FactVO();
 		fact.setId(Integer.valueOf(factId));
-		return (FactVO) this.getFbDao().queryForObject("selectFactProf", fact);
+		return (FactVO) this.getFbDao().queryForObject("selectFact", fact);
 	}
 	
 	public List<FactVO> getFacts() throws FamilyBizException {
@@ -25,7 +25,7 @@ public class FactoryServiceImpl extends ServiceImpl implements FactoryService {
 		if (factNme != null) {
 			fact.setName(factNme + "%");
 		}
-		return this.getFbDao().queryForList("selectFactProf", fact);
+		return this.getFbDao().queryForList("selectFact", fact);
 	}
 
 	public void addFact(FactVO fact) throws FamilyBizException {
