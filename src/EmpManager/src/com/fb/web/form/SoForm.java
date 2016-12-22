@@ -19,7 +19,7 @@ public class SoForm extends BaseForm {
 	private Integer masterId;
 	private Integer custId;
 	private String deliveryUserId;
-	private Date offerDate;
+	private String offerDate;
 	private String invoiceNbr;
 	private Double amt;
 	private Double discount;
@@ -72,10 +72,10 @@ public class SoForm extends BaseForm {
 	public void setCustId(Integer custId) {
 		this.custId = custId;
 	}
-	public Date getOfferDate() {
+	public String getOfferDate() {
 		return offerDate;
 	}
-	public void setOfferDate(Date offerDate) {
+	public void setOfferDate(String offerDate) {
 		this.offerDate = offerDate;
 	}
 	public String getInvoiceNbr() {

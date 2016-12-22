@@ -20,6 +20,7 @@ import com.fb.service.OfferService;
 import com.fb.service.ProductService;
 import com.fb.service.QryPriceService;
 import com.fb.util.CommonUtil;
+import com.fb.util.DateUtil;
 import com.fb.util.FamilyBizException;
 import com.fb.vo.OfferDetailVO;
 import com.fb.vo.OfferMasterVO;
@@ -50,7 +51,7 @@ public class SoAction extends BaseAction {
 					form.setDiscount(master.getDiscount());
 					form.setInvoiceNbr(master.getInvoiceNbr());
 					form.setMemo(master.getMemo());
-					form.setOfferDate(master.getOfferDate());
+					form.setOfferDate(DateUtil.getDateString(master.getOfferDate()));
 					form.setReceiveAmt(master.getReceiveAmt());
 					form.setTotal(master.getTotal());
 				}
@@ -109,7 +110,7 @@ public class SoAction extends BaseAction {
 			double discount = CommonUtil.round(form.getDiscount().doubleValue());
 			
 			OfferMasterVO master = new OfferMasterVO();
-			master.setOfferDate(form.getOfferDate());
+			master.setOfferDate(DateUtil.getDateObject(form.getOfferDate(), "yyyy-MM-dd"));
 			master.setCustId(form.getCustId());
 			master.setDeliveryUserId(form.getDeliveryUserId());
 			master.setInvoiceNbr(form.getInvoiceNbr());

@@ -32,7 +32,7 @@
 			<tr>
 				<th class="col-md-1"><s:text name="cust.field.name" /></th><td class="col-md-3 cust_name"></td>
 				<th class="col-md-1"><s:text name="offer.field.cust_id" /></th><td class="col-md-3 cust_id"></td>
-				<th class="col-md-1"><s:text name="offer.field.offer_date" /></th><td class="col-md-3"><s:textfield name="form.offerDate" size="10" cssClass="form-control DateText offer_date"/></td>
+				<th class="col-md-1"><s:text name="offer.field.offer_date" /></th><td class="col-md-3"><s:textfield name="form.offerDate" theme="simple" size="10" maxlength="10" cssClass="form-control DateText offer_date"/></td>
 			</tr>
 			<tr>
 				<th class="col-md-1"><s:text name="cust.field.biz_no" /></th><td class="col-md-3 biz_no"></td>
@@ -329,7 +329,8 @@ $(function () {
 				return;
 			}
 			
-			if (parseFloat(price) < parseFloat(cost)) {
+			// TODO: BUG if price is 0 on qty blur
+			if (parseFloat(price) > 0 && parseFloat(price) < parseFloat(cost)) {
 				alert('<s:text name="offer.message.lost_money"/>: ' + cost);
 			}
 			
