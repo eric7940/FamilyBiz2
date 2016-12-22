@@ -73,11 +73,9 @@
 			<result name="edit">/jsp/so/edit.jsp</result>
 			<result name="default" type="redirectAction">
 				<param name="actionName">main</param>
-				<param name="form.masterId">%{form.masterId}</param>
+				<param name="form.keyword">${form.masterId}</param>
+				<param name="redirect">1</param>
 			</result>
-		</action>
-		<action name="view" class="soAction" method="view">
-			<result name="success">/jsp/so/view.jsp</result>
 		</action>
 		
 	</package>

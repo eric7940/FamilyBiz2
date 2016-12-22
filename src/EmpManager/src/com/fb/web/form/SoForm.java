@@ -1,6 +1,5 @@
 package com.fb.web.form;
 
-import java.util.Date;
 import java.util.List;
 
 import com.fb.vo.CustVO;
@@ -11,6 +10,8 @@ import com.fb.vo.UserVO;
 public class SoForm extends BaseForm {
 
 	private static final long serialVersionUID = -3287678981329755686L;
+	
+	private String keyword;
 	
 	private List<CustVO> custs;
 	private List<UserVO> deliveryUsers;
@@ -120,7 +121,13 @@ public class SoForm extends BaseForm {
 	public void setDeliveryUserId(String deliveryUserId) {
 		this.deliveryUserId = deliveryUserId;
 	}
-
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	
 	@Override
 	public void reset() {
 		this.masterId = null;

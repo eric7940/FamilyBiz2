@@ -12,14 +12,14 @@
 			<!-- 查詢條件 -->
 			<div class="col-md-8 div-search">
 				<div class="form-group form-input-line-magrin">
-					<s:textfield name="form.masterId" theme="simple" placeholder="%{getText('global.message.keywordSearch')}:%{getText('offer.field.master_id')}" cssClass="form-control"/>
+					<s:textfield name="form.keyword" theme="simple" placeholder="%{getText('global.message.keywordSearch')}:%{getText('offer.field.master_id')}" cssClass="form-control"/>
 				</div>
 				<s:submit key="global.action.query" cssClass="btn btn-primary" />
 			</div>
 			<div class="col-md-4 text-right">
-				<s:submit key="global.action.edit" cssClass="btn btn-success" type="button" onclick="fnInitModify(event,'%{form.masterId}','form.masterId')" />
-				<s:submit key="offer.action.print" cssClass="btn btn-success" type="button" onclick="fnInitAdd(event,'%{form.masterId}','form.masterId')" />
-				<s:submit key="global.action.remove" cssClass="btn btn-success" type="button" onclick="fnRemove(event,'%{getText('offer.message.confirm.remove')}')" />
+				<button type="button" class="btn btn-success print" disabled="disabled"><s:text name="offer.action.print"/></button>
+				<button type="button" class="btn btn-success edit" disabled="disabled" onclick="fnInitModify(event,'${form.masterId}','form.keyword')"><s:text name="global.action.edit"/></button>
+				<button type="button" class="btn btn-success remove" disabled="disabled" onclick="fnRemove(event,'<s:text name="offer.message.confirm.remove"/>')"><s:text name="global.action.remove"/></button>
 			</div>
 		</div>
 
@@ -31,7 +31,7 @@
 			<tr>
 				<th class="col-md-1"><s:text name="cust.field.name" /></th><td class="col-md-3"><c:out value="${form.cust.name}"/></td>
 				<th class="col-md-1"><s:text name="offer.field.cust_id" /></th><td class="col-md-3"><c:out value="${form.cust.id}"/></td>
-				<th class="col-md-1"><s:text name="offer.field.offer_date" /></th><td class="col-md-3"><fmt:formatDate pattern="yyyy-MM-dd" value="${form.offerDate}" /></td>
+				<th class="col-md-1"><s:text name="offer.field.offer_date" /></th><td class="col-md-3"><c:out value="${form.offerDate}" /></td>
 			</tr>
 			<tr>
 				<th class="col-md-1"><s:text name="cust.field.biz_no" /></th><td class="col-md-3"><c:out value="${form.cust.bizNo}"/></td>
@@ -39,7 +39,7 @@
 			</tr>
 			<tr>
 				<th class="col-md-1"><s:text name="cust.field.deliver_addr" /></th><td class="col-md-7" colspan="3"><c:out value="${form.cust.deliverAddr}"/></td>
-				<th class="col-md-1"><s:text name="offer.field.master_id" /></th><td class="col-md-3"><c:out value="${form.masterId}"/></td>
+				<th class="col-md-1"><s:text name="offer.field.master_id" /></th><td class="col-md-3 masterId"><c:out value="${form.masterId}"/></td>
 			</tr>
 			<tr>
 				<th class="col-md-1"><s:text name="cust.field.memo" /></th><td class="col-md-11" colspan="5"><c:out value="${form.cust.memo}"/></td>
@@ -98,5 +98,21 @@
 
 </div>
 </div>
+
+<script type="text/javascript">
+function printOffer() {
+	//var printWin = openWindow('/fb/offer.sheet?id=' + $("#masterId").html(), 'printOffer', 793, 529);
+}
+
+$(function () {
+	if ($('.masterId').text() !== '') {
+		$('.print').removeAttr('disabled');
+		$('.edit').removeAttr('disabled');
+		$('.remove').removeAttr('disabled');
+	}
+	
+	$(".print").on("click", printOffer());
+});
+</script>
 
 <%@ include file="/commons/jsp/footer.jsp"%>

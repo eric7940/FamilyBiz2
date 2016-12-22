@@ -8,9 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -27,6 +24,9 @@ import com.fb.vo.OfferMasterVO;
 import com.fb.vo.ProdVO;
 import com.fb.web.form.SoForm;
 
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+
 public class SoAction extends BaseAction {
 
 	private static final long serialVersionUID = -1652087647900558254L;
@@ -38,13 +38,23 @@ public class SoAction extends BaseAction {
 	public String execute() {
 		logger.debug("execute start");
 		
+		if ("1".equals(request.getParameter("redirect")) == false)
+			this.clearErrorsAndMessages();
+		
 		try {
-			int masterId = (form.getMasterId() == null? 0: form.getMasterId().intValue());
+			int masterId = 0;
+			try {
+				masterId = Integer.parseInt(form.getKeyword());
+			} catch (NumberFormatException e) {
+				masterId = 0;
+			}
+			form.reset();
 			
 			if (masterId > 0) {
 				OfferService service = (OfferService) this.getServiceFactory().getService("offer");
 				OfferMasterVO master = service.getOffer(masterId);
 				if (master != null) {
+					form.setMasterId(masterId);
 					form.setCust(master.getCust());
 					form.setDetails(master.getDetails());
 					form.setAmt(master.getAmt());
@@ -166,9 +176,31 @@ public class SoAction extends BaseAction {
 			this.addActionError(e);
 		}
 
-		return VIEW;
+		return DEFAULT;
 	}
 	
+	public String remove() throws Exception {
+
+		logger.info("remove start");
+		
+		try {
+			this.clearErrorsAndMessages();
+			
+			OfferService service = (OfferService) getServiceFactory().getService("offer");
+			
+			int result = service.removeOffer(form.getMasterId(), false);
+			form.reset();
+
+			addLocalizationActionSuccess("remove");
+			
+		} catch (FamilyBizException e) {
+			logger.error("action fail.", e);
+			this.addActionError(e);
+		}
+		
+		return DEFAULT;
+	}
+
 	public String getProdList() {
 		logger.debug("getProdList start");
 

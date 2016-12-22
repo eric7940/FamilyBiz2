@@ -326,16 +326,16 @@
 	<delete id="deleteCustProdHis" parameterClass="string">
 		delete from tb_cust_prod_his where offer_id = #value#
 	</delete>
-	<update id="deleteOffer" parameterClass="string">
+	<update id="deleteOffer" parameterClass="int">
 		update tb_offer_master 
 		set status = 'D' 
 		where id = #value#
 	</update>
-	<delete id="deleteOfferDetails" parameterClass="string">
+	<delete id="deleteOfferDetails" parameterClass="int">
 		delete from tb_offer_detail 
 		where master_id = #value#
 	</delete>
-	<update id="deletePurchase" parameterClass="string">
+	<update id="deletePurchase" parameterClass="int">
 		update tb_purchase_master 
 		set status = 'D' 
 		where id = #value#

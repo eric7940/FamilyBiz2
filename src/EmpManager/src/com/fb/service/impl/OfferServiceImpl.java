@@ -200,8 +200,8 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return Integer.parseInt(masterId);
 	}
 
-	public int removeOffer(String masterId, boolean back) throws FamilyBizException {
-		OfferMasterVO offer = this.getOffer(Integer.parseInt(masterId));
+	public int removeOffer(int masterId, boolean back) throws FamilyBizException {
+		OfferMasterVO offer = this.getOffer(masterId);
 		
 		ProdStockQtyVO qty = new ProdStockQtyVO();
 		qty.setStockId(offer.getStock().getId());
