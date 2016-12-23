@@ -11,7 +11,7 @@ import com.fb.vo.UserVO;
 
 public interface OfferService extends Service {
 
-	public OfferMasterVO getOffer(int masterId) throws FamilyBizException;
+	public OfferMasterVO getOffer(String masterId) throws FamilyBizException;
 	
 	public List<OfferMasterVO> getOffers(int custId, boolean back) throws FamilyBizException;
 	
@@ -35,7 +35,7 @@ public interface OfferService extends Service {
 
 	public int modifyOffer(OfferMasterVO master, List<OfferDetailVO> details) throws FamilyBizException;
 	
-	public int removeOffer(int masterId, boolean back) throws FamilyBizException;
+	public int removeOffer(String masterId, boolean back) throws FamilyBizException;
 
 	@SuppressWarnings("rawtypes")
 	public List getOfferQty(Integer prodId, String month) throws FamilyBizException;

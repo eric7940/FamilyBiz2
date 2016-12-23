@@ -11,13 +11,17 @@
 		<div class="row">
 			<!-- 查詢條件 -->
 			<div class="col-md-8 div-search">
+				
 				<div class="form-group form-input-line-magrin">
+				<s:if test="%{form.custId == null}">
 					<input type="text" placeholder='<s:text name="offer.action.choose_cust"/>:<s:text name="cust.field.name"/>' class="form-control cust"/>
+				</s:if>
 					<s:hidden name="form.custId" id="custId"/>
 				</div>
 				<div class="form-group form-input-line-magrin">
 					<s:select name="form.deliveryUserId" list="form.deliveryUsers" headerKey="0" headerValue="%{getText('global.option.one')}" listKey="id" listValue="name" cssClass="form-control delivery_user"/>
 				</div>
+				
 			</div>
 			<div class="col-md-4 text-right">
 				<s:submit key="global.action.save" cssClass="btn btn-success save" type="button" disabled="true" onclick="return save(event)" />
@@ -30,20 +34,20 @@
 		<table id="master" class="table table-striped table-hover table-list break-table">
 			<tbody>
 			<tr>
-				<th class="col-md-1"><s:text name="cust.field.name" /></th><td class="col-md-3 cust_name"></td>
-				<th class="col-md-1"><s:text name="offer.field.cust_id" /></th><td class="col-md-3 cust_id"></td>
+				<th class="col-md-1"><s:text name="cust.field.name" /></th><td class="col-md-3 cust_name"><c:out value="${form.cust.name}"/></td>
+				<th class="col-md-1"><s:text name="offer.field.cust_id" /></th><td class="col-md-3 cust_id"><c:out value="${form.custId}"/></td>
 				<th class="col-md-1"><s:text name="offer.field.offer_date" /></th><td class="col-md-3"><s:textfield name="form.offerDate" theme="simple" size="10" maxlength="10" cssClass="form-control DateText offer_date"/></td>
 			</tr>
 			<tr>
-				<th class="col-md-1"><s:text name="cust.field.biz_no" /></th><td class="col-md-3 biz_no"></td>
-				<th class="col-md-1"><s:text name="cust.field.tel" /></th><td class="col-md-7 tel" colspan="3"></td>
+				<th class="col-md-1"><s:text name="cust.field.biz_no" /></th><td class="col-md-3 biz_no"><c:out value="${form.cust.bizNo}"/></td>
+				<th class="col-md-1"><s:text name="cust.field.tel" /></th><td class="col-md-7 tel" colspan="3"><c:out value="${form.cust.tel}"/></td>
 			</tr>
 			<tr>
-				<th class="col-md-1"><s:text name="cust.field.deliver_addr" /></th><td class="col-md-7 deliver_addr" colspan="3"></td>
-				<th class="col-md-1"><s:text name="offer.field.master_id" /></th><td class="col-md-3">&nbsp;</td>
+				<th class="col-md-1"><s:text name="cust.field.deliver_addr" /></th><td class="col-md-7 deliver_addr" colspan="3"><c:out value="${form.cust.deliverAddr}"/></td>
+				<th class="col-md-1"><s:text name="offer.field.master_id" /></th><td class="col-md-3"><c:out value="${form.masterId}"/></td>
 			</tr>
 			<tr>
-				<th class="col-md-1"><s:text name="cust.field.memo" /></th><td class="col-md-7 cust_memo" colspan="3"></td>
+				<th class="col-md-1"><s:text name="cust.field.memo" /></th><td class="col-md-7 cust_memo" colspan="3"><c:out value="${form.cust.memo}"/></td>
 				<th class="col-md-1"><s:text name="offer.field.invoice_nbr" /></th><td class="col-md-3"><s:textfield name="form.invoiceNbr" size="10" maxlength="10" maxcssClass="form-control form-control-fullwidth invoice_nbr"/></td>
 			</tr>
 			</tbody>
@@ -60,14 +64,24 @@
 			<thead>
 				<tr>
 					<th class="col-md-1"><s:text name="offer.field.seq" /></th>
-					<th class="col-md-3"><s:text name="prod.field.name" /></th>
+					<th class="col-md-4"><s:text name="prod.field.name" /></th>
 					<th class="col-md-1"><s:text name="offer.field.qty" /></th>
 					<th class="col-md-1"><s:text name="prod.field.unit" /></th>
-					<th class="col-md-3"><s:text name="prod.field.price" /></th>
+					<th class="col-md-2"><s:text name="prod.field.price" /></th>
 					<th class="col-md-3"><s:text name="offer.field.detail_amt" /></th>
 				</tr>
 			</thead>
 			<tbody>
+<s:iterator value="form.details" var="detail" status="idx">
+				<tr>
+					<td data-title="<s:text name="offer.field.seq" />"><span class="form-control-static detail_seq">${idx.count}</span> <button title="" type="button" class="btn btn-danger remove show_tip" data-original-title="<s:text name="global.action.remove"/>"><i class="fa fa-trash-o"></i></button></td>
+					<td data-title="<s:text name="prod.field.name"/>"><input name="prodId" type="hidden" class="detail_prodId" value="<c:out value='${detail.prodId}'/>"/><input name="prod" type="text" value="<c:out value='${detail.prod.name}'/>" class="form-control form-control-fullwidth detail_prod" /></td>
+					<td data-title="<s:text name="offer.field.qty" />"><input name="qty" type="text" value="<c:out value='${detail.qty}'/>"  class="form-control form-control-fullwidth detail_qty" maxlength="6"/></td>
+					<td data-title="<s:text name="prod.field.unit"/>"><p class="form-control-static detail_unit"><c:out value="${detail.prod.unit}"/></p></td>
+					<td data-title="<s:text name="prod.field.price"/>"><input name="price" type="text" value="<c:out value='${detail.amt / detail.qty}'/>" class="form-control form-control-fullwidth detail_price" maxlength="6"/><input type="hidden" class="detail_price_orig" value="<c:out value='${detail.amt / detail.qty}'/>"/><input type="hidden" name="cost" class="detail_cost" value="<c:out value='${detail.prod.cost}'/>"/></td>
+					<td data-title="<s:text name="offer.field.detail_amt"/>"><p class="form-control-static detail_amt"><c:out value="${detail.amt}"/></p></td>
+				</tr>
+</s:iterator>
 			</tbody>
 		</table>
 		</div>
@@ -98,6 +112,8 @@
 </div>
 
 <script>
+var modify = '${modify}';
+
 var custs = [<s:iterator value="form.custs" var="cust" status="idx">
 {id:"<c:out value="${cust.id}"/>",name:"<c:out value="${cust.name}"/>",biz_no:"<c:out value="${cust.bizNo}"/>",tel:"<c:out value="${cust.tel}"/>",addr:"<c:out value="${cust.deliverAddr}"/>",memo:"<c:out value="${cust.memo}"/>"},
 </s:iterator>];
@@ -108,7 +124,7 @@ function addDetailRow() {
 	
 	var len = $('table#details tbody tr').length;
 	var row = '<tr>' + 
-			'<td data-title="<s:text name="offer.field.seq" />"><span class="form-control-static detail_seq">' + (len + 1) + '</span> <button title="" type="button" class="btn btn-danger remove show_tip" data-original-title="<s:text name="global.action.remove"/>"><i class="fa fa-trash-o"></i></td>' + 
+			'<td data-title="<s:text name="offer.field.seq" />"><span class="form-control-static detail_seq">' + (len + 1) + '</span> <button title="" type="button" class="btn btn-danger remove show_tip" data-original-title="<s:text name="global.action.remove"/>"><i class="fa fa-trash-o"></i></button></td>' + 
 			'<td data-title="<s:text name="prod.field.name"/>"><input name="prodId" type="hidden" class="detail_prodId"/><input name="prod" type="text" class="form-control form-control-fullwidth detail_prod" /></td>' + 
 			'<td data-title="<s:text name="offer.field.qty" />"><input name="qty" type="text" value="1" class="form-control form-control-fullwidth detail_qty" maxlength="6"/></td>' + 
 			'<td data-title="<s:text name="prod.field.unit"/>"><p class="form-control-static detail_unit"></p></td>' + 
@@ -152,7 +168,7 @@ function save(event) {
 	}
 	if ($("#custId").val() == '') {
 		alert('<s:text name="offer.message.required.cust"/>');
-		$("#custId").focus();
+		$(".cust").focus();
 		return false;
 	}
 	
@@ -191,11 +207,19 @@ function save(event) {
 
 	if (!confirm('<s:text name="offer.message.confirm.add"/>'))
 		return false;
-		
-	fnAdd(event);
+	
+	if (modify === 'y')
+		fnModify(event);
+	else
+		fnAdd(event);
 }
 
 $(function () {
+	if (modify === 'y') {
+		$('.add').removeAttr('disabled');
+		$('.save').removeAttr('disabled');
+	}
+	
 	$(".add").on("click", addDetailRow);
 	
 	$(".cust").on('keydown.autocomplete', function() {

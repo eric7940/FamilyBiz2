@@ -42,7 +42,8 @@
 				<th class="col-md-1"><s:text name="offer.field.master_id" /></th><td class="col-md-3 masterId"><c:out value="${form.masterId}"/></td>
 			</tr>
 			<tr>
-				<th class="col-md-1"><s:text name="cust.field.memo" /></th><td class="col-md-11" colspan="5"><c:out value="${form.cust.memo}"/></td>
+				<th class="col-md-1"><s:text name="cust.field.memo" /></th><td class="col-md-7" colspan="3"><c:out value="${form.cust.memo}"/></td>
+				<th class="col-md-1"><s:text name="offer.field.invoice_nbr" /></th><td class="col-md-3"><c:out value="${form.invoiceNbr}"/></td>
 			</tr>
 			</tbody>
 		</table>
@@ -54,10 +55,10 @@
 			<thead>
 				<tr>
 					<th class="col-md-1"><s:text name="offer.field.seq" /></th>
-					<th class="col-md-3"><s:text name="prod.field.name" /></th>
+					<th class="col-md-4"><s:text name="prod.field.name" /></th>
 					<th class="col-md-1"><s:text name="offer.field.qty" /></th>
 					<th class="col-md-1"><s:text name="prod.field.unit" /></th>
-					<th class="col-md-3"><s:text name="prod.field.price" /></th>
+					<th class="col-md-2"><s:text name="prod.field.price" /></th>
 					<th class="col-md-3"><s:text name="offer.field.amt" /></th>
 				</tr>
 			</thead>
@@ -68,7 +69,7 @@
 					<td data-title="<s:text name="prod.field.name" />"><c:out value="${detail.prod.name}"/></td>
 					<td data-title="<s:text name="offer.field.qty" />"><c:out value="${detail.qty}"/></td>
 					<td data-title="<s:text name="prod.field.unit" />"><c:out value="${detail.prod.unit}"/></td>
-					<td data-title="<s:text name="prod.field.price" />"><c:out value="${detail.prod.price}"/></td>
+					<td data-title="<s:text name="prod.field.price" />"><c:out value="${detail.amt / detail.qty}"/></td>
 					<td data-title="<s:text name="offer.field.amt" />"><c:out value="${detail.amt}"/></td>
 				</tr>
 </s:iterator>

@@ -10,15 +10,15 @@ import com.fb.service.PurchaseService;
 import com.fb.util.DateUtil;
 import com.fb.util.FamilyBizException;
 import com.fb.vo.FactProdHisVO;
-import com.fb.vo.ProdVO;
 import com.fb.vo.ProdStockQtyVO;
+import com.fb.vo.ProdVO;
 import com.fb.vo.PurchaseDetailVO;
 import com.fb.vo.PurchaseMasterVO;
 
 public class PurchaseServiceImpl extends ServiceImpl implements PurchaseService {
 
-	public PurchaseMasterVO getPurchase(int masterId) throws FamilyBizException {
-		return (PurchaseMasterVO) this.getFbDao().queryForObject("selectPurchase", new Integer(masterId));
+	public PurchaseMasterVO getPurchase(String masterId) throws FamilyBizException {
+		return (PurchaseMasterVO) this.getFbDao().queryForObject("selectPurchase", masterId);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -42,8 +42,10 @@ public class PurchaseServiceImpl extends ServiceImpl implements PurchaseService 
 		master.setStatus("N");
 		this.getFbDao().insert("insertPurchaseMaster", master);
 		
+		DecimalFormat df2 = new DecimalFormat("000");
 		for(int i = 0; i < details.size(); i++) {
 			PurchaseDetailVO detail = details.get(i);
+			detail.setId(masterId + df2.format((i + 1)));
 			detail.setMasterId(masterId);
 			this.getFbDao().insert("insertPurchaseDetail", detail);
 			
@@ -76,7 +78,7 @@ public class PurchaseServiceImpl extends ServiceImpl implements PurchaseService 
 	}
 
 	public int removePurchase(String masterId, boolean back) throws FamilyBizException {
-		PurchaseMasterVO purchase = this.getPurchase(Integer.parseInt(masterId));
+		PurchaseMasterVO purchase = this.getPurchase(masterId);
 		
 		ProdStockQtyVO qty = new ProdStockQtyVO();
 		qty.setStockId(purchase.getStock().getId());

@@ -22,8 +22,8 @@ import com.fb.vo.UserVO;
 
 public class OfferServiceImpl extends ServiceImpl implements OfferService {
 
-	public OfferMasterVO getOffer(int masterId) throws FamilyBizException {
-		return (OfferMasterVO) this.getFbDao().queryForObject("selectOffer", new Integer(masterId));
+	public OfferMasterVO getOffer(String masterId) throws FamilyBizException {
+		return (OfferMasterVO) this.getFbDao().queryForObject("selectOffer", masterId);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -102,8 +102,10 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		master.setStatus("N");
 		this.getFbDao().insert("insertOfferMaster", master);
 		
+		DecimalFormat df2 = new DecimalFormat("000");
 		for(int i = 0; i < details.size(); i++) {
 			OfferDetailVO detail = details.get(i);
+			detail.setId(masterId + df2.format((i + 1)));
 			detail.setMasterId(masterId);
 			this.getFbDao().insert("insertOfferDetail", detail);
 			
@@ -157,7 +159,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 
 	public int modifyOffer(OfferMasterVO master, List<OfferDetailVO> details) throws FamilyBizException {
 		String masterId = master.getId();
-		OfferMasterVO offer = this.getOffer(Integer.parseInt(masterId));
+		OfferMasterVO offer = this.getOffer(masterId);
 		
 		ProdStockQtyVO qty1 = new ProdStockQtyVO();
 		Integer stockId = offer.getStock().getId();
@@ -176,8 +178,10 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		master.setStatus("N");
 		this.getFbDao().insert("updateOfferMaster", master);
 		
+		DecimalFormat df2 = new DecimalFormat("000");
 		for(int i = 0; i < details.size(); i++) {
 			OfferDetailVO detail = details.get(i);
+			detail.setId(masterId + df2.format((i + 1)));
 			detail.setMasterId(masterId);
 			this.getFbDao().insert("insertOfferDetail", detail);
 			
@@ -200,7 +204,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return Integer.parseInt(masterId);
 	}
 
-	public int removeOffer(int masterId, boolean back) throws FamilyBizException {
+	public int removeOffer(String masterId, boolean back) throws FamilyBizException {
 		OfferMasterVO offer = this.getOffer(masterId);
 		
 		ProdStockQtyVO qty = new ProdStockQtyVO();

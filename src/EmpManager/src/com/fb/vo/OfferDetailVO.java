@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class OfferDetailVO implements Serializable{
 	private static final long serialVersionUID = -6362953251880593277L;
 
-	private Integer id;
+	private String id;
 	private String masterId;
 	private Integer prodId;
 	private Double qty;
@@ -13,10 +13,10 @@ public class OfferDetailVO implements Serializable{
 
 	private ProdVO prod;
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getMasterId() {

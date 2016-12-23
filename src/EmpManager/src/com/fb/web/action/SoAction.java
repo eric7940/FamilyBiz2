@@ -8,6 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -24,9 +27,6 @@ import com.fb.vo.OfferMasterVO;
 import com.fb.vo.ProdVO;
 import com.fb.web.form.SoForm;
 
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-
 public class SoAction extends BaseAction {
 
 	private static final long serialVersionUID = -1652087647900558254L;
@@ -42,26 +42,22 @@ public class SoAction extends BaseAction {
 			this.clearErrorsAndMessages();
 		
 		try {
-			int masterId = 0;
-			try {
-				masterId = Integer.parseInt(form.getKeyword());
-			} catch (NumberFormatException e) {
-				masterId = 0;
-			}
-			form.reset();
-			
-			if (masterId > 0) {
+			String masterId = form.getKeyword();
+				
+			if (StringUtils.isNotEmpty(masterId)) {
 				OfferService service = (OfferService) this.getServiceFactory().getService("offer");
 				OfferMasterVO master = service.getOffer(masterId);
 				if (master != null) {
 					form.setMasterId(masterId);
+					form.setDeliveryUserId(master.getDeliveryUserId());
+					form.setCustId(master.getCustId());
 					form.setCust(master.getCust());
 					form.setDetails(master.getDetails());
 					form.setAmt(master.getAmt());
 					form.setDiscount(master.getDiscount());
 					form.setInvoiceNbr(master.getInvoiceNbr());
 					form.setMemo(master.getMemo());
-					form.setOfferDate(DateUtil.getDateString(master.getOfferDate()));
+					form.setOfferDate(DateUtil.getDateString(master.getOfferDate(), "yyyy-MM-dd"));
 					form.setReceiveAmt(master.getReceiveAmt());
 					form.setTotal(master.getTotal());
 				}
@@ -167,9 +163,9 @@ public class SoAction extends BaseAction {
 			
 			String masterId = service.addOffer(master, details, false);
 			
-			form.setMasterId(Integer.parseInt(masterId));
+			form.setMasterId(masterId);
 			
-			addLocalizationActionSuccess("save");
+			addLocalizationActionSuccess("add");
 
 		} catch (FamilyBizException e) {
 			logger.error("action fail.", e);
@@ -177,6 +173,108 @@ public class SoAction extends BaseAction {
 		}
 
 		return DEFAULT;
+	}
+	
+	public String initModify() throws Exception {
+
+		logger.info("initModify start");
+
+		try {
+			this.clearErrorsAndMessages();
+
+			OfferService service = (OfferService) this.getServiceFactory().getService("offer");
+			form.setDeliveryUsers(service.getDeliveryUsers());
+			
+			logger.info("masterId" + form.getMasterId());
+			logger.info("custId" + form.getCustId());
+			
+			request.setAttribute("modify", "y");
+		} catch (FamilyBizException e) {
+			logger.error("action fail.", e);
+			this.addActionError(e);
+		}
+		
+		return EDIT;
+	}
+	
+	public String modify() throws Exception {
+
+		logger.info("modify start");
+
+		try {
+			OfferService service = (OfferService) this.getServiceFactory().getService("offer");
+			
+			String masterId = form.getMasterId();
+			Integer custId = form.getCustId();
+			logger.info("masterId:" + masterId);
+			logger.info("custId:" + custId);
+
+            String[] prodIdArr = request.getParameterValues("prodId");
+            String[] qtyArr = request.getParameterValues("qty");
+            String[] priceArr = request.getParameterValues("price");
+            String[] costArr = request.getParameterValues("cost");
+
+			double sum = 0;
+			double total = 0;
+			double totalCost = 0;
+			double discount = CommonUtil.round(form.getDiscount().doubleValue());
+			
+			OfferMasterVO master = new OfferMasterVO();
+			master.setId(masterId);
+			master.setCustId(custId);
+			master.setDeliveryUserId(form.getDeliveryUserId());
+			master.setOfferDate(DateUtil.getDateObject(form.getOfferDate(), "yyyy-MM-dd"));
+			master.setInvoiceNbr(form.getInvoiceNbr());
+			master.setDiscount(form.getDiscount());
+			master.setMemo(form.getMemo());
+			
+			List<OfferDetailVO> details = new ArrayList<OfferDetailVO>();
+			for (int i = 0; i < prodIdArr.length; i++) {
+				String prodId = prodIdArr[i];
+				if (StringUtils.isEmpty(prodId)) continue;
+				
+				logger.debug(i + ",prodId:" + prodId);
+				
+                String price = priceArr[i];
+                String cost = costArr[i];
+                String qty = qtyArr[i];
+				BigDecimal a = BigDecimal.valueOf(Double.parseDouble(price));
+				BigDecimal b = BigDecimal.valueOf(Double.parseDouble(qty));
+				BigDecimal c = BigDecimal.valueOf(Double.parseDouble(cost));
+				BigDecimal x = a.multiply(b);
+				BigDecimal y = c.multiply(b);
+				double amt = CommonUtil.round(x.doubleValue());
+				double amtCost = CommonUtil.round(y.doubleValue());
+				
+				OfferDetailVO detail = new OfferDetailVO();
+				detail.setProdId(Integer.parseInt(prodId));
+				detail.setQty(Double.parseDouble(qty));
+				detail.setAmt(amt);
+			
+				sum += amt;
+				totalCost += amtCost;
+
+				details.add(detail);
+				i++;
+			}
+
+			total = sum - discount;
+			
+			master.setAmt(sum);
+			master.setTotal(total);
+			master.setCost(totalCost);
+			master.setReceiveAmt(new Double(0));
+			
+			service.modifyOffer(master, details);
+			
+			addLocalizationActionSuccess("modify");
+			
+		} catch (FamilyBizException e) {
+            logger.error("action fail.", e);
+            this.addActionError(e);
+        }
+
+        return DEFAULT;
 	}
 	
 	public String remove() throws Exception {
@@ -188,7 +286,7 @@ public class SoAction extends BaseAction {
 			
 			OfferService service = (OfferService) getServiceFactory().getService("offer");
 			
-			int result = service.removeOffer(form.getMasterId(), false);
+			service.removeOffer(form.getMasterId(), false);
 			form.reset();
 
 			addLocalizationActionSuccess("remove");

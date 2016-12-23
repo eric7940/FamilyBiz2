@@ -17,7 +17,7 @@ public class SoForm extends BaseForm {
 	private List<UserVO> deliveryUsers;
 	private List<OfferMasterVO> offers;
 
-	private Integer masterId;
+	private String masterId;
 	private Integer custId;
 	private String deliveryUserId;
 	private String offerDate;
@@ -61,10 +61,10 @@ public class SoForm extends BaseForm {
 	public List<OfferDetailVO> getDetails() {
 		return details;
 	}
-	public Integer getMasterId() {
+	public String getMasterId() {
 		return masterId;
 	}
-	public void setMasterId(Integer masterId) {
+	public void setMasterId(String masterId) {
 		this.masterId = masterId;
 	}
 	public Integer getCustId() {

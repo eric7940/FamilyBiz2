@@ -8,7 +8,7 @@ import com.fb.vo.PurchaseMasterVO;
 
 public interface PurchaseService extends Service {
 
-	public PurchaseMasterVO getPurchase(int masterId) throws FamilyBizException;
+	public PurchaseMasterVO getPurchase(String masterId) throws FamilyBizException;
 	
 	public List<PurchaseMasterVO> getPurchases(int custId, boolean back) throws FamilyBizException;
 

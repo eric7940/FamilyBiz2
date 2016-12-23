@@ -71,6 +71,8 @@
 	</resultMap>
 	<resultMap id="OfferMasterResult" class="OfferMasterVO" groupBy="id">
 		<result property="id"			column="m.id"/>
+		<result property="custId"		column="m.cust_id"/>
+		<result property="deliveryUserId"	column="m.delivery_user_id"/>
 		<result property="offerDate"		column="m.offer_date"/>
 		<result property="invoiceNbr"	column="m.invoice_nbr"/>
 		<result property="amt"			column="m.amt"/>
@@ -89,6 +91,7 @@
 	<resultMap id="OfferDetailResult" class="OfferDetailVO">
 		<result property="id"			column="d.id"/>
 		<result property="masterId"		column="d.master_id"/>
+		<result property="prodId"		column="d.prod_id"/>
 		<result property="qty"			column="d.qty"/>
 		<result property="amt"			column="d.amt"/>
 		<result property="prod"			resultMap="FB.ProdResult"/>
@@ -198,19 +201,19 @@
 		insert into tb_offer_master values (#id#, #offerDate#, #custId#, #invoiceNbr#, #stockId#, #amt#, #discount#, #total#, #cost#, #receiveAmt#, #memo#, #back#, #status#, #deliveryUserId#)
 	</insert>
 	<insert id="insertOfferDetail" parameterClass="OfferDetailVO">
-		insert into tb_offer_detail values (null, #masterId#, #prodId#, #qty#, #amt#)
+		insert into tb_offer_detail values (#id#, #masterId#, #prodId#, #qty#, #amt#)
 	</insert>
 	<insert id="insertCustProdHis" parameterClass="CustProdHisVO">
-		insert into tb_cust_prod_his values (null, #custId#, #prodId#, #price#, #offerId#)
+		insert into tb_cust_prod_his values (#custId#, #prodId#, #price#, #offerId#)
 	</insert>
 	<insert id="insertPurchaseMaster" parameterClass="PurchaseMasterVO">
 		insert into tb_purchase_master values (#id#, #purchaseDate#, #factId#, #invoiceNbr#, #stockId#, #amt#, #discount#, #total#, #memo#, #back#, #status#)
 	</insert>
 	<insert id="insertPurchaseDetail" parameterClass="PurchaseDetailVO">
-		insert into tb_purchase_detail values (null, #masterId#, #prodId#, #qty#, #amt#)
+		insert into tb_purchase_detail values (#id#, #masterId#, #prodId#, #qty#, #amt#)
 	</insert>
 	<insert id="insertFactProdHis" parameterClass="FactProdHisVO">
-		insert into tb_fact_prod_his values (null, #factId#, #prodId#, #price#, #purchaseId#)
+		insert into tb_fact_prod_his values (#factId#, #prodId#, #price#, #purchaseId#)
 	</insert>
 	
 	<update id="updateLookup" parameterClass="LookupVO">
@@ -326,16 +329,16 @@
 	<delete id="deleteCustProdHis" parameterClass="string">
 		delete from tb_cust_prod_his where offer_id = #value#
 	</delete>
-	<update id="deleteOffer" parameterClass="int">
+	<update id="deleteOffer" parameterClass="String">
 		update tb_offer_master 
 		set status = 'D' 
 		where id = #value#
 	</update>
-	<delete id="deleteOfferDetails" parameterClass="int">
+	<delete id="deleteOfferDetails" parameterClass="String">
 		delete from tb_offer_detail 
 		where master_id = #value#
 	</delete>
-	<update id="deletePurchase" parameterClass="int">
+	<update id="deletePurchase" parameterClass="String">
 		update tb_purchase_master 
 		set status = 'D' 
 		where id = #value#
@@ -432,9 +435,9 @@
 		where cust.id = his.cust_id and prod.id = his.prod_id
 		<isNotNull property="custId" prepend="and"> his.cust_id = #custId#</isNotNull>
 		<isNotNull property="prodId" prepend="and"> his.prod_id = #prodId#</isNotNull>
-		order by his.id desc limit 1
+		order by his.offer_id desc limit 1
 	</select>
-	<select id="selectOffer" parameterClass="int" resultMap="OfferMasterResult">
+	<select id="selectOffer" parameterClass="String" resultMap="OfferMasterResult">
 		select * 
 		from 
 			tb_offer_master m left outer join tb_offer_detail d on m.id = d.master_id,
@@ -484,9 +487,9 @@
 		where fact.id = his.fact_id and prod.id = his.prod_id
 		<isNotNull property="factId" prepend="and"> his.fact_id = #factId#</isNotNull>
 		<isNotNull property="prodId" prepend="and"> his.prod_id = #prodId#</isNotNull>
-		order by his.id desc limit 1
+		order by his.purchase_id desc limit 1
 	</select>
-	<select id="selectPurchase" parameterClass="int" resultMap="PurchaseMasterResult">
+	<select id="selectPurchase" parameterClass="String" resultMap="PurchaseMasterResult">
 		select * 
 		from 
 			tb_purchase_master m left outer join tb_purchase_detail d on m.id = d.master_id,
