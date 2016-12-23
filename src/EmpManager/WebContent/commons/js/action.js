@@ -87,3 +87,29 @@ function convertNum(obj) {
 	obj.value = b;
 }
 
+function openWindow(url,id,dialogWidth,dialogHeight){
+	var screenW = screen.width/2;
+	var screenH = screen.height/2;
+	var winW = (window.screen.availWidth - 600);
+	var winH = (window.screen.availHeight - 280);
+	var winL = screenW - (winW/2);
+	var winT = screenH - (winH/2); 
+
+	dialogTop = winT;
+	dialogLeft = winL;
+	
+
+	if(dialogWidth == null && dialogHeight == null){
+		dialogWidth = 410;
+		dialogHeight = 550;
+	}
+	
+	var winObj = window.open(url, id,
+		"top=" + dialogTop + "," + 
+		"left=" + dialogLeft + "," +
+		"width=" + dialogWidth + "," +
+		"height=" + dialogHeight + "," +
+		"toolbar=no,menubar=no,scrollbars=yes,resizable=no,location=no,status=no");
+
+	return winObj;
+}

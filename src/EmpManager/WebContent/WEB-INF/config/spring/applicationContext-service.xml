@@ -76,4 +76,19 @@
 		<property name="target" ref="stock" />
 	</bean>
 
+	<bean id="sheetUtil" scope="singleton" class="com.fb.util.SheetUtil">
+		<property name="sheetPageWidth"			value="${sheet.page.width}" />
+		<property name="sheetPageHeight"			value="${sheet.page.height}" />
+		<property name="sheetBorder"				value="${sheet.table.border}" />
+		<property name="sheetMarginLeft"			value="${sheet.margin.left}" />
+		<property name="sheetMarginRight"		value="${sheet.margin.right}" />
+		<property name="sheetMarginTop"			value="${sheet.margin.top}" />
+		<property name="sheetMarginBottom"		value="${sheet.margin.bottom}" />
+		<property name="sheetFontFile"			value="${sheet.font.file}" />
+		<property name="sheetBaseFontSize"		value="${sheet.font.basesize}" />
+		<property name="sheetRowCount"			value="${sheet.row.count}" />
+		<property name="sheetRowFixedHeight"		value="${sheet.row.fixed.height}" />
+		<property name="serviceFactory"			ref="serviceFactory" />
+	</bean>
+
 </beans>

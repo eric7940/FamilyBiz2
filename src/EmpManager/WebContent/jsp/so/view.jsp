@@ -17,7 +17,7 @@
 				<s:submit key="global.action.query" cssClass="btn btn-primary" />
 			</div>
 			<div class="col-md-4 text-right">
-				<button type="button" class="btn btn-success print" disabled="disabled"><s:text name="offer.action.print"/></button>
+				<button type="button" class="btn btn-success print" disabled="disabled" onclick="printOffer()"><s:text name="offer.action.print"/></button>
 				<button type="button" class="btn btn-success edit" disabled="disabled" onclick="fnInitModify(event,'${form.masterId}','form.keyword')"><s:text name="global.action.edit"/></button>
 				<button type="button" class="btn btn-success remove" disabled="disabled" onclick="fnRemove(event,'<s:text name="offer.message.confirm.remove"/>')"><s:text name="global.action.remove"/></button>
 			</div>
@@ -82,9 +82,9 @@
 		<table id="footer" class="table table-striped table-hover table-list break-table">
 			<tbody>
 			<tr>
-				<th class="col-md-1"><s:text name="offer.field.total" /></th><td class="col-md-3"><c:out value="${form.total}"/></td>
-				<th class="col-md-1"><s:text name="offer.field.discount" /></th><td class="col-md-3"><c:out value="${form.discount}"/></td>
 				<th class="col-md-1"><s:text name="offer.field.amt" /></th><td class="col-md-3"><c:out value="${form.amt}"/></td>
+				<th class="col-md-1"><s:text name="offer.field.discount" /></th><td class="col-md-3"><c:out value="${form.discount}"/></td>
+				<th class="col-md-1"><s:text name="offer.field.total" /></th><td class="col-md-3"><c:out value="${form.total}"/></td>
 			</tr>
 			<tr>
 				<th class="col-md-1"><s:text name="offer.field.memo" /></th><td class="col-md-11" colspan="5"><c:out value="${form.memo}"/></td>
@@ -112,7 +112,7 @@ $(function () {
 		$('.remove').removeAttr('disabled');
 	}
 	
-	$(".print").on("click", printOffer());
+	//$(".print").on("click", printOffer());
 });
 </script>
 

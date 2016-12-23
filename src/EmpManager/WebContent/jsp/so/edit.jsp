@@ -94,9 +94,9 @@
 		<table id="footer" class="table table-striped table-hover table-list break-table">
 			<tbody>
 			<tr>
-				<th class="col-md-1"><s:text name="offer.field.total" /></th><td class="col-md-3 amt"></td>
-				<th class="col-md-1"><s:text name="offer.field.discount" /></th><td class="col-md-3"><s:textfield name="form.discount" value="0.00" cssClass="form-control form-control-fullwidth discount"/></td>
-				<th class="col-md-1"><s:text name="offer.field.amt" /></th><td class="col-md-3 total"></td>
+				<th class="col-md-1"><s:text name="offer.field.amt" /></th><td class="col-md-3 amt"></td>
+				<th class="col-md-1"><s:text name="offer.field.discount" /></th><td class="col-md-3"><s:textfield name="form.discount" cssClass="form-control form-control-fullwidth discount"/></td>
+				<th class="col-md-1"><s:text name="offer.field.total" /></th><td class="col-md-3 total"></td>
 			</tr>
 			<tr>
 				<th class="col-md-1"><s:text name="offer.field.memo" /></th><td class="col-md-11" colspan="5">
@@ -120,6 +120,12 @@ var modify = '${modify}';
 var custs = [<s:iterator value="form.custs" var="cust" status="idx">
 {id:"<c:out value="${cust.id}"/>",name:"<c:out value="${cust.name}"/>",biz_no:"<c:out value="${cust.bizNo}"/>",tel:"<c:out value="${cust.tel}"/>",addr:"<c:out value="${cust.deliverAddr}"/>",memo:"<c:out value="${cust.memo}"/>"},
 </s:iterator>];
+
+function resetDetailNum() {
+	$('table#details tbody tr').each(function(i,e) {
+		$(this).find('.detail_seq').text((i + 1));
+	});
+}
 
 function addDetailRow() {
 	var empty = $('.detail_prodId').filter(function() { return $(this).val() == ""; });
@@ -221,9 +227,16 @@ $(function () {
 	if (modify === 'y') {
 		$('.add').removeAttr('disabled');
 		$('.save').removeAttr('disabled');
+		computePrice();
 	}
 	
 	$(".add").on("click", addDetailRow);
+	
+	$("table#details").on("click", ".remove", function () {
+		$(this).closest('tr').remove();
+		resetDetailNum();
+		computePrice();
+	});
 	
 	$(".cust").on('keydown.autocomplete', function() {
 		$(this).autocomplete({

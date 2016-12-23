@@ -12,5 +12,5 @@
 	<bean id="soAction" class="com.fb.web.action.SoAction" scope="session">
 		<property name="form" ref="soForm" />
 	</bean>
-	   
+	 
 </beans>
