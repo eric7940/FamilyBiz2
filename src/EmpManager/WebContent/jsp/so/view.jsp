@@ -39,7 +39,7 @@
 			</tr>
 			<tr>
 				<th class="col-md-1"><s:text name="cust.field.deliver_addr" /></th><td class="col-md-7" colspan="3"><c:out value="${form.cust.deliverAddr}"/></td>
-				<th class="col-md-1"><s:text name="offer.field.master_id" /></th><td class="col-md-3 masterId"><c:out value="${form.masterId}"/></td>
+				<th class="col-md-1"><s:text name="offer.field.master_id" /></th><td class="col-md-3 master_id"><c:out value="${form.masterId}"/></td>
 			</tr>
 			<tr>
 				<th class="col-md-1"><s:text name="cust.field.memo" /></th><td class="col-md-7" colspan="3"><c:out value="${form.cust.memo}"/></td>
@@ -102,11 +102,11 @@
 
 <script type="text/javascript">
 function printOffer() {
-	//var printWin = openWindow('/fb/offer.sheet?id=' + $("#masterId").html(), 'printOffer', 793, 529);
+	var printWin = openWindow('/fb2/offer.sheet?id=' + $(".master_id").text(), 'printOffer', 793, 529);
 }
 
 $(function () {
-	if ($('.masterId').text() !== '') {
+	if ($('.master_id').text() !== '') {
 		$('.print').removeAttr('disabled');
 		$('.edit').removeAttr('disabled');
 		$('.remove').removeAttr('disabled');

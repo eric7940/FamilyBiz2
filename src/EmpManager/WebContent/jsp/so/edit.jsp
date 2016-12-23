@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/commons/jsp/header.jsp"%>
 
+<s:url action="main" namespace="/so" var="mainURL"></s:url>
+
 <div class="container-fluid">	
 <div class="tab-content">
 
@@ -25,6 +27,7 @@
 			</div>
 			<div class="col-md-4 text-right">
 				<s:submit key="global.action.save" cssClass="btn btn-success save" type="button" disabled="true" onclick="return save(event)" />
+				<a href="<s:property value="#mainURL" />" role="button" class="btn btn-success"><s:text name="global.action.cancel" /></a>
 			</div>
 		</div>
 
