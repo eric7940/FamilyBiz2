@@ -334,7 +334,7 @@ public class SoAction extends BaseAction {
 			map.put("errCde", "00");
 			map.put("result", list);
 			
-			JSONObject jsonObject  = JSONObject.fromObject(map, cfg);
+			JSONObject jsonObject = JSONObject.fromObject(map, cfg);
 			logger.debug(jsonObject.toString());
 			
 			this.writeResponseJson(jsonObject.toString());

@@ -13,4 +13,9 @@
 		<property name="form" ref="soForm" />
 	</bean>
 	 
+	<bean id="poForm" class="com.fb.web.form.PoForm" scope="session" />
+	<bean id="poAction" class="com.fb.web.action.PoAction" scope="session">
+		<property name="form" ref="poForm" />
+	</bean>
+
 </beans>

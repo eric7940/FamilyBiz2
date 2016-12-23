@@ -2,7 +2,8 @@ package com.fb.vo;
 
 import java.io.Serializable;
 
-public class PurchaseDetailVO implements Serializable{
+public class PurchaseDetailVO implements Serializable {
+	
 	private static final long serialVersionUID = -1111587598621869704L;
 
 	private String id;

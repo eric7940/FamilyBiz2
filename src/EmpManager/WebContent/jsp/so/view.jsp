@@ -59,7 +59,7 @@
 					<th class="col-md-1"><s:text name="offer.field.qty" /></th>
 					<th class="col-md-1"><s:text name="prod.field.unit" /></th>
 					<th class="col-md-2"><s:text name="prod.field.price" /></th>
-					<th class="col-md-3"><s:text name="offer.field.amt" /></th>
+					<th class="col-md-3"><s:text name="offer.field.detail_amt" /></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -70,7 +70,7 @@
 					<td data-title="<s:text name="offer.field.qty" />"><c:out value="${detail.qty}"/></td>
 					<td data-title="<s:text name="prod.field.unit" />"><c:out value="${detail.prod.unit}"/></td>
 					<td data-title="<s:text name="prod.field.price" />"><c:out value="${detail.amt / detail.qty}"/></td>
-					<td data-title="<s:text name="offer.field.amt" />"><c:out value="${detail.amt}"/></td>
+					<td data-title="<s:text name="offer.field.detail_amt" />"><c:out value="${detail.amt}"/></td>
 				</tr>
 </s:iterator>
 			</tbody>

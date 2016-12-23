@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class OfferMasterVO implements Serializable{
+public class OfferMasterVO implements Serializable {
+	
 	private static final long serialVersionUID = -2797817211546266526L;
 
 	private String id;

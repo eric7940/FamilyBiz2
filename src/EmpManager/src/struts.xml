@@ -77,7 +77,25 @@
 				<param name="redirect">1</param>
 			</result>
 		</action>
-		
 	</package>
 	
+	<package name="po" namespace="/po" extends="struts-default,json-default">
+		<global-results>
+			<result name="error">/jsp/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		
+		<action name="main" class="poAction">
+			<result name="view">/jsp/po/view.jsp</result>
+			<result name="edit">/jsp/po/edit.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">main</param>
+				<param name="form.keyword">${form.masterId}</param>
+				<param name="redirect">1</param>
+			</result>
+		</action>
+		
+	</package>
 </struts> 
