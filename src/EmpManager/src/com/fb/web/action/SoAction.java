@@ -151,7 +151,6 @@ public class SoAction extends BaseAction {
 				totalCost += amtCost;
 				
 				details.add(detail);
-				i++;
 			}
 
 			total = sum - discount;
@@ -255,7 +254,6 @@ public class SoAction extends BaseAction {
 				totalCost += amtCost;
 
 				details.add(detail);
-				i++;
 			}
 
 			total = sum - discount;
