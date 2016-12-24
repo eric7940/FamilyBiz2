@@ -9,7 +9,11 @@ public interface ProductService extends Service {
 
 	public ProdVO getProd(int prodId) throws FamilyBizException;
 	
+	public int getProdsCount(String keyword) throws FamilyBizException;
+
 	public List<ProdVO> getProds() throws FamilyBizException;
+	
+	public List<ProdVO> getProds(String keyword, int offset, int limit) throws FamilyBizException;
 	
 	public List<ProdVO> getProds(String prodNme) throws FamilyBizException;
 

@@ -8,6 +8,11 @@
 		<property name="form" ref="custForm" />
 	</bean>
 
+	<bean id="prodForm" class="com.fb.web.form.ProdForm" scope="session" />
+	<bean id="prodAction" class="com.fb.web.action.ProdAction" scope="session">
+		<property name="form" ref="prodForm" />
+	</bean>
+
 	<bean id="soForm" class="com.fb.web.form.SoForm" scope="session" />
 	<bean id="soAction" class="com.fb.web.action.SoAction" scope="session">
 		<property name="form" ref="soForm" />

@@ -23,7 +23,7 @@ public class CustomerServiceImpl extends ServiceImpl implements CustomerService 
 
 		CustVO cust = new CustVO();
 		if (keyword != null) {
-			cust.setName(keyword + "%");
+			cust.setName("%" + keyword + "%");
 		}
 		return (int) this.getFbDao().queryForObject("selectCustCount", cust);
 	}
@@ -38,13 +38,12 @@ public class CustomerServiceImpl extends ServiceImpl implements CustomerService 
 
 		CustVO cust = new CustVO();
 		if (keyword != null) {
-			cust.setName(keyword + "%");
+			cust.setName("%" + keyword + "%");
 		}
 		if (limit < 0)
 			return this.getFbDao().queryForList("selectCust", cust);
 		else
 			return this.getFbDao().queryForList("selectCust", cust, new RowBounds(offset, limit));
-
 	}
 
 	public void addCust(CustVO cust) throws FamilyBizException {

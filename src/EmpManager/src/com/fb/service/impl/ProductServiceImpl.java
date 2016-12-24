@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fb.service.ProductService;
 import com.fb.util.CommonUtil;
 import com.fb.util.FamilyBizException;
-import com.fb.vo.ProdVO;
+import com.fb.util.RowBounds;
 import com.fb.vo.ProdStockQtyVO;
+import com.fb.vo.ProdVO;
 
 public class ProductServiceImpl extends ServiceImpl implements ProductService {
 
@@ -18,18 +21,37 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 		return (ProdVO) this.getFbDao().queryForObject("selectProd", prod);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List getProds() throws FamilyBizException {
-		return getProds(null);
+	public int getProdsCount(String keyword) throws FamilyBizException {
+		keyword = (keyword != null)? keyword.trim(): null;
+
+		ProdVO cust = new ProdVO();
+		if (keyword != null) {
+			cust.setName("%" + keyword + "%");
+		}
+		return (int) this.getFbDao().queryForObject("selectProdCount", cust);
+	}
+
+	public List<ProdVO> getProds() throws FamilyBizException {
+		return getProds(null, -1, -1);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getProds(String prodNme) throws FamilyBizException {
+		return getProds(prodNme, -1, -1);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ProdVO> getProds(String keyword, int offset, int limit) throws FamilyBizException {
+		keyword = (StringUtils.isNotEmpty(keyword))? keyword.trim(): null;
+
 		ProdVO prod = new ProdVO();
-		if (prodNme != null) {
-			prod.setName("%" + prodNme + "%");
+		if (keyword != null) {
+			prod.setName("%" + keyword + "%");
 		}
-		return this.getFbDao().queryForList("selectProd", prod);
+		if (limit < 0)
+			return this.getFbDao().queryForList("selectProd", prod);
+		else
+			return this.getFbDao().queryForList("selectProd", prod, new RowBounds(offset, limit));
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -38,21 +60,21 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List getProds(int custId, String prodNme) throws FamilyBizException {
+	public List getProds(int custId, String prodName) throws FamilyBizException {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("custId", new Integer(custId));
-		if (prodNme != null) {
-			paramMap.put("prodNme", "%" + prodNme + "%");
+		if (prodName != null) {
+			paramMap.put("prodName", "%" + prodName + "%");
 		}
 		return this.getFbDao().queryForList("selectProdByCust", paramMap);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public List getOffers(int custId, String prodNme) throws FamilyBizException {
+	public List getOffers(int custId, String prodName) throws FamilyBizException {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("custId", new Integer(custId));
-		if (prodNme != null) {
-			paramMap.put("prodNme", "%" + prodNme + "%");
+		if (prodName != null) {
+			paramMap.put("prodName", "%" + prodName + "%");
 		}
 		return this.getFbDao().queryForList("selectOfferByCustAndProd", paramMap);
 	}

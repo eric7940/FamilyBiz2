@@ -404,6 +404,12 @@
 		<isNotNull property="name" prepend="and"> f.name like #name#</isNotNull>
 		order by f.name asc
 	</select>
+	<select id="selectProdCount" parameterClass="ProdVO" resultClass="int">
+		select count(id) from tb_prod p
+		where p.status = ''
+		<isNotNull property="id" prepend="and"> p.id = #id#</isNotNull>
+		<isNotNull property="name" prepend="and"> p.name like #name#</isNotNull>
+	</select>
 	<select id="selectProd" parameterClass="ProdVO" resultMap="ProdResult">
 		select * from tb_prod p
 		where p.status = ''
@@ -415,14 +421,14 @@
 		(select id, name, price from tb_prod
 		where 
 			id not in (select prod_id from tb_cust_prod_his where cust_id = #custId#)
-			<isNotNull property="prodNme" prepend="and"> name like #prodNme#</isNotNull>
+			<isNotNull property="prodName" prepend="and"> name like #prodName#</isNotNull>
 		) union distinct
 		(select his.prod_id as prod_id, prod.name as prod_name, his.price as price
 			from tb_prod prod, tb_cust_prod_his his
 			where
 				his.cust_id = #custId# and
 				prod.id = his.prod_id
-				<isNotNull property="prodNme" prepend="and"> prod.name like #prodNme#</isNotNull>
+				<isNotNull property="prodName" prepend="and"> prod.name like #prodName#</isNotNull>
 		)
 		order by prod_id asc
 	</select>
