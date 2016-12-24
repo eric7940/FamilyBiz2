@@ -108,6 +108,7 @@ public class ProdAction extends BaseAction {
 			this.clearErrorsAndMessages();
 
 			ProductService service = (ProductService) this.getServiceFactory().getService("product");
+			CommonService service1 = (CommonService) this.getServiceFactory().getService("common");
 			
 			ProdVO prod = service.getProd(form.getId());
 			form.setName(prod.getName());
@@ -115,7 +116,10 @@ public class ProdAction extends BaseAction {
 			form.setPrice(prod.getPrice());
 			form.setCost(prod.getCost());
 			form.setSaveQty(prod.getSaveQty());
-			
+
+			List<LookupVO> units = service1.getUnits();
+			form.setUnits(units);
+
 			request.setAttribute("modify", "y");
 		} catch (FamilyBizException e) {
 			logger.error("action fail.", e);

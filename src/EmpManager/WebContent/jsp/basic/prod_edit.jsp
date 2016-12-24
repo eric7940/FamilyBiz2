@@ -5,7 +5,7 @@
 
 <div class="container-fluid">	
 
-<s:form method="post" namespace="/basic" action="prod" theme="simple">
+<s:form method="post" namespace="/basic" action="prod" theme="simple" onsubmit="return save(event)">
 <s:hidden name="form.id"/>
 	<div role="main" class="container-fluid">
 
@@ -13,7 +13,7 @@
 			<!-- 查詢條件 -->
 			<div class="col-md-12">
 				<a href="<s:property value="#mainURL" />" role="button" class="btn btn-primary"><s:text name="global.action.cancel" /></a>
-				<s:submit key="global.action.save" cssClass="btn btn-success" type="button" onclick="save(event)" />
+				<s:submit key="global.action.save" cssClass="btn btn-success"/>
 			</div>
 		</div>
 
@@ -22,25 +22,31 @@
 			<div class="col-md-8">
 				<div class="form-group">
 					<label for="name"><s:text name="prod.field.name"/></label>
-					<s:textfield name="form.name" id="name" cssClass="form-control" onkeyup="convertNum(this)"/>
+					<s:textfield name="form.name" id="name" cssClass="form-control name" onkeyup="convertNum(this)"/>
 				</div>
 			</div>
 			<div class="col-md-1">
 				<div class="form-group">
 					<label for="unit"><s:text name="prod.field.unit"/></label>
-					<s:select list="form.units" name="form.unit" cssClass="form-control" listKey="value" listValue="value"></s:select>
+					<s:select list="form.units" name="form.unit" cssClass="form-control unit" listKey="value" listValue="value"></s:select>
 				</div>
 			</div>
 			<div class="col-md-1">
 				<div class="form-group">
 					<label for="price"><s:text name="prod.field.price"/></label>
-					<s:textfield name="form.price" id="price" cssClass="form-control" onkeyup="convertNum(this);processPrice(this);"/>
+					<s:textfield name="form.price" id="price" cssClass="form-control price" onkeyup="convertNum(this);processPrice(this);"/>
+				</div>
+			</div>
+			<div class="col-md-1">
+				<div class="form-group">
+					<label for="cost"><s:text name="prod.field.cost"/></label>
+					<s:textfield name="form.saveQty" id="cost" cssClass="form-control-static cost"/>
 				</div>
 			</div>
 			<div class="col-md-1">
 				<div class="form-group">
 					<label for="save_qty"><s:text name="prod.field.save_qty"/></label>
-					<s:textfield name="form.saveQty" id="save_qty" cssClass="form-control"/>
+					<s:textfield name="form.saveQty" id="save_qty" cssClass="form-control save_qty" onkeyup="convertNum(this);processSaveQty(this);"/>
 				</div>
 			</div>
 		</div>
@@ -52,29 +58,27 @@
 <script type='text/javascript'>
 var modify = '${attr.modify}';
 function save(event) {
-	if (fm.prodNme.value.trim() == '') {
+	if ($('.name').val().trim() == '') {
 		alert('請輸入品名/規格');
-		fm.prodNme.focus();
+		$('.name').focus();
 		return false;
 	}
 	
-	var priceObj = fm.price;
-	if (priceObj.value != '' && (!isDecimal(priceObj.value) || parseFloat(priceObj.value) < 0)) {
+	if ($('.price').val() != '' && (!isDecimal($('.price').val()) || parseFloat($('.price').val()) < 0)) {
 		alert('請輸入數字，且不可為負數');
-		priceObj.value = 0;
-		priceObj.focus();
-		return;
+		$('.price').val(0);
+		$('.price').focus();
+		return false;
 	}
-	priceObj.value = parseFloat(priceObj.value).toFixed(2);
+	$('.price').val(parseFloat($('.price').val()).toFixed(2));
 	
-	var saveQtyObj = fm.saveQty;
-	if (saveQtyObj.value != '' && (!isInt(saveQtyObj.value) || parseInt(saveQtyObj.value, 10) < 0)) {
+	if ($('.save_qty').val() != '' && (!isInt($('.save_qty').val()) || parseInt($('.save_qty').val(), 10) < 0)) {
 		alert('請輸入數字，且不可為負數');
-		saveQtyObj.value = 0;
-		saveQtyObj.focus();
-		return;
+		$('.save_qty').val(0);
+		$('.save_qty').focus();
+		return false;
 	}
-	saveQtyObj.value = parseInt(saveQtyObj.value, 10);
+	$('.save_qty').val(parseInt($('.save_qty').val(), 10));
 
 	if (modify === 'y') {
 		fnModify(event);
