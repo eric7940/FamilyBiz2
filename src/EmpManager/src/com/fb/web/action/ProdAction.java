@@ -85,7 +85,7 @@ public class ProdAction extends BaseAction {
 			prod.setName(form.getName());
 			prod.setUnit(form.getUnit());
 			prod.setPrice(form.getPrice());
-			prod.setCost(form.getCost());
+			prod.setCost(new Double(0));
 			prod.setSaveQty(form.getSaveQty());
 			
 			service.addProd(prod);
@@ -150,7 +150,7 @@ public class ProdAction extends BaseAction {
 		
 		return DEFAULT;
 	}
-//
+
 //	public ActionForward delete(ActionMapping mapping,
 //			ActionForm form, HttpServletRequest request,
 //			HttpServletResponse response) throws Exception {
@@ -159,24 +159,24 @@ public class ProdAction extends BaseAction {
 //		ActionMessages messages = new ActionMessages();
 //
 //		try {
-//			CustForm formBean = (CustForm)form;
-//			CustomerService service = (CustomerService) this.getServiceFactory().getService("Customer");
+//			ProdForm formBean = (ProdForm)form;
+//			ProductService service = (ProductService) this.getServiceFactory().getService("Product");
 //			
 //			int result = 0;
-//			List<CustProfVO> custs = formBean.getCusts();
+//			List<ProdProfVO> prods = formBean.getProds();
 //			String[] selectIdx = request.getParameterValues("selectIdx");
 //			if (selectIdx.length > 1) {
-//				List<Integer> custIds = new ArrayList<Integer>();
+//				List<Integer> prodIds = new ArrayList<Integer>();
 //				for(int i = 0; i < selectIdx.length; i++) {
 //					int idx = Integer.parseInt(selectIdx[i]);
-//					CustProfVO cust = custs.get(idx);
-//					custIds.add(cust.getCustId());
+//					ProdProfVO prod = prods.get(idx);
+//					prodIds.add(prod.getProdId());
 //				}
-//				result = service.removeCusts(custIds);
+//				result = service.removeProds(prodIds);
 //			} else {
 //				int idx = Integer.parseInt(selectIdx[0]);
-//				CustProfVO cust = (CustProfVO)custs.get(idx);
-//				result = service.removeCust(cust.getCustId());
+//				ProdProfVO prod = (ProdProfVO)prods.get(idx);
+//				result = service.removeProd(prod.getProdId());
 //			}
 //			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("basic.msg.2", result));
 //			
@@ -193,9 +193,9 @@ public class ProdAction extends BaseAction {
 //		logger.info("delete end");
 //		saveMessages(request, messages);
 //		
-//		return new ActionForward("/cust.do?state=init", false);
+//		return new ActionForward("/prod.do?state=init", false);
 //	}
-	
+
 	public void setForm(ProdForm form) {
 		this.form = form;
 	}

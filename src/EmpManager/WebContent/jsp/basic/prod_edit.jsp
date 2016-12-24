@@ -19,31 +19,25 @@
 
 		<!-- 查詢結果 -->
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-8">
 				<div class="form-group">
 					<label for="name"><s:text name="prod.field.name"/></label>
-					<s:textfield name="form.name" id="name" cssClass="form-control"/>
+					<s:textfield name="form.name" id="name" cssClass="form-control" onkeyup="convertNum(this)"/>
 				</div>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-1">
 				<div class="form-group">
 					<label for="unit"><s:text name="prod.field.unit"/></label>
 					<s:select list="form.units" name="form.unit" cssClass="form-control" listKey="value" listValue="value"></s:select>
 				</div>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-1">
 				<div class="form-group">
 					<label for="price"><s:text name="prod.field.price"/></label>
-					<s:textfield name="form.price" id="price" cssClass="form-control"/>
+					<s:textfield name="form.price" id="price" cssClass="form-control" onkeyup="convertNum(this);processPrice(this);"/>
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					<label for="cost"><s:text name="prod.field.cost"/></label>
-					<s:textfield name="form.cost" id="cost" cssClass="form-control"/>
-				</div>
-			</div>
-			<div class="col-md-6">
+			<div class="col-md-1">
 				<div class="form-group">
 					<label for="save_qty"><s:text name="prod.field.save_qty"/></label>
 					<s:textfield name="form.saveQty" id="save_qty" cssClass="form-control"/>
@@ -58,6 +52,30 @@
 <script type='text/javascript'>
 var modify = '${attr.modify}';
 function save(event) {
+	if (fm.prodNme.value.trim() == '') {
+		alert('請輸入品名/規格');
+		fm.prodNme.focus();
+		return false;
+	}
+	
+	var priceObj = fm.price;
+	if (priceObj.value != '' && (!isDecimal(priceObj.value) || parseFloat(priceObj.value) < 0)) {
+		alert('請輸入數字，且不可為負數');
+		priceObj.value = 0;
+		priceObj.focus();
+		return;
+	}
+	priceObj.value = parseFloat(priceObj.value).toFixed(2);
+	
+	var saveQtyObj = fm.saveQty;
+	if (saveQtyObj.value != '' && (!isInt(saveQtyObj.value) || parseInt(saveQtyObj.value, 10) < 0)) {
+		alert('請輸入數字，且不可為負數');
+		saveQtyObj.value = 0;
+		saveQtyObj.focus();
+		return;
+	}
+	saveQtyObj.value = parseInt(saveQtyObj.value, 10);
+
 	if (modify === 'y') {
 		fnModify(event);
 	} else {
@@ -84,34 +102,6 @@ function processSaveQty(obj) {
 		obj.value = 0;
 		return;
 	}
-}
-
-function go(fm) {
-	if (fm.prodNme.value.trim() == '') {
-		alert('請輸入品名/規格');
-		fm.prodNme.focus();
-		return false;
-	}
-	
-	var priceObj = fm.price;
-	if (priceObj.value != '' && (!isDecimal(priceObj.value) || parseFloat(priceObj.value) < 0)) {
-		alert('請輸入數字，且不可為負數');
-		priceObj.value = 0;
-		priceObj.focus();
-		return;
-	}
-	priceObj.value = parseFloat(priceObj.value).toFixed(2);
-	
-	var saveQtyObj = fm.saveQty;
-	if (saveQtyObj.value != '' && (!isInt(saveQtyObj.value) || parseInt(saveQtyObj.value, 10) < 0)) {
-		alert('請輸入數字，且不可為負數');
-		saveQtyObj.value = 0;
-		saveQtyObj.focus();
-		return;
-	}
-	saveQtyObj.value = parseInt(saveQtyObj.value, 10);
-	
-	return true;
 }
 
 </script>
