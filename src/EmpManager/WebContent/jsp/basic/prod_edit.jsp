@@ -40,7 +40,7 @@
 			<div class="col-md-1">
 				<div class="form-group">
 					<label for="cost"><s:text name="prod.field.cost"/></label>
-					<s:textfield name="form.saveQty" id="cost" cssClass="form-control-static cost"/>
+					<s:textfield name="form.cost" id="cost" cssClass="form-control form-control-static cost"/>
 				</div>
 			</div>
 			<div class="col-md-1">
