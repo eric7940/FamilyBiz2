@@ -35,10 +35,8 @@ public class PurchaseServiceImpl extends ServiceImpl implements PurchaseService 
 		String seq = df.format(seqNbr.intValue());
 		  
 		String masterId = DateUtil.getDateString(new Date(), "yyMMdd") + seq;
-		Integer stockId = new Integer(1); //todo:
 		
 		master.setId(masterId);
-		master.setStockId(stockId);
 		master.setStatus("N");
 		this.getFbDao().insert("insertPurchaseMaster", master);
 		
@@ -57,7 +55,7 @@ public class PurchaseServiceImpl extends ServiceImpl implements PurchaseService 
 			this.getFbDao().insert("insertFactProdHis", his);
 			
 			ProdStockQtyVO qty = new ProdStockQtyVO();
-			qty.setStockId(stockId);
+			qty.setStockId(master.getStockId());
 			qty.setProdId(detail.getProdId());
 			if (back == false) {
 				qty.setQty(detail.getQty());

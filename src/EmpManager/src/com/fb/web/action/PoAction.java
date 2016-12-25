@@ -11,10 +11,10 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import com.fb.service.CommonService;
 import com.fb.service.FactoryService;
 import com.fb.service.ProductService;
 import com.fb.service.PurchaseService;
+import com.fb.service.StockService;
 import com.fb.util.CommonUtil;
 import com.fb.util.DateUtil;
 import com.fb.util.FamilyBizException;
@@ -50,6 +50,8 @@ public class PoAction extends BaseAction {
 					form.setMasterId(masterId);
 					form.setFactId(master.getFactId());
 					form.setFact(master.getFact());
+					form.setStockId(master.getStockId());
+					form.setStock(master.getStock());
 					form.setDetails(master.getDetails());
 					form.setAmt(master.getAmt());
 					form.setDiscount(master.getDiscount());
@@ -75,9 +77,10 @@ public class PoAction extends BaseAction {
 			form.reset();
 			
 			FactoryService service1 = (FactoryService) this.getServiceFactory().getService("factory");
-			CommonService service2 = (CommonService) this.getServiceFactory().getService("common");
+			StockService service4 = (StockService) this.getServiceFactory().getService("stock");
 			
 			form.setFacts(service1.getFacts());
+			form.setStocks(service4.getStocks());
 
 			form.setDiscount(new Double(0));
 			form.setInvoiceNbr("");
@@ -110,6 +113,7 @@ public class PoAction extends BaseAction {
 			PurchaseMasterVO master = new PurchaseMasterVO();
 			master.setPurchaseDate(DateUtil.getDateObject(form.getPurchaseDate(), "yyyy-MM-dd"));
 			master.setFactId(form.getFactId());
+			master.setStockId(form.getStockId());
 			master.setInvoiceNbr(form.getInvoiceNbr());
 			master.setDiscount(form.getDiscount());
 			master.setMemo(form.getMemo());

@@ -6,7 +6,7 @@
 <div class="container-fluid">	
 <div class="tab-content">
 
-<s:form method="post" namespace="/so" action="main" theme="simple" cssClass="navbar-form">
+<s:form method="post" namespace="/stock" action="qty" theme="simple" cssClass="navbar-form">
 
 	<div role="main" class="container-fluid">
 

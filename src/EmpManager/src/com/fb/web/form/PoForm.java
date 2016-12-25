@@ -2,13 +2,10 @@ package com.fb.web.form;
 
 import java.util.List;
 
-import com.fb.vo.CustVO;
 import com.fb.vo.FactVO;
-import com.fb.vo.OfferDetailVO;
-import com.fb.vo.OfferMasterVO;
 import com.fb.vo.PurchaseDetailVO;
 import com.fb.vo.PurchaseMasterVO;
-import com.fb.vo.UserVO;
+import com.fb.vo.StockVO;
 
 public class PoForm extends BaseForm {
 
@@ -17,10 +14,12 @@ public class PoForm extends BaseForm {
 	private String keyword;
 	
 	private List<FactVO> facts;
+	private List<StockVO> stocks;
 	private List<PurchaseMasterVO> purchases;
 
 	private String masterId;
 	private Integer factId;
+	private Integer stockId;
 	private String purchaseDate;
 	private String invoiceNbr;
 	private Double amt;
@@ -29,6 +28,7 @@ public class PoForm extends BaseForm {
 	private String memo;
 
 	private FactVO fact;
+	private StockVO stock;
 	private List<PurchaseDetailVO> details;
 
 	public String getKeyword() {
@@ -42,6 +42,12 @@ public class PoForm extends BaseForm {
 	}
 	public void setFacts(List<FactVO> facts) {
 		this.facts = facts;
+	}
+	public List<StockVO> getStocks() {
+		return stocks;
+	}
+	public void setStocks(List<StockVO> stocks) {
+		this.stocks = stocks;
 	}
 	public List<PurchaseMasterVO> getPurchases() {
 		return purchases;
@@ -60,6 +66,12 @@ public class PoForm extends BaseForm {
 	}
 	public void setFactId(Integer factId) {
 		this.factId = factId;
+	}
+	public Integer getStockId() {
+		return stockId;
+	}
+	public void setStockId(Integer stockId) {
+		this.stockId = stockId;
 	}
 	public String getPurchaseDate() {
 		return purchaseDate;
@@ -102,6 +114,12 @@ public class PoForm extends BaseForm {
 	}
 	public void setFact(FactVO fact) {
 		this.fact = fact;
+	}
+	public StockVO getStock() {
+		return stock;
+	}
+	public void setStock(StockVO stock) {
+		this.stock = stock;
 	}
 	public List<PurchaseDetailVO> getDetails() {
 		return details;

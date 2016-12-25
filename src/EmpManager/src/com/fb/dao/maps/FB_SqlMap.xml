@@ -98,15 +98,17 @@
 		<result property="prod"			resultMap="FB.ProdResult"/>
 	</resultMap>
 	<resultMap id="PurchaseMasterResult" class="PurchaseMasterVO" groupBy="id">
-		<result property="id"			column="M.id"/>
-		<result property="purchaseDate"	column="M.PURCHASE_DATE"/>
-		<result property="invoiceNbr"	column="M.invoice_nbr"/>
-		<result property="amt"			column="M.amt"/>
+		<result property="id"			column="m.id"/>
+		<result property="factId"		column="m.fact_id"/>
+		<result property="stockId"		column="m.stock_id"/>
+		<result property="purchaseDate"	column="m.purchase_date"/>
+		<result property="invoiceNbr"	column="m.invoice_nbr"/>
+		<result property="amt"			column="m.amt"/>
 		<result property="discount"		column="m.discount"/>
-		<result property="total"			column="M.TOTAL"/>
-		<result property="memo"			column="M.MEMO"/>
-		<result property="back"			column="M.return"/>
-		<result property="status"		column="M.status"/>
+		<result property="total"			column="m.total"/>
+		<result property="memo"			column="m.memo"/>
+		<result property="back"			column="m.back"/>
+		<result property="status"		column="m.status"/>
 		<result property="fact"			resultMap="FB.FactResult"/>
 		<result property="stock"			resultMap="FB.StockResult"/>
 		<result property="details"		resultMap="FB.PurchaseDetailResult"/>
@@ -481,8 +483,8 @@
 			<isNotNull property="startDate" prepend="and"> m.offer_date <![CDATA[>=]]> #startDate#</isNotNull>
 			<isNotNull property="endDate" prepend="and"> m.offer_date <![CDATA[<=]]> #endDate#</isNotNull>
 			<isNotNull property="prodId" prepend="and"> p.id = #prodId#</isNotNull>
-			<isNotNull property="back" prepend="and"> m.return = #back#</isNotNull>
-			<isNull property="back" prepend="and"> m.return is null</isNull>
+			<isNotNull property="back" prepend="and"> m.back = #back#</isNotNull>
+			<isNull property="back" prepend="and"> m.back is null</isNull>
 		order by m.cust_id asc, m.offer_date asc
 	</select>
 	<select id="selectFactProdHis_TODO" parameterClass="FactProdHisVO" resultClass="FactProdHisVO">
@@ -504,8 +506,8 @@
 			tb_stock s,
 			tb_fact f
 		where
-			d.prod_id = p.id =  and 
-			m.stock_id = s.stock_id and
+			d.prod_id = p.id and 
+			m.stock_id = s.id and
 			m.fact_id = f.id and 
 			m.status = 'N' and
 			m.id = #value#
@@ -523,11 +525,22 @@
 			m.fact_id = f.id and
 			m.status = 'N' and
 			m.fact_id = #factId#
-			<isNotNull property="back" prepend="and"> m.return = #back#</isNotNull>
-			<isNull property="back" prepend="and"> m.return is null</isNull>
+			<isNotNull property="back" prepend="and"> m.back = #back#</isNotNull>
+			<isNull property="back" prepend="and"> m.back is null</isNull>
 		order by m.id desc
 	</select>
-	<select id="selectProdStockQty" parameterClass="int" resultMap="ProdStockQtyResult">
+	<select id="selectProdStockQtyCount" parameterClass="ProdStockQtyVO" resultClass="int">
+		select count(*) 
+		from 
+			tb_prod_stock_qty psq,
+			tb_prod p, 
+			tb_stock s
+		where
+			psq.prod_id = p.id and 
+			psq.stock_id = s.id and
+			psq.stock_id = #stockId#
+	</select>
+	<select id="selectProdStockQty" parameterClass="ProdStockQtyVO" resultMap="ProdStockQtyResult">
 		select * 
 		from 
 			tb_prod_stock_qty psq,
@@ -535,8 +548,9 @@
 			tb_stock s
 		where
 			psq.prod_id = p.id and 
-			psq.stock_id = s.stock_id
-			<isParameterPresent prepend="and"> psq.prod_id = #value#</isParameterPresent>
+			psq.stock_id = s.id and
+			psq.stock_id = #stockId#
+			<isNotNull property="prodId" prepend="and"> psq.prod_id = #prodId#</isNotNull>
 	</select>
 	<select id="selectUnReceivedOffers" parameterClass="map" resultMap="UnReceivedOfferResult">
 		select * 
@@ -544,7 +558,7 @@
 			tb_offer_master m,
 			tb_cust c
 		where
-			m.return is null and
+			m.back is null and
 			m.status = 'N' and
 			m.receive_amt <![CDATA[<]]> m.total and
 			m.cust_id = c.id
@@ -558,8 +572,8 @@
 		from tb_offer_master m, tb_offer_detail d, tb_cust c, tb_prod p
 		where 
 			m.status = 'N'
-			<isNotNull property="back" prepend="and"> m.return = #back#</isNotNull>
-			<isNull property="back" prepend="and"> m.return is null</isNull>
+			<isNotNull property="back" prepend="and"> m.back = #back#</isNotNull>
+			<isNull property="back" prepend="and"> m.back is null</isNull>
 			and date_format(m.offer_date,'%Y%m') = #month# and 
 			m.id = d.master_id and 
 			m.cust_id = c.id and
@@ -580,7 +594,7 @@
 		from
 			tb_offer_master M
 		where
-			m.return is null and
+			m.back is null and
 			m.status = 'N' and
 			date_format(m.offer_date,'%Y%m') = #month#
 	</select>
@@ -591,7 +605,7 @@
 			tb_offer_master m, tb_cust c
 		where
 			m.cust_id = c.id and
-			m.return is null and
+			m.back is null and
 			m.status = 'N' and 
 			m.discount != 0 and
 			date_format(m.offer_date,'%Y%m') = #month#
@@ -604,7 +618,7 @@
 		from
 			tb_offer_master m
 		where
-			m.return is null and
+			m.back is null and
 			m.status = 'N' and 
 			m.discount != 0 and
 			date_format(m.offer_date,'%Y%m') = #month# and

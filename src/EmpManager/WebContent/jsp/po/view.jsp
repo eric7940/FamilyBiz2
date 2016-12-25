@@ -17,7 +17,6 @@
 				<s:submit key="global.action.query" cssClass="btn btn-primary" />
 			</div>
 			<div class="col-md-4 text-right">
-				<button type="button" class="btn btn-success edit" disabled="disabled" onclick="fnInitModify(event,'${form.masterId}','form.keyword')"><s:text name="global.action.edit"/></button>
 				<button type="button" class="btn btn-success remove" disabled="disabled" onclick="fnRemove(event,'<s:text name="purchase.message.confirm.remove"/>')"><s:text name="global.action.remove"/></button>
 			</div>
 		</div>
@@ -29,16 +28,17 @@
 			<tbody>
 			<tr>
 				<th class="col-md-1"><s:text name="fact.field.name" /></th><td class="col-md-3"><c:out value="${form.fact.name}"/></td>
-				<th class="col-md-1"><s:text name="purchase.field.fact_id" /></th><td class="col-md-3"><c:out value="${form.fact.id}"/></td>
-				<th class="col-md-1"><s:text name="purchase.field.purchase_date" /></th><td class="col-md-3"><c:out value="${form.purchaseDate}" /></td>
+				<th class="col-md-1"><s:text name="purchase.field.fact_id" /></th><td class="col-md-1"><c:out value="${form.fact.id}"/></td>
+				<th class="col-md-1"><s:text name="purchase.field.purchase_date" /></th><td class="col-md-2"><c:out value="${form.purchaseDate}" /></td>
+				<th class="col-md-1"><s:text name="purchase.field.stock" /></th><td class="col-md-2"><c:out value="${form.stock.name}"/></td>	
 			</tr>
 			<tr>
 				<th class="col-md-1"><s:text name="fact.field.biz_no" /></th><td class="col-md-3"><c:out value="${form.fact.bizNo}"/></td>
-				<th class="col-md-1"><s:text name="fact.field.tel" /></th><td class="col-md-3"><c:out value="${form.fact.tel}"/></td>
+				<th class="col-md-1"><s:text name="fact.field.tel" /></th><td class="col-md-3" colspan="3"><c:out value="${form.fact.tel}"/></td>
 				<th class="col-md-1"><s:text name="purchase.field.master_id" /></th><td class="col-md-3 master_id"><c:out value="${form.masterId}"/></td>
 			</tr>
 			<tr>
-				<th class="col-md-1"><s:text name="fact.field.memo" /></th><td class="col-md-7" colspan="3"><c:out value="${form.fact.memo}"/></td>
+				<th class="col-md-1"><s:text name="fact.field.memo" /></th><td class="col-md-7" colspan="5"><c:out value="${form.fact.memo}"/></td>
 				<th class="col-md-1"><s:text name="purchase.field.invoice_nbr" /></th><td class="col-md-3"><c:out value="${form.invoiceNbr}"/></td>
 			</tr>
 			</tbody>
@@ -103,12 +103,8 @@ function printPurchase() {
 
 $(function () {
 	if ($('.master_id').text() !== '') {
-		$('.print').removeAttr('disabled');
-		$('.edit').removeAttr('disabled');
 		$('.remove').removeAttr('disabled');
 	}
-	
-	//$(".print").on("click", printPurchase());
 });
 </script>
 

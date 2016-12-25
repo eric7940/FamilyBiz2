@@ -105,6 +105,23 @@
 				<param name="redirect">1</param>
 			</result>
 		</action>
+	</package>
+
+	<package name="stock" namespace="/stock" extends="struts-default,json-default">
+		<global-results>
+			<result name="error">/jsp/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
 		
+		<action name="qty" class="stockAction">
+			<result name="success">/jsp/stock/list.jsp</result>
+			<result name="edit">/jsp/stock/edit.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">qty</param>
+				<param name="redirect">1</param>
+			</result>
+		</action>
 	</package>
 </struts> 

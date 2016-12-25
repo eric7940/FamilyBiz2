@@ -19,6 +19,9 @@
 				</s:if>
 					<s:hidden name="form.factId" id="factId"/>
 				</div>
+				<div class="form-group form-input-line-magrin">
+					<s:select name="form.stockId" list="form.stocks" headerKey="0" headerValue="%{getText('global.option.one')}" listKey="id" listValue="name" cssClass="form-control stock"/>
+				</div>
 			</div>
 			<div class="col-md-4 text-right">
 				<s:submit key="global.action.save" cssClass="btn btn-success save" type="button" disabled="true" onclick="return save(event)" />
@@ -109,7 +112,7 @@
 </div>
 </div>
 
-<script>
+<script type="text/javascript">
 var modify = '${modify}';
 
 var facts = [<s:iterator value="form.facts" var="fact" status="idx">
@@ -168,6 +171,11 @@ function save(event) {
 	if ($("#factId").val() == '') {
 		alert('<s:text name="purchase.message.required.fact"/>');
 		$(".fact").focus();
+		return false;
+	}
+	if ($('.stock').val() == '0') {
+		alert('<s:text name="purchase.message.required.stock"/>');
+		$(".stock").focus();
 		return false;
 	}
 	
@@ -359,7 +367,6 @@ $(function () {
 		computePrice();
 	});
 });
-
 
 </script>
 <%@ include file="/commons/jsp/footer.jsp"%>

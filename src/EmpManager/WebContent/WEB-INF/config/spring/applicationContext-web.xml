@@ -23,4 +23,9 @@
 		<property name="form" ref="poForm" />
 	</bean>
 
+	<bean id="stockForm" class="com.fb.web.form.StockForm" scope="session" />
+	<bean id="stockAction" class="com.fb.web.action.StockAction" scope="session">
+		<property name="form" ref="stockForm" />
+	</bean>
+
 </beans>
