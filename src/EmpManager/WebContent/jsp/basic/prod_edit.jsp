@@ -19,7 +19,7 @@
 
 		<!-- 查詢結果 -->
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-5">
 				<div class="form-group">
 					<label for="name"><s:text name="prod.field.name"/></label>
 					<s:textfield name="form.name" id="name" cssClass="form-control name" onkeyup="convertNum(this)"/>
@@ -31,19 +31,19 @@
 					<s:select list="form.units" name="form.unit" cssClass="form-control unit" listKey="value" listValue="value"></s:select>
 				</div>
 			</div>
-			<div class="col-md-1">
+			<div class="col-md-2">
 				<div class="form-group">
 					<label for="price"><s:text name="prod.field.price"/></label>
 					<s:textfield name="form.price" id="price" cssClass="form-control price" onkeyup="convertNum(this);processPrice(this);"/>
 				</div>
 			</div>
-			<div class="col-md-1">
+			<div class="col-md-2">
 				<div class="form-group">
 					<label for="cost"><s:text name="prod.field.cost"/></label>
 					<s:textfield name="form.cost" id="cost" cssClass="form-control form-control-static cost"/>
 				</div>
 			</div>
-			<div class="col-md-1">
+			<div class="col-md-2">
 				<div class="form-group">
 					<label for="save_qty"><s:text name="prod.field.save_qty"/></label>
 					<s:textfield name="form.saveQty" id="save_qty" cssClass="form-control save_qty" onkeyup="convertNum(this);processSaveQty(this);"/>

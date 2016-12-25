@@ -5,6 +5,7 @@ import java.util.List;
 import com.fb.vo.CustVO;
 import com.fb.vo.OfferDetailVO;
 import com.fb.vo.OfferMasterVO;
+import com.fb.vo.StockVO;
 import com.fb.vo.UserVO;
 
 public class SoForm extends BaseForm {
@@ -16,10 +17,12 @@ public class SoForm extends BaseForm {
 	private List<CustVO> custs;
 	private List<UserVO> deliveryUsers;
 	private List<OfferMasterVO> offers;
+	private List<StockVO> stocks;
 
 	private String masterId;
 	private Integer custId;
 	private String deliveryUserId;
+	private Integer stockId;
 	private String offerDate;
 	private String invoiceNbr;
 	private Double amt;
@@ -29,6 +32,7 @@ public class SoForm extends BaseForm {
 	private String memo;
 
 	private CustVO cust;
+	private StockVO stock;
 	private List<OfferDetailVO> details;
 
 	public List<OfferMasterVO> getOffers() {
@@ -36,6 +40,12 @@ public class SoForm extends BaseForm {
 	}
 	public void setOffers(List<OfferMasterVO> offers) {
 		this.offers = offers;
+	}
+	public List<StockVO> getStocks() {
+		return stocks;
+	}
+	public void setStocks(List<StockVO> stocks) {
+		this.stocks = stocks;
 	}
 	public List<CustVO> getCusts() {
 		return custs;
@@ -54,6 +64,12 @@ public class SoForm extends BaseForm {
 	}
 	public void setCust(CustVO cust) {
 		this.cust = cust;
+	}
+	public StockVO getStock() {
+		return stock;
+	}
+	public void setStock(StockVO stock) {
+		this.stock = stock;
 	}
 	public void setDetails(List<OfferDetailVO> details) {
 		this.details = details;
@@ -121,6 +137,12 @@ public class SoForm extends BaseForm {
 	public void setDeliveryUserId(String deliveryUserId) {
 		this.deliveryUserId = deliveryUserId;
 	}
+	public Integer getStockId() {
+		return stockId;
+	}
+	public void setStockId(Integer stockId) {
+		this.stockId = stockId;
+	}
 	public String getKeyword() {
 		return keyword;
 	}
@@ -133,6 +155,7 @@ public class SoForm extends BaseForm {
 		this.masterId = null;
 		this.custId = null;
 		this.deliveryUserId = null;
+		this.stockId = null;
 		this.offerDate = null;
 		this.invoiceNbr = null;
 		this.amt = null;

@@ -13,7 +13,6 @@
 		<div class="row">
 			<!-- 查詢條件 -->
 			<div class="col-md-8 div-search">
-				
 				<div class="form-group form-input-line-magrin">
 				<s:if test="%{form.custId == null}">
 					<input type="text" placeholder='<s:text name="offer.action.choose_cust"/>:<s:text name="cust.field.name"/>' class="form-control cust"/>
@@ -22,6 +21,9 @@
 				</div>
 				<div class="form-group form-input-line-magrin">
 					<s:select name="form.deliveryUserId" list="form.deliveryUsers" headerKey="0" headerValue="%{getText('global.option.one')}" listKey="id" listValue="name" cssClass="form-control delivery_user"/>
+				</div>
+				<div class="form-group form-input-line-magrin">
+					<s:select name="form.stockId" list="form.stocks" headerKey="0" headerValue="%{getText('global.option.one')}" listKey="id" listValue="name" cssClass="form-control stock"/>
 				</div>
 				
 			</div>
@@ -178,6 +180,11 @@ function save(event) {
 	if ($("#custId").val() == '') {
 		alert('<s:text name="offer.message.required.cust"/>');
 		$(".cust").focus();
+		return false;
+	}
+	if ($('.stock').val() == '0') {
+		alert('<s:text name="offer.message.required.stock"/>');
+		$(".stock").focus();
 		return false;
 	}
 	

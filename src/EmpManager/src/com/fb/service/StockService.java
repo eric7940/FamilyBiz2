@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.fb.util.FamilyBizException;
 import com.fb.vo.ProdStockQtyVO;
+import com.fb.vo.StockVO;
 
 public interface StockService extends Service {
+
+	public List<StockVO> getStocks() throws FamilyBizException;
 
 	public List<ProdStockQtyVO> getProdsQty() throws FamilyBizException;
 

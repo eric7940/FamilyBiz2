@@ -13,7 +13,6 @@
 		<div class="row">
 			<!-- 查詢條件 -->
 			<div class="col-md-8 div-search">
-				
 				<div class="form-group form-input-line-magrin">
 				<s:if test="%{form.factId == null}">
 					<input type="text" placeholder='<s:text name="purchase.action.choose_fact"/>:<s:text name="fact.field.name"/>' class="form-control fact"/>

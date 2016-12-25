@@ -73,6 +73,7 @@
 		<result property="id"			column="m.id"/>
 		<result property="custId"		column="m.cust_id"/>
 		<result property="deliveryUserId"	column="m.delivery_user_id"/>
+		<result property="stockId"		column="m.stock_id"/>
 		<result property="offerDate"		column="m.offer_date"/>
 		<result property="invoiceNbr"	column="m.invoice_nbr"/>
 		<result property="amt"			column="m.amt"/>
@@ -102,12 +103,12 @@
 		<result property="invoiceNbr"	column="M.invoice_nbr"/>
 		<result property="amt"			column="M.amt"/>
 		<result property="discount"		column="m.discount"/>
-		<result property="total"		column="M.TOTAL"/>
+		<result property="total"			column="M.TOTAL"/>
 		<result property="memo"			column="M.MEMO"/>
 		<result property="back"			column="M.return"/>
 		<result property="status"		column="M.status"/>
 		<result property="fact"			resultMap="FB.FactResult"/>
-		<result property="stock"		resultMap="FB.StockResult"/>
+		<result property="stock"			resultMap="FB.StockResult"/>
 		<result property="details"		resultMap="FB.PurchaseDetailResult"/>
 	</resultMap>
 	<resultMap id="PurchaseDetailResult" class="PurchaseDetailVO">
@@ -648,4 +649,7 @@
 		order by a.name
 	</select>
 	
+	<select id="selectStocks" resultMap="StockResult">
+		select * from tb_stock s;
+	</select>
 </sqlMap>

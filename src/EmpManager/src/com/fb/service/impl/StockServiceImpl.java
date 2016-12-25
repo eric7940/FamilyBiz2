@@ -5,8 +5,14 @@ import java.util.List;
 import com.fb.service.StockService;
 import com.fb.util.FamilyBizException;
 import com.fb.vo.ProdStockQtyVO;
+import com.fb.vo.StockVO;
 
 public class StockServiceImpl extends ServiceImpl implements StockService {
+
+	@SuppressWarnings("unchecked")
+	public List<StockVO> getStocks() throws FamilyBizException {
+		return this.getFbDao().queryForList("selectStocks", null);
+	}	
 
 	@SuppressWarnings("unchecked")
 	public List<ProdStockQtyVO> getProdsQty() throws FamilyBizException {

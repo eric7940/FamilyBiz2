@@ -8,9 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -19,6 +16,7 @@ import com.fb.service.CustomerService;
 import com.fb.service.OfferService;
 import com.fb.service.ProductService;
 import com.fb.service.QryPriceService;
+import com.fb.service.StockService;
 import com.fb.util.CommonUtil;
 import com.fb.util.DateUtil;
 import com.fb.util.FamilyBizException;
@@ -26,6 +24,9 @@ import com.fb.vo.OfferDetailVO;
 import com.fb.vo.OfferMasterVO;
 import com.fb.vo.ProdVO;
 import com.fb.web.form.SoForm;
+
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 public class SoAction extends BaseAction {
 
@@ -52,6 +53,8 @@ public class SoAction extends BaseAction {
 					form.setDeliveryUserId(master.getDeliveryUserId());
 					form.setCustId(master.getCustId());
 					form.setCust(master.getCust());
+					form.setStockId(master.getStockId());
+					form.setStock(master.getStock());
 					form.setDetails(master.getDetails());
 					form.setAmt(master.getAmt());
 					form.setDiscount(master.getDiscount());
@@ -80,9 +83,11 @@ public class SoAction extends BaseAction {
 			CustomerService service1 = (CustomerService) this.getServiceFactory().getService("customer");
 			CommonService service2 = (CommonService) this.getServiceFactory().getService("common");
 			OfferService service3 = (OfferService) this.getServiceFactory().getService("offer");
+			StockService service4 = (StockService) this.getServiceFactory().getService("stock");
 			
 			form.setCusts(service1.getCusts());
 			form.setDeliveryUsers(service3.getDeliveryUsers());
+			form.setStocks(service4.getStocks());
 
 			form.setDiscount(new Double(0));
 			form.setMemo(service2.getOfferDefaultMemo());
@@ -119,6 +124,7 @@ public class SoAction extends BaseAction {
 			master.setOfferDate(DateUtil.getDateObject(form.getOfferDate(), "yyyy-MM-dd"));
 			master.setCustId(form.getCustId());
 			master.setDeliveryUserId(form.getDeliveryUserId());
+			master.setStockId(form.getStockId());
 			master.setInvoiceNbr(form.getInvoiceNbr());
 			master.setDiscount(form.getDiscount());
 			master.setMemo(form.getMemo());
@@ -182,6 +188,9 @@ public class SoAction extends BaseAction {
 			this.clearErrorsAndMessages();
 
 			OfferService service = (OfferService) this.getServiceFactory().getService("offer");
+			StockService service4 = (StockService) this.getServiceFactory().getService("stock");
+			
+			form.setStocks(service4.getStocks());
 			form.setDeliveryUsers(service.getDeliveryUsers());
 			
 			logger.info("masterId" + form.getMasterId());
@@ -205,8 +214,10 @@ public class SoAction extends BaseAction {
 			
 			String masterId = form.getMasterId();
 			Integer custId = form.getCustId();
+			Integer stockId = form.getStockId();
 			logger.info("masterId:" + masterId);
 			logger.info("custId:" + custId);
+			logger.info("stockId:" + stockId);
 
             String[] prodIdArr = request.getParameterValues("prodId");
             String[] qtyArr = request.getParameterValues("qty");
@@ -222,6 +233,7 @@ public class SoAction extends BaseAction {
 			master.setId(masterId);
 			master.setCustId(custId);
 			master.setDeliveryUserId(form.getDeliveryUserId());
+			master.setStockId(stockId);
 			master.setOfferDate(DateUtil.getDateObject(form.getOfferDate(), "yyyy-MM-dd"));
 			master.setInvoiceNbr(form.getInvoiceNbr());
 			master.setDiscount(form.getDiscount());
