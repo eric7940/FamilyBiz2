@@ -13,12 +13,13 @@
 			<div class="col-md-8 div-search">
 				<div class="form-group form-input-line-magrin">
 					<s:select list="form.stocks" name="form.stockId" listKey="id" listValue="name" headerKey="0" headerValue="%{getText('global.option.one')}" cssClass="form-control stock"/>
+					<s:textfield name="form.keyword" theme="simple" placeholder="%{getText('global.message.keywordSearch')}" cssClass="form-control"/>
 				</div>
 
 				<s:submit key="global.action.query" cssClass="btn btn-primary" />
 			</div>
 			<div class="col-md-4 text-right">
-				<s:submit key="stock.action.adjust" cssClass="btn btn-success" type="button" onclick="initAdjust(event)" />
+				<s:submit key="stock.action.adjust" cssClass="btn btn-success" onclick="return initAdjust(event)" />
 			</div>
 		</div>
 
@@ -28,7 +29,7 @@
 			<thead>
 				<tr>
 					<th class="col-md-5"><s:text name="prod.field.name" /></th>
-					<th class="col-md-3"><s:text name="stock.field.qty" /></th>
+					<th class="col-md-3"><s:text name="stock.field.qty1" /></th>
 					<th class="col-md-3"><s:text name="prod.field.save_qty" /></th>
 					<th class="col-md-1"><s:text name="prod.field.unit" /></th>
 				</tr>
@@ -66,6 +67,12 @@
 
 <script type="text/javascript">
 function initAdjust(event) {
+	if ($('.stock').val() == '0') {
+		alert('<s:text name="stock.message.required.stock"/>');
+		$(".stock").focus();
+		return false;
+	}
+
 	var oForm = getSelfForm(event,'initAdjust');	
 	oForm.submit();
 }

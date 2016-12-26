@@ -1,7 +1,10 @@
 package com.fb.web.action;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -13,6 +16,9 @@ import com.fb.util.FamilyBizException;
 import com.fb.vo.ProdStockQtyVO;
 import com.fb.web.form.StockForm;
 import com.fb.web.form.element.PageElement;
+
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 public class StockAction extends BaseAction {
 
@@ -34,18 +40,19 @@ public class StockAction extends BaseAction {
 			form.setStocks(service.getStocks());
 
 			Integer stockId = form.getStockId();
+			String keyword = form.getKeyword();
 			
 			if (stockId != null) {
 				
 				if (StringUtils.isEmpty(request.getParameter("form.pageElement.currentPage")))
 					form.setPageElement(null);
 				
-				int totalRecord = service.getProdsQtyCount(stockId);
+				int totalRecord = service.getProdsQtyCount(stockId, keyword);
 				int page = (form.getPageElement() == null) ? 1 : form.getPageElement().getCurrentPage();
 	//			PageElement pageElement = new PageElement(totalRecord, page, 1);
 				PageElement pageElement = new PageElement(totalRecord, page, ConstUtil.QUERY_PAGE_SIZE);
 	
-				List<ProdStockQtyVO> records = service.getProdsQty(stockId, pageElement.getStart(), pageElement.getPageSize());
+				List<ProdStockQtyVO> records = service.getProdsQty(stockId, keyword, pageElement.getStart(), pageElement.getPageSize());
 				pageElement.setRecords(records);
 				form.setPageElement(pageElement);
 				
@@ -90,14 +97,14 @@ public class StockAction extends BaseAction {
 			StockService service = (StockService) this.getServiceFactory().getService("stock");
 			
 			String[] prodIdArr = request.getParameterValues("prodId");
-			String[] qtyArr = request.getParameterValues("qty");
+			String[] adjustArr = request.getParameterValues("adjust");
 
 			List<ProdStockQtyVO> details = new ArrayList<ProdStockQtyVO>();
 			for (int i = 0; i < prodIdArr.length; i++) {
 				String prodId = prodIdArr[i];
 				if (StringUtils.isEmpty(prodId)) continue;
 				
-				String qty = qtyArr[i];
+				String qty = adjustArr[i];
 				
 				ProdStockQtyVO detail = new ProdStockQtyVO();
 				detail.setProdId(Integer.parseInt(prodId));
@@ -108,7 +115,7 @@ public class StockAction extends BaseAction {
 			
 			service.adjustQty(stockId, details);
 			
-			addLocalizationActionSuccess("adjust");
+			addLocalizationActionSuccess("save");
 
 		} catch (FamilyBizException e) {
 			logger.error("action fail.", e);
@@ -116,6 +123,53 @@ public class StockAction extends BaseAction {
 		}
 
 		return DEFAULT;
+	}
+	
+	public String getProdList() {
+		logger.debug("getProdList start");
+
+		try {
+
+			String stockId = request.getParameter("a");
+			String keyword = request.getParameter("b");
+
+			logger.info("param: stockId=" + stockId);
+			logger.info("param: keyword=" + keyword);
+			
+			StockService service = (StockService) this.getServiceFactory().getService("stock");
+			List<ProdStockQtyVO> list = service.getProdQty(Integer.valueOf(stockId), keyword);
+						
+			JsonConfig cfg = new JsonConfig();
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "00");
+			map.put("result", list);
+			
+			JSONObject jsonObject = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			this.writeResponseJson(jsonObject.toString());
+			
+		} catch (Exception e) {
+			logger.error("fail", e);
+
+			JsonConfig cfg = new JsonConfig();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "01");
+			map.put("errMsg", e.getMessage());
+
+			JSONObject jsonObject  = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			try {
+				this.writeResponseJson(jsonObject.toString());
+			} catch (IOException e1) {
+				logger.error("fail", e1);
+			}
+		}
+		
+		return null;
 	}
 
 	public StockForm getForm() {

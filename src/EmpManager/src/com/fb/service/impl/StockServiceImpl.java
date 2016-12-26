@@ -1,6 +1,8 @@
 package com.fb.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fb.service.StockService;
 import com.fb.util.FamilyBizException;
@@ -15,25 +17,41 @@ public class StockServiceImpl extends ServiceImpl implements StockService {
 		return this.getFbDao().queryForList("selectStocks", null);
 	}	
 
-	public int getProdsQtyCount(int stockId) throws FamilyBizException {
-		ProdStockQtyVO vo = new ProdStockQtyVO();
-		vo.setStockId(stockId);
-		return (int) this.getFbDao().queryForObject("selectProdStockQtyCount", vo);
+	public int getProdsQtyCount(int stockId, String keyword) throws FamilyBizException {
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("stockId", stockId);
+
+		if (keyword != null) {
+			paramMap.put("prodId", keyword);
+			paramMap.put("keyword", "%" + keyword + "%");
+		}
+
+		return (int) this.getFbDao().queryForObject("selectProdStockQtyCount", paramMap);
 	}	
 
-	@SuppressWarnings("unchecked")
-	public List<ProdStockQtyVO> getProdsQty(int stockId, int offset, int limit) throws FamilyBizException {
-		ProdStockQtyVO vo = new ProdStockQtyVO();
-		vo.setStockId(stockId);
-		return this.getFbDao().queryForList("selectProdStockQty", vo, new RowBounds(offset, limit));
+	public List<ProdStockQtyVO> getProdsQty(int stockId, String keyword, int offset, int limit) throws FamilyBizException {
+		return getProdQty(stockId, keyword, offset, limit);
 	}	
 
+	public List<ProdStockQtyVO> getProdQty(int stockId, String keyword) throws FamilyBizException {
+		return getProdQty(stockId, keyword, -1, -1);
+	}
+
 	@SuppressWarnings("unchecked")
-	public List<ProdStockQtyVO> getProdQty(int stockId, int prodId) throws FamilyBizException {
-		ProdStockQtyVO vo = new ProdStockQtyVO();
-		vo.setStockId(stockId);
-		vo.setProdId(prodId);
-		return this.getFbDao().queryForList("selectProdStockQty", vo);
+	private List<ProdStockQtyVO> getProdQty(int stockId, String keyword, int offset, int limit) throws FamilyBizException {
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("stockId", stockId);
+
+		if (keyword != null) {
+			paramMap.put("prodId", keyword);
+			paramMap.put("keyword", "%" + keyword + "%");
+		}
+
+		if (limit < 0)
+			return this.getFbDao().queryForList("selectProdStockQty", paramMap);
+		else
+			return this.getFbDao().queryForList("selectProdStockQty", paramMap, new RowBounds(offset, limit));
+
 	}
 
 	public void adjustQty(int stockId, List<ProdStockQtyVO> details) throws FamilyBizException {

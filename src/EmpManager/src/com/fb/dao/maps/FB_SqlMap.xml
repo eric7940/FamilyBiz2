@@ -121,9 +121,9 @@
 		<result property="prod"			resultMap="FB.ProdResult"/>
 	</resultMap>	
 	<resultMap id="ProdStockQtyResult" class="ProdStockQtyVO">
-		<result property="stockId"		column="psq.STOCK_id"/>
-		<result property="prodId"		column="psq.PROD_id"/>
-		<result property="qty"			column="psq.QTY"/>
+		<result property="stockId"		column="psq.stock_id"/>
+		<result property="prodId"		column="psq.prod_id"/>
+		<result property="qty"			column="psq.qty"/>
 		<result property="stock"			resultMap="FB.StockResult"/>
 		<result property="prod"			resultMap="FB.ProdResult"/>
 	</resultMap>
@@ -535,7 +535,7 @@
 			<isNull property="back" prepend="and"> m.back is null</isNull>
 		order by m.id desc
 	</select>
-	<select id="selectProdStockQtyCount" parameterClass="ProdStockQtyVO" resultClass="int">
+	<select id="selectProdStockQtyCount" parameterClass="map" resultClass="int">
 		select count(*) 
 		from 
 			tb_prod_stock_qty psq,
@@ -545,8 +545,9 @@
 			psq.prod_id = p.id and 
 			psq.stock_id = s.id and
 			psq.stock_id = #stockId#
+			<isNotNull property="keyword" prepend="and"> (psq.prod_id = #prodId# or p.name like #keyword#)</isNotNull>
 	</select>
-	<select id="selectProdStockQty" parameterClass="ProdStockQtyVO" resultMap="ProdStockQtyResult">
+	<select id="selectProdStockQty" parameterClass="map" resultMap="ProdStockQtyResult">
 		select * 
 		from 
 			tb_prod_stock_qty psq,
@@ -556,7 +557,7 @@
 			psq.prod_id = p.id and 
 			psq.stock_id = s.id and
 			psq.stock_id = #stockId#
-			<isNotNull property="prodId" prepend="and"> psq.prod_id = #prodId#</isNotNull>
+			<isNotNull property="keyword" prepend="and"> (psq.prod_id = #prodId# or p.name like #keyword#)</isNotNull>
 	</select>
 	<select id="selectUnReceivedOffers" parameterClass="map" resultMap="UnReceivedOfferResult">
 		select * 

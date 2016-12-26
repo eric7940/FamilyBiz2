@@ -12,6 +12,8 @@ public class StockForm extends BaseForm {
 	private List<StockVO> stocks;
 	private List<ProdVO> prods;
 
+	private String keyword;
+
 	private Integer stockId;
 	private Integer prodId;
 	
@@ -28,6 +30,12 @@ public class StockForm extends BaseForm {
 	}
 	public void setProds(List<ProdVO> prods) {
 		this.prods = prods;
+	}
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 	public Integer getStockId() {
 		return stockId;

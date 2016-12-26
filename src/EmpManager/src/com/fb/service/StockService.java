@@ -10,11 +10,11 @@ public interface StockService extends Service {
 
 	public List<StockVO> getStocks() throws FamilyBizException;
 
-	public int getProdsQtyCount(int stockId) throws FamilyBizException;
+	public int getProdsQtyCount(int stockId, String keyword) throws FamilyBizException;
 
-	public List<ProdStockQtyVO> getProdsQty(int stockId, int offset, int limit) throws FamilyBizException;
+	public List<ProdStockQtyVO> getProdsQty(int stockId, String keyword, int offset, int limit) throws FamilyBizException;
 
-	public List<ProdStockQtyVO> getProdQty(int stockId, int prodId) throws FamilyBizException;
+	public List<ProdStockQtyVO> getProdQty(int stockId, String keyword) throws FamilyBizException;
 
 	public void adjustQty(int stockId, List<ProdStockQtyVO> details) throws FamilyBizException;
 }
