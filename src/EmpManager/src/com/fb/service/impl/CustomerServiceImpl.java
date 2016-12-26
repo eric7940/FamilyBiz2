@@ -19,7 +19,7 @@ public class CustomerServiceImpl extends ServiceImpl implements CustomerService 
 	}
 	
 	public int getCustsCount(String keyword) throws FamilyBizException {
-		keyword = (keyword != null)? keyword.trim(): null;
+		keyword = (StringUtils.isNotEmpty(keyword))? keyword.trim(): null;
 
 		CustVO cust = new CustVO();
 		if (keyword != null) {

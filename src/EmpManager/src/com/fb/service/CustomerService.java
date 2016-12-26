@@ -21,6 +21,6 @@ public interface CustomerService extends Service {
 	
 	public int removeCust(int custId) throws FamilyBizException;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	public int removeCusts(List custIds) throws FamilyBizException;
 }

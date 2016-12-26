@@ -5,19 +5,19 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import com.fb.service.CustomerService;
+import com.fb.service.FactoryService;
 import com.fb.util.ConstUtil;
 import com.fb.util.FamilyBizException;
-import com.fb.vo.CustVO;
-import com.fb.web.form.CustForm;
+import com.fb.vo.FactVO;
+import com.fb.web.form.FactForm;
 import com.fb.web.form.element.PageElement;
 
-public class CustAction extends BaseAction {
+public class FactAction extends BaseAction {
 
 	private static final long serialVersionUID = 8902273376946682789L;
 
-	private static Logger logger = Logger.getLogger(CustAction.class);
-	private CustForm form;
+	private static Logger logger = Logger.getLogger(FactAction.class);
+	private FactForm form;
 	
 	public String execute() {
 		logger.debug("execute start");
@@ -30,14 +30,14 @@ public class CustAction extends BaseAction {
 			if (StringUtils.isEmpty(request.getParameter("form.pageElement.currentPage")))
 				form.setPageElement(null);
 			
-			CustomerService service = (CustomerService) this.getServiceFactory().getService("customer");
+			FactoryService service = (FactoryService) this.getServiceFactory().getService("factory");
 			
-			int totalRecord = service.getCustsCount(form.getKeyword());
+			int totalRecord = service.getFactsCount(form.getKeyword());
 			int page = (form.getPageElement() == null) ? 1 : form.getPageElement().getCurrentPage();
 //			PageElement pageElement = new PageElement(totalRecord, page, 1);
 			PageElement pageElement = new PageElement(totalRecord, page, ConstUtil.QUERY_PAGE_SIZE);
 
-			List<CustVO> records = service.getCusts(form.getKeyword(), pageElement.getStart(), pageElement.getPageSize());
+			List<FactVO> records = service.getFacts(form.getKeyword(), pageElement.getStart(), pageElement.getPageSize());
 			pageElement.setRecords(records);
 			form.setPageElement(pageElement);
 		
@@ -66,16 +66,17 @@ public class CustAction extends BaseAction {
 		logger.info("add start");
 		
 		try {
-			CustomerService service = (CustomerService) this.getServiceFactory().getService("customer");
+			FactoryService service = (FactoryService) this.getServiceFactory().getService("factory");
 			
-			CustVO cust = new CustVO();
-			cust.setName(form.getName());
-			cust.setBizNo(form.getBizNo());
-			cust.setDeliverAddr(form.getDeliverAddr());
-			cust.setTel(form.getTel());
-			cust.setMemo(form.getMemo());
+			FactVO fact = new FactVO();
+			fact.setName(form.getName());
+			fact.setBizNo(form.getBizNo());
+			fact.setContact(form.getContact());
+			fact.setAddr(form.getAddr());
+			fact.setTel(form.getTel());
+			fact.setMemo(form.getMemo());
 			
-			service.addCust(cust);
+			service.addFact(fact);
 
 			addLocalizationActionSuccess("save");
 
@@ -94,14 +95,15 @@ public class CustAction extends BaseAction {
 		try {
 			this.clearErrorsAndMessages();
 
-			CustomerService service = (CustomerService) this.getServiceFactory().getService("customer");
+			FactoryService service = (FactoryService) this.getServiceFactory().getService("factory");
 
-			CustVO cust = service.getCust(form.getId());
-			form.setName(cust.getName());
-			form.setBizNo(cust.getBizNo());
-			form.setDeliverAddr(cust.getDeliverAddr());
-			form.setTel(cust.getTel());
-			form.setMemo(cust.getMemo());
+			FactVO fact = service.getFact(form.getId());
+			form.setName(fact.getName());
+			form.setBizNo(fact.getBizNo());
+			form.setContact(fact.getContact());
+			form.setAddr(fact.getAddr());
+			form.setTel(fact.getTel());
+			form.setMemo(fact.getMemo());
 			
 			request.setAttribute("modify", "y");
 		} catch (FamilyBizException e) {
@@ -117,17 +119,18 @@ public class CustAction extends BaseAction {
 		logger.info("modify start");
 		
 		try {
-			CustomerService service = (CustomerService) this.getServiceFactory().getService("customer");
+			FactoryService service = (FactoryService) this.getServiceFactory().getService("factory");
+
+			FactVO fact = new FactVO();
+			fact.setId(form.getId());
+			fact.setName(form.getName());
+			fact.setBizNo(form.getBizNo());
+			fact.setContact(form.getContact());
+			fact.setAddr(form.getAddr());
+			fact.setTel(form.getTel());
+			fact.setMemo(form.getMemo());
 			
-			CustVO cust = new CustVO();
-			cust.setId(form.getId());
-			cust.setName(form.getName());
-			cust.setBizNo(form.getBizNo());
-			cust.setDeliverAddr(form.getDeliverAddr());
-			cust.setTel(form.getTel());
-			cust.setMemo(form.getMemo());
-			
-			service.modifyCust(cust);
+			service.modifyFact(fact);
 			addLocalizationActionSuccess("save");
 			
 		} catch (FamilyBizException e) {
@@ -183,11 +186,11 @@ public class CustAction extends BaseAction {
 //		return new ActionForward("/cust.do?state=init", false);
 //	}
 	
-	public void setForm(CustForm form) {
+	public void setForm(FactForm form) {
 		this.form = form;
 	}
 
-	public CustForm getForm() {
+	public FactForm getForm() {
 		return form;
 	}
 

@@ -13,6 +13,11 @@
 		<property name="form" ref="prodForm" />
 	</bean>
 
+	<bean id="factForm" class="com.fb.web.form.FactForm" scope="session" />
+	<bean id="factAction" class="com.fb.web.action.FactAction" scope="session">
+		<property name="form" ref="factForm" />
+	</bean>
+
 	<bean id="soForm" class="com.fb.web.form.SoForm" scope="session" />
 	<bean id="soAction" class="com.fb.web.action.SoAction" scope="session">
 		<property name="form" ref="soForm" />

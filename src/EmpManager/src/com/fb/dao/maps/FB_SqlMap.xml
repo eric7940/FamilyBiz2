@@ -400,6 +400,12 @@
 		<isNotNull property="name" prepend="and"> c.name like #name#</isNotNull>
 		order by c.name
 	</select>
+	<select id="selectFactCount" parameterClass="FactVO" resultClass="int">
+		select count(id) from tb_fact f
+		where f.status = ''
+		<isNotNull property="id" prepend="and"> f.id = #id#</isNotNull>
+		<isNotNull property="name" prepend="and"> f.name like #name#</isNotNull>
+	</select>
 	<select id="selectFact" parameterClass="FactVO" resultMap="FactResult">
 		select * from tb_fact f
 		where f.status = ''

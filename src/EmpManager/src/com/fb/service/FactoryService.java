@@ -9,9 +9,11 @@ public interface FactoryService extends Service {
 
 	public FactVO getFact(int factId) throws FamilyBizException;
 	
+	public int getFactsCount(String keyword) throws FamilyBizException;
+	
 	public List<FactVO> getFacts() throws FamilyBizException;
 	
-	public List<FactVO> getFacts(String factNme) throws FamilyBizException;
+	public List<FactVO> getFacts(String keyword, int offset, int limit) throws FamilyBizException;
 	
 	public void addFact(FactVO fact) throws FamilyBizException;
 
@@ -19,6 +21,6 @@ public interface FactoryService extends Service {
 	
 	public int removeFact(int factId) throws FamilyBizException;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	public int removeFacts(List factIds) throws FamilyBizException;
 }
