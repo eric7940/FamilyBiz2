@@ -135,6 +135,16 @@
 		<url-pattern>/offer.sheet</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>UnreceivedSheetServlet</servlet-name>
+		<servlet-class>com.fb.web.servlet.UnreceivedSheetServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UnreceivedSheetServlet</servlet-name>
+		<url-pattern>/unreceived.sheet</url-pattern>
+	</servlet-mapping>
+
 	<error-page>
 		<error-code>400</error-code>
 		<location>/jsp/error.jsp</location>

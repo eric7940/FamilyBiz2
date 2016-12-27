@@ -14,11 +14,17 @@ public class SoForm extends BaseForm {
 	
 	private String keyword;
 	
+	private String unreceivedStartDate;
+	private String unreceivedEndDate;
+	private String unreceivedQueryCust;
+	private String unreceivedQueryCustId;
+	
 	private List<CustVO> custs;
 	private List<UserVO> deliveryUsers;
 	private List<OfferMasterVO> offers;
 	private List<StockVO> stocks;
-
+	private List<OfferMasterVO> unreceivedOffers;
+	
 	private String masterId;
 	private Integer custId;
 	private String deliveryUserId;
@@ -58,6 +64,12 @@ public class SoForm extends BaseForm {
 	}
 	public void setDeliveryUsers(List<UserVO> deliveryUsers) {
 		this.deliveryUsers = deliveryUsers;
+	}
+	public List<OfferMasterVO> getUnreceivedOffers() {
+		return unreceivedOffers;
+	}
+	public void setUnreceivedOffers(List<OfferMasterVO> unreceivedOffers) {
+		this.unreceivedOffers = unreceivedOffers;
 	}
 	public CustVO getCust() {
 		return cust;
@@ -148,6 +160,30 @@ public class SoForm extends BaseForm {
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+	public String getUnreceivedStartDate() {
+		return unreceivedStartDate;
+	}
+	public void setUnreceivedStartDate(String unreceivedStartDate) {
+		this.unreceivedStartDate = unreceivedStartDate;
+	}
+	public String getUnreceivedEndDate() {
+		return unreceivedEndDate;
+	}
+	public void setUnreceivedEndDate(String unreceivedEndDate) {
+		this.unreceivedEndDate = unreceivedEndDate;
+	}
+	public String getUnreceivedQueryCust() {
+		return unreceivedQueryCust;
+	}
+	public void setUnreceivedQueryCust(String unreceivedQueryCust) {
+		this.unreceivedQueryCust = unreceivedQueryCust;
+	}
+	public String getUnreceivedQueryCustId() {
+		return unreceivedQueryCustId;
+	}
+	public void setUnreceivedQueryCustId(String unreceivedQueryCustId) {
+		this.unreceivedQueryCustId = unreceivedQueryCustId;
 	}
 	
 	@Override

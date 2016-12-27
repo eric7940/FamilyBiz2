@@ -95,6 +95,11 @@
 				<param name="redirect">1</param>
 			</result>
 		</action>
+		
+		<action name="unreceived" class="soAction" method="unreceived">
+			<result name="success">/jsp/so/unreceived.jsp</result>
+		</action>
+		
 	</package>
 	
 	<package name="po" namespace="/po" extends="struts-default,json-default">

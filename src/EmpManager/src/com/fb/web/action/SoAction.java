@@ -2,11 +2,16 @@ package com.fb.web.action;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -24,9 +29,6 @@ import com.fb.vo.OfferDetailVO;
 import com.fb.vo.OfferMasterVO;
 import com.fb.vo.ProdVO;
 import com.fb.web.form.SoForm;
-
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
 
 public class SoAction extends BaseAction {
 
@@ -371,6 +373,50 @@ public class SoAction extends BaseAction {
 		}
 		
 		return null;
+	}
+	
+	public String unreceived() {
+		logger.debug("unreceived start");
+		
+		try {
+			
+			CustomerService service1 = (CustomerService) this.getServiceFactory().getService("customer");
+			form.setCusts(service1.getCusts());
+			
+			form.setUnreceivedOffers(null);
+			
+			String d1 = form.getUnreceivedStartDate();
+			String d2 = form.getUnreceivedEndDate();
+			
+			if (StringUtils.isNotEmpty(d1) && StringUtils.isNotEmpty(d2)) {
+				
+				Date startDate = null;
+				Date endDate = null;
+				try {
+					startDate = DateUtil.getDateObject(d1, "yyyy-MM-dd");
+					endDate = DateUtil.getDateObject(d2, "yyyy-MM-dd");
+				} catch (ParseException e) {
+					startDate = new Date();
+					endDate = new Date();
+				}
+				
+				Integer custId = null;
+				try {
+					custId = new Integer(form.getUnreceivedQueryCustId());
+				} catch (NumberFormatException e) {
+					custId = null;
+				}
+				
+				OfferService service = (OfferService) getServiceFactory().getService("offer");
+				List<OfferMasterVO> unreceivedOffers = service.getUnReceivedOffers(custId, startDate, endDate, false);
+				form.setUnreceivedOffers(unreceivedOffers);
+			}	
+		} catch (FamilyBizException e) {
+			logger.error("action fail.", e);
+			this.addActionError(e);
+		}
+
+		return SUCCESS;
 	}
 	
 	public void setForm(SoForm form) {

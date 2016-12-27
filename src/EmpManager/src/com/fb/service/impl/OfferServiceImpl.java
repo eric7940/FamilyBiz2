@@ -141,18 +141,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		paramMap.put("startDate", startDate);
 		paramMap.put("endDate", endDate);
 		paramMap.put("beforeFlag", beforeFlag? "Y": null);
-		List<OfferMasterVO> result = this.getFbDao().queryForList("selectUnReceivedOffers", paramMap);
-		
-		if (beforeFlag == true) {
-			Iterator<OfferMasterVO> it = result.iterator();
-			while(it.hasNext()) {
-				OfferMasterVO offer = it.next();
-				if (offer.getOfferDate().before(startDate)) {
-					offer.setId("-" + offer.getId());
-				}
-			}
-		}
-		return result;
+		return this.getFbDao().queryForList("selectUnReceivedOffers", paramMap);
 	}
 
 	public int modifyOffer(OfferMasterVO master, List<OfferDetailVO> details) throws FamilyBizException {

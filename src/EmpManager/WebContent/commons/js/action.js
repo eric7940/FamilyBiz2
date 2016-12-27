@@ -26,7 +26,7 @@ function getToday() {
 	if(day.length < 2){
 		day = "0" + day;
 	}
-	return year + "/" + month + "/" + day;
+	return year + "-" + month + "-" + day;
 }
 
 function isDate(s) {
