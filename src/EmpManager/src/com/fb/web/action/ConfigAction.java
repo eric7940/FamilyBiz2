@@ -48,7 +48,7 @@ public class ConfigAction extends BaseAction {
 		logger.info("modifyUnits start");
 		
 		try {
-			CommonService service = (CommonService) this.getServiceFactory().getService("ommon");
+			CommonService service = (CommonService) this.getServiceFactory().getService("common");
 			
 			String[] labels = request.getParameterValues("label");
 			String[] idx = request.getParameterValues("unitDeleteIdx");

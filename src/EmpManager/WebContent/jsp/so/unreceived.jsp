@@ -130,6 +130,7 @@ function printUnreceived() {
 }
 
 $(function () {
+	var d = getDate1();
 	if ($('.start_date').val() == '')
 		$('.start_date').val(d[0]);
 	if ($('.end_date').val() == '')

@@ -2,66 +2,77 @@
 <%@ include file="/commons/jsp/header.jsp"%>
 
 <div class="container-fluid">	
+<ul class="nav nav-tabs">
+	<li class="nav-item active"><a data-toggle="tab" href="#memo" class="nav-link active"><s:text name="config.tab.memo"/></a></li>
+	<li class="nav-item"><a data-toggle="tab" href="#unit" class="nav-link"><s:text name="config.tab.unit"/></a></li>
+</ul>
 
-<s:form method="post" namespace="/admin" action="config" theme="simple">
-
-	<div role="main" class="container-fluid">
-
-		<div class="row">
-			<!-- 查詢條件 -->
-			<div class="col-md-12">
-				<a href="<s:property value="#mainURL" />" role="button" class="btn btn-primary"><s:text name="global.action.cancel" /></a>
-				<s:submit key="global.action.save" cssClass="btn btn-success" type="button" onclick="save(event)" />
-			</div>
-		</div>
-
-		<!-- 查詢結果 -->
-		<div class="row">
-			<div class="col-md-4">
+<div class="tab-content">
+	<div id="memo" class="tab-pane fade in active">
+		<h3><s:text name="config.tab.memo"/></h3>
+		<s:form method="post" namespace="/admin" action="config!modifyOfferMemo.do" theme="simple" cssClass="navbar-form">
+			<div role="main" class="container-fluid">
 				<div class="form-group">
-					<label for="name"><s:text name="cust.field.name"/></label>
-					<s:textfield name="form.name" id="name" cssClass="form-control"/>
+					<label for="memo"><s:text name="config.field.memo"/></label>
+					<s:textfield name="form.offerMemo" id="memo" cssClass="form-control"></s:textfield>
 				</div>
+				<s:submit key="global.action.save" cssClass="btn btn-primary" />
 			</div>
-			<div class="col-md-4">
-				<div class="form-group">
-					<label for="biz_no"><s:text name="cust.field.biz_no"/></label>
-					<s:textfield name="form.bizNo" id="biz_no" cssClass="form-control"/>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="form-group">
-					<label for="tel"><s:text name="cust.field.tel"/></label>
-					<s:textfield name="form.tel" id="tel" cssClass="form-control"/>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					<label for="deliver_addr"><s:text name="cust.field.deliver_addr"/></label>
-					<s:textfield name="form.deliverAddr" id="deliver_addr" cssClass="form-control"/>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					<label for="memo"><s:text name="cust.field.memo"/></label>
-					<s:textfield name="form.memo" id="memo" cssClass="form-control"/>
-				</div>
-			</div>
-		</div>
-
+		</s:form>
 	</div>
-</s:form>
+	<div id="unit" class="tab-pane fade">
+		<h3><s:text name="config.tab.unit"/></h3>
+		<s:form method="post" namespace="/admin" action="config!modifyUnits.do" theme="simple" cssClass="navbar-form">
+			<div role="main" class="container-fluid">
+			<div class="row">
+				<div class="col-md-12 div-search text-right">
+					<button title="" type="button" class="btn btn-success add show_tip" data-original-title='<s:text name="global.action.add"/>'><i class="fa fa-plus-square"></i></button>
+					<s:submit key="global.action.save" cssClass="btn btn-primary" />
+				</div>
+			</div>
+
+			<div class="div-result">
+			<table id="queryResult" class="table table-striped table-hover table-break-all table-list break-table">
+				<thead>
+					<tr>
+						<th class="col-md-2"><s:text name="global.action.remove"/></th>
+						<th class="col-md-5"><s:text name="config.field.unit_code"/></th>
+						<th class="col-md-5"><s:text name="config.field.unit_label"/></th>
+					</tr>
+					</thead>
+					<tbody>
+<s:iterator value="form.units" var="record" status="idx">
+					<tr>
+						<td data-title="<s:text name="global.action.remove" />"><input type="checkbox" name="unitDeleteIdx" value="${idx.count}"></td>
+						<td data-title="<s:text name="config.field.unit_code" />"><c:out value="${record.code}"/></td>
+						<td data-title="<s:text name="config.field.unit_label" />"><c:out value="${record.value}"/></td>
+					</tr>
+</s:iterator>					
+					</tbody>
+					</table>
+			</div>
+				
+			</div>
+		</s:form>
+	</div>
+</div>
 </div>
 
 <script type='text/javascript'>
-var modify = '${attr.modify}';
-function save(event) {
-	if (modify === 'y') {
-		fnModify(event);
-	} else {
-		fnAdd(event);
-	}
+
+function addUnitRow() {
+	var len = $('table#queryResult tbody tr').length;
+	var row = '<tr>' + 
+			'<td data-title="<s:text name="global.action.remove"/>">&nbsp;</td>' + 
+			'<td data-title="<s:text name="config.field.unit_code"/>">&nbsp;</td>' + 
+			'<td data-title="<s:text name="config.field.unit_label"/>"><input name="label" type="text" maxlength="1" class="form-control form-control-fullwidth unit_label" /></td>' + 
+			'</tr>';
+	$('table#queryResult tbody').append(row);
 }
+
+$(function () {
+	$(".add").on("click", addUnitRow);
+});
 
 </script>
 
