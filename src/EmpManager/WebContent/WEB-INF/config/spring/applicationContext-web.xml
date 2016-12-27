@@ -33,4 +33,9 @@
 		<property name="form" ref="stockForm" />
 	</bean>
 
+	<bean id="configForm" class="com.fb.web.form.ConfigForm" scope="session" />
+	<bean id="configAction" class="com.fb.web.action.ConfigAction" scope="session">
+		<property name="form" ref="configForm" />
+	</bean>
+
 </beans>
