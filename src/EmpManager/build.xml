@@ -50,6 +50,7 @@
 		<property name="env.properties" value="${env.dir}/${env}.properties"/>
 		<replace file="${config.dir}/config.properties" value="defaultvalue" propertyFile="${env.properties}" encoding="UTF-8" summary="true">
 			<replacefilter token="{main.jndi}"	property="main.jndi"/>
+			<replacefilter token="{sheet.font.file}"	property="sheet.font.file"/>
 		</replace>
 	</target>
 

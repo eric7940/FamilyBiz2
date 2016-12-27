@@ -110,7 +110,6 @@ public class StockAction extends BaseAction {
 				detail.setProdId(Integer.parseInt(prodId));
 				detail.setQty(Double.parseDouble(qty));
 				details.add(detail);
-				i++;
 			}
 			
 			service.adjustQty(stockId, details);

@@ -43,7 +43,7 @@
 <s:iterator value="form.pageElement.records" var="record" status="idx">
 				<tr>
 					<td data-title="<s:text name="prod.field.name" />"><c:out value="${record.prod.name}"/></td>
-					<td data-title="<s:text name="stock.field.qty" />"><c:out value="${record.qty}"/></td>
+					<td data-title="<s:text name="stock.field.qty1" />"><c:out value="${record.qty}"/></td>
 					<td data-title="<s:text name="prod.field.save_qty" />"><c:out value="${record.prod.saveQty}"/></td>
 					<td data-title="<s:text name="prod.field.unit" />"><c:out value="${record.prod.unit}"/></td>
 				</tr>
