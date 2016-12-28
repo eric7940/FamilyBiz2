@@ -410,6 +410,8 @@ public class SoAction extends BaseAction {
 				OfferService service = (OfferService) getServiceFactory().getService("offer");
 				List<OfferMasterVO> unreceivedOffers = service.getUnReceivedOffers(custId, startDate, endDate, false);
 				form.setUnreceivedOffers(unreceivedOffers);
+				
+				request.setAttribute("query", "y");
 			}	
 		} catch (FamilyBizException e) {
 			logger.error("action fail.", e);

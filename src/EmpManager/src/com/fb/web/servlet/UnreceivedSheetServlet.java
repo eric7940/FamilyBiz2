@@ -67,9 +67,12 @@ public class UnreceivedSheetServlet extends HttpServlet {
 			if (bids.length() > 0) {
 				beforeIds = CommonUtil.convertStringToList(bids.substring(1), ",");	
 			}
-
+			
 			OfferService service = (OfferService)SheetUtil.getServiceFactory().getService("offer");
 			List<OfferMasterVO> unreceivedOffers = service.getOffers(masterIds, false);
+
+			logger.debug("size1:" + unreceivedOffers.size());
+			logger.debug("size2:" + beforeIds.size());
 			
 			Map<String,Object> paramMap = new HashMap<String,Object>();
 			paramMap.put("list", unreceivedOffers);

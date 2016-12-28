@@ -26,8 +26,8 @@
 			</div>
 			<div class="col-sm-5 text-right">
 				<s:submit key="global.action.query" cssClass="btn btn-primary" onclick="return query(event)"/>
-				<s:submit key="unreceived.action.print" cssClass="btn btn-primary" type="button" onclick="printUnreceived()" />
-				<input type="button" value="<s:text name="global.action.reset"/>" class="btn btn-primary" onclick="init()"/>
+				<s:submit key="unreceived.action.print" cssClass="btn btn-primary print" type="button" onclick="printUnreceived()" />
+				<input type="button" value="<s:text name="global.action.reset"/>" class="btn btn-primary reset" onclick="init()"/>
 			</div>
 		</div>
 
@@ -38,17 +38,17 @@
 				<tr>
 					<th class="col-md-1"><s:text name="offer.field.seq" /></th>
 					<th class="col-md-2"><s:text name="offer.field.offer_date" /></th>
-					<th class="col-md-4"><s:text name="cust.field.name" /></th>
+					<th class="col-md-2"><s:text name="cust.field.name" /></th>
 					<th class="col-md-2"><s:text name="offer.field.master_id" /></th>
-					<th class="col-md-1"><s:text name="offer.field.total" /></th>
+					<th class="col-md-2"><s:text name="offer.field.total" /></th>
 					<th class="col-md-1"><s:text name="offer.field.receive_amt" /></th>
-					<th class="col-md-1"><s:text name="offer.field.cost" /></th>
+					<th class="col-md-2"><s:text name="offer.field.cost" /></th>
 				</tr>
 			</thead>
 			<tbody>
 <c:if test="${empty form.unreceivedOffers}">
 				<tr>
-					<td colspan="6" class="text-center"><s:text name="global.message.noResults"/></td>
+					<td colspan="7" class="text-center"><s:text name="global.message.noResults"/></td>
 				</tr>
 </c:if>
 <s:iterator value="form.unreceivedOffers" var="record" status="idx">
@@ -57,7 +57,7 @@
 					<td data-title="<s:text name="offer.field.seq"/>"><span class="form-control-static detail_seq">${idx.count}</span></td>
 					<td data-title="<s:text name="offer.field.offer_date"/>"><span class="form-control-static detail_date"><fmt:formatDate value="${record.offerDate}" pattern="yyyy-MM-dd"/></span></td>
 					<td data-title="<s:text name="cust.field.name"/>"><span class="form-control-static detail_cust"><c:out value="${record.cust.name}"/></span></td>
-					<td data-title="<s:text name="offer.field.master_id"/>"><span class="form-control-static detail_id"><c:out value="${record.id}"/> <a href="<s:property value="#mainURL" />" role="button" class="btn btn-warning show_tip" data-original-title="<s:text name="offer.message.detail"/>" ><i class="fa fa-external-link"></i></a></span></td>
+					<td data-title="<s:text name="offer.field.master_id"/>"><span class="form-control-static detail_id"><c:out value="${record.id}"/></span> <a href="<s:property value="#mainURL" />" role="button" class="btn btn-warning show_tip" data-original-title="<s:text name="offer.message.detail"/>" ><i class="fa fa-external-link"></i></a></td>
 					<td data-title="<s:text name="offer.field.total"/>" class="text-right"><span class="form-control-static detail_total"><c:out value="${record.total}"/></span></td>
 					<td data-title="<s:text name="offer.field.receive_amt"/>" class="text-right"><span class="form-control-static text-right detail_received"><c:out value="${record.receiveAmt}"/></span></td>
 					<td data-title="<s:text name="offer.field.cost"/>" class="text-right"><span class="form-control-static detail_cost"><c:out value="${record.cost}"/></span></td>
@@ -78,7 +78,7 @@
 
 var custs = [<s:iterator value="form.custs" var="cust" status="idx">{id:"<c:out value="${cust.id}"/>",name:"<c:out value="${cust.name}"/>"},</s:iterator>];
 
-function getDate1() {
+function getDates() {
 	var date = new Date();
 	var year = new String(date.getFullYear());
 	var month = new String(date.getMonth() + 1);
@@ -95,12 +95,16 @@ function getDate1() {
 }
 
 function init() {
-	var d = getDate1();
+	var d = getDates();
 	$('.start_date').val(d[0]);
 	$('.end_date').val(d[1]);
 	
 	$('.cust').val('');
 	$('#custId').val('');
+	
+	$('.div-result').hide();
+	$('.print').attr('disabled','disabled');
+	$('.reset').attr('disabled','disabled');
 	
 }
 function query(event) {
@@ -121,7 +125,10 @@ function query(event) {
 function printUnreceived() {
 	var id = "";
 	var before = "";
+	var count = $('table#queryResult tbody tr')
 	$('table#queryResult tbody tr').each(function(i,e) {
+		if (!$(this).find('.detail_id').length) return false; // 等於break
+		
 		var masterId = $(this).find('.detail_id').text();
 		id += "," + masterId;
 	});
@@ -129,8 +136,15 @@ function printUnreceived() {
 	var printWin = openWindow('/fb2/unreceived.sheet?id=' + id + '&before=' + before, 'printUnReceived', 793, 529);
 }
 
+var query = '${attr.query}';
 $(function () {
-	var d = getDate1();
+	if (query === '') {
+		$('.div-result').hide();
+		$('.print').attr('disabled','disabled');
+		$('.reset').attr('disabled','disabled');
+	}
+	
+	var d = getDates();
 	if ($('.start_date').val() == '')
 		$('.start_date').val(d[0]);
 	if ($('.end_date').val() == '')
@@ -140,6 +154,8 @@ $(function () {
 	var rec = 0;
 	var cost = 0;
 	$('table#queryResult tbody tr').each(function(i,e) {
+		if (!$(this).find('.detail_seq').length) return false; // 等於break
+		
 		var t = $(this).find('.detail_total').text();
 		var r = $(this).find('.detail_received').text();
 		var c = $(this).find('.detail_cost').text();
@@ -166,10 +182,10 @@ $(function () {
 		'<td>&nbsp;</td>' + 
 		'<td>&nbsp;</td>' + 
 		'<td>&nbsp;</td>' + 
-		'<td>' + ((profit > 0)? '<h4 class="text-success"><s:text name="unreceived.field.profile"/></h4>': '<h4 class="text-danger"><s:text name="unreceived.field.loss"/></h4>') + '</td>' + 
+		'<td>' + ((profit > 0)? '<h4 class="text-success"><s:text name="unreceived.field.profile"/></h4>': ((profit < 0)? '<h4 class="text-danger"><s:text name="unreceived.field.loss"/></h4>': '<h4 class="text-primary"><s:text name="unreceived.field.balance"/></h4>')) + '</td>' + 
 		'<td>&nbsp;</td>' + 
 		'<td>&nbsp;</td>' + 
-		'<td class="text-right">' + ((profit > 0)? '<h4 class="text-success">+': '<h4 class="text-danger">-') + profit.toFixed(2) + '</h4></td></tr>';
+		'<td class="text-right">' + ((profit > 0)? '<h4 class="text-success">+': ((profit < 0)? '<h4 class="text-danger">-': '<h4 class="text-primary">')) + profit.toFixed(2) + '</h4></td></tr>';
 	$('table#queryResult tbody').append(row1);
 	$('table#queryResult tbody').append(row2);
 
