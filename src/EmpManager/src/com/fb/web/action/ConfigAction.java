@@ -1,12 +1,11 @@
 package com.fb.web.action;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.fb.service.CommonService;
-import com.fb.util.CommonUtil;
 import com.fb.util.FamilyBizException;
 import com.fb.vo.LookupVO;
 import com.fb.web.form.ConfigForm;
@@ -46,35 +45,16 @@ public class ConfigAction extends BaseAction {
 	public String modifyUnits() throws Exception {
 
 		logger.info("modifyUnits start");
+		this.clearErrorsAndMessages();
 		
 		try {
 			CommonService service = (CommonService) this.getServiceFactory().getService("common");
 			
-			String[] labels = request.getParameterValues("label");
-			String[] idx = request.getParameterValues("unitDeleteIdx");
-
-			String deleteIdx = "";
-			if (idx != null)
-				deleteIdx = "," + CommonUtil.convertListToString(idx, ",", false) + ",";
-
-			List<String> units = new ArrayList<String>();
-			for(int i = 0; i < labels.length; i++) {
-				if (labels[i] == null || "".equals(labels[i])) continue;
-
-				if (i < form.getUnits().size()) {
-					//屬於原有的資料
-					
-					//刪除的不予理會
-					if (deleteIdx.indexOf("," + String.valueOf(i) + ",") != -1) continue; 
-					
-					units.add(labels[i]);
-				} else {
-					//屬於新增的資料
-					units.add(labels[i]);
-				}
-			}
+			String[] labels = request.getParameterValues("unit_label");
+			List<String> units = Arrays.asList(labels);
 			
 			service.modifyUnits(units);
+
 			addLocalizationActionSuccess("save");
 			
 		} catch (FamilyBizException e) {
@@ -88,6 +68,7 @@ public class ConfigAction extends BaseAction {
 	public String modifyOfferMemo() throws Exception {
 
 		logger.info("modifyOfferMemo start");
+		this.clearErrorsAndMessages();
 		
 		try {
 			CommonService service = (CommonService) this.getServiceFactory().getService("common");

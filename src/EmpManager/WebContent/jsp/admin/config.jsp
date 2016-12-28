@@ -43,15 +43,14 @@
 					<tbody>
 <s:iterator value="form.units" var="record" status="idx">
 					<tr>
-						<td data-title="<s:text name="global.action.remove" />"><input type="checkbox" name="unitDeleteIdx" value="${idx.count}"></td>
+						<td data-title="<s:text name="global.action.remove" />"><button title="" type="button" class="btn btn-danger remove show_tip" data-original-title="<s:text name="global.action.remove"/>"><i class="fa fa-trash-o"></i></button></td>
 						<td data-title="<s:text name="config.field.unit_code" />"><c:out value="${record.code}"/></td>
-						<td data-title="<s:text name="config.field.unit_label" />"><c:out value="${record.value}"/></td>
+						<td data-title="<s:text name="config.field.unit_label" />"><input name="unit_label" value="${record.value}" type="text" maxlength="1" class="form-control form-control-fullwidth unit_label" /></td>
 					</tr>
 </s:iterator>					
 					</tbody>
-					</table>
+				</table>
 			</div>
-				
 			</div>
 		</s:form>
 	</div>
@@ -63,15 +62,20 @@
 function addUnitRow() {
 	var len = $('table#queryResult tbody tr').length;
 	var row = '<tr>' + 
-			'<td data-title="<s:text name="global.action.remove"/>">&nbsp;</td>' + 
+			'<td data-title="<s:text name="global.action.remove"/>"><button title="" type="button" class="btn btn-danger remove show_tip" data-original-title="<s:text name="global.action.remove"/>"><i class="fa fa-trash-o"></i></button></td>' + 
 			'<td data-title="<s:text name="config.field.unit_code"/>">&nbsp;</td>' + 
-			'<td data-title="<s:text name="config.field.unit_label"/>"><input name="label" type="text" maxlength="1" class="form-control form-control-fullwidth unit_label" /></td>' + 
+			'<td data-title="<s:text name="config.field.unit_label"/>"><input name="unit_label" type="text" maxlength="1" class="form-control form-control-fullwidth unit_label" /></td>' + 
 			'</tr>';
 	$('table#queryResult tbody').append(row);
 }
 
 $(function () {
 	$(".add").on("click", addUnitRow);
+
+	$("table#queryResult").on("click", ".remove", function () {
+		$(this).closest('tr').remove();
+	});
+
 });
 
 </script>
