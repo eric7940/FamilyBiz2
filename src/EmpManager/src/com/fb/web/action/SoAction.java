@@ -65,6 +65,10 @@ public class SoAction extends BaseAction {
 					form.setOfferDate(DateUtil.getDateString(master.getOfferDate(), "yyyy-MM-dd"));
 					form.setReceiveAmt(master.getReceiveAmt());
 					form.setTotal(master.getTotal());
+					
+					if (master.getUstamp().equals(this.getUserInfo())) {
+						request.setAttribute("edit-mode", "y");
+					}
 				}
 			}
 		} catch (FamilyBizException e) {
@@ -167,6 +171,7 @@ public class SoAction extends BaseAction {
 			master.setTotal(total);
 			master.setCost(totalCost);
 			master.setReceiveAmt(new Double(0));
+			master.setUstamp(this.getUserInfo());
 			
 			String masterId = service.addOffer(master, details, false);
 			
@@ -276,6 +281,7 @@ public class SoAction extends BaseAction {
 			master.setTotal(total);
 			master.setCost(totalCost);
 			master.setReceiveAmt(new Double(0));
+			master.setUstamp(this.getUserInfo());
 			
 			service.modifyOffer(master, details);
 			
@@ -283,7 +289,7 @@ public class SoAction extends BaseAction {
 			
 		} catch (FamilyBizException e) {
             logger.error("action fail.", e);
-            this.addActionError(e);
+            this.addLocalizationActionError(e.getMessage());
         }
 
         return DEFAULT;
@@ -298,14 +304,18 @@ public class SoAction extends BaseAction {
 			
 			OfferService service = (OfferService) getServiceFactory().getService("offer");
 			
-			service.removeOffer(form.getMasterId(), false);
+			OfferMasterVO master = new OfferMasterVO();
+			master.setId(form.getMasterId());
+			master.setUstamp(this.getUserInfo());
+			
+			service.removeOffer(master, false);
 			form.reset();
 
 			addLocalizationActionSuccess("remove");
 			
 		} catch (FamilyBizException e) {
 			logger.error("action fail.", e);
-			this.addActionError(e);
+			this.addLocalizationActionError(e.getMessage());
 		}
 		
 		return DEFAULT;
@@ -428,6 +438,5 @@ public class SoAction extends BaseAction {
 	public SoForm getForm() {
 		return form;
 	}
-
 
 }

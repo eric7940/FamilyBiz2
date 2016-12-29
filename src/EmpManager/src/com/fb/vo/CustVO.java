@@ -11,6 +11,7 @@ public class CustVO implements Serializable{
 	private String deliverAddr;
 	private String tel;
 	private String memo;
+	private String ustamp;
 
 	public Integer getId() {
 		return id;
@@ -47,5 +48,11 @@ public class CustVO implements Serializable{
 	}
 	public void setMemo(String memo) {
 		this.memo = memo;
+	}
+	public String getUstamp() {
+		return ustamp;
+	}
+	public void setUstamp(String ustamp) {
+		this.ustamp = ustamp;
 	}
 }

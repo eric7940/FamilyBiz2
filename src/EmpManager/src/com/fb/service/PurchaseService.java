@@ -14,5 +14,5 @@ public interface PurchaseService extends Service {
 
 	public String addPurchase(PurchaseMasterVO master, List<PurchaseDetailVO> details, boolean back) throws FamilyBizException;
 
-	public int removePurchase(String masterId, boolean back) throws FamilyBizException;
+	public int removePurchase(PurchaseMasterVO master, boolean back) throws FamilyBizException;
 }

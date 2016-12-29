@@ -12,7 +12,8 @@ public class ProdVO implements Serializable{
 	private Double price;
 	private Double cost;
 	private Integer saveQty;
-	
+	private String ustamp;
+
 	public Integer getId() {
 		return id;
 	}
@@ -48,5 +49,11 @@ public class ProdVO implements Serializable{
 	}
 	public void setSaveQty(Integer saveQty) {
 		this.saveQty = saveQty;
+	}
+	public String getUstamp() {
+		return ustamp;
+	}
+	public void setUstamp(String ustamp) {
+		this.ustamp = ustamp;
 	}
 }

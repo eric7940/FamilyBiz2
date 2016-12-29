@@ -148,6 +148,9 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		String masterId = master.getId();
 		OfferMasterVO offer = this.getOffer(masterId);
 		
+		if (offer.getUstamp().equals(master.getUstamp()) == false)
+			throw new FamilyBizException("global.error.unauthorized");
+		
 		ProdStockQtyVO qty1 = new ProdStockQtyVO();
 		Integer stockId = offer.getStock().getId();
 		qty1.setStockId(stockId);
@@ -162,7 +165,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		this.getFbDao().delete("deleteOfferDetails", masterId);
 		
 		master.setStatus("N");
-		this.getFbDao().insert("updateOfferMaster", master);
+		this.getFbDao().update("updateOfferMaster", master);
 		
 		DecimalFormat df2 = new DecimalFormat("000");
 		for(int i = 0; i < details.size(); i++) {
@@ -190,8 +193,11 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return Integer.parseInt(masterId);
 	}
 
-	public int removeOffer(String masterId, boolean back) throws FamilyBizException {
-		OfferMasterVO offer = this.getOffer(masterId);
+	public int removeOffer(OfferMasterVO master, boolean back) throws FamilyBizException {
+		OfferMasterVO offer = this.getOffer(master.getId());
+		
+		if (offer.getUstamp().equals(master.getUstamp()) == false)
+			throw new FamilyBizException("global.error.unauthorized");
 		
 		ProdStockQtyVO qty = new ProdStockQtyVO();
 		qty.setStockId(offer.getStock().getId());
@@ -209,7 +215,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 			this.getFbDao().update("updateProdStockQty", qty);
 		}
 
-		return this.getFbDao().update("deleteOffer", masterId);
+		return this.getFbDao().update("deleteOffer", master);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

@@ -84,6 +84,7 @@
 		<result property="memo"			column="m.memo"/>
 		<result property="back"			column="m.back"/>
 		<result property="status"		column="m.status"/>
+		<result property="ustamp"		column="m.ustamp"/>
 		<result property="cust"			resultMap="FB.CustResult"/>
 		<result property="deliveryUser"	resultMap="FB.UserResult"/>
 		<result property="stock"			resultMap="FB.StockResult"/>
@@ -109,6 +110,7 @@
 		<result property="memo"			column="m.memo"/>
 		<result property="back"			column="m.back"/>
 		<result property="status"		column="m.status"/>
+		<result property="ustamp"		column="m.ustamp"/>
 		<result property="fact"			resultMap="FB.FactResult"/>
 		<result property="stock"			resultMap="FB.StockResult"/>
 		<result property="details"		resultMap="FB.PurchaseDetailResult"/>
@@ -189,19 +191,19 @@
 		insert into tb_menu values (null, #label#, null, 'Y', #displayOrder#, #folderFlag#)
 	</insert>
 	<insert id="insertCust" parameterClass="CustVO">
-		insert into tb_cust values (null, #name#, #bizNo#, #deliverAddr#, #tel#, #memo#, '', user(), now())
+		insert into tb_cust values (null, #name#, #bizNo#, #deliverAddr#, #tel#, #memo#, '', #ustamp#, now())
 	</insert>
 	<insert id="insertProd" parameterClass="ProdVO">
-		insert into tb_prod values (null, #name#, #unit#, #price#, #cost#, #saveQty#, '', user(), now())
+		insert into tb_prod values (null, #name#, #unit#, #price#, #cost#, #saveQty#, '', #ustamp#, now())
 	</insert>
 	<insert id="insertFact" parameterClass="FactVO">
-		insert into tb_fact values (null, #name#, #bizNo#, #contact#, #addr#, #tel#, #memo#, '', user(), now())
+		insert into tb_fact values (null, #name#, #bizNo#, #contact#, #addr#, #tel#, #memo#, '', #ustamp#, now())
 	</insert>
 	<insert id="insertProdStockQty" parameterClass="ProdStockQtyVO">
 		insert into tb_prod_stock_qty values (#stockId#, last_insert_id(), #qty#)
 	</insert>
 	<insert id="insertOfferMaster" parameterClass="OfferMasterVO">
-		insert into tb_offer_master values (#id#, #offerDate#, #custId#, #invoiceNbr#, #stockId#, #amt#, #discount#, #total#, #cost#, #receiveAmt#, #memo#, #back#, #status#, #deliveryUserId#)
+		insert into tb_offer_master values (#id#, #offerDate#, #custId#, #invoiceNbr#, #stockId#, #amt#, #discount#, #total#, #cost#, #receiveAmt#, #memo#, #back#, #status#, #deliveryUserId#, #ustamp#, now())
 	</insert>
 	<insert id="insertOfferDetail" parameterClass="OfferDetailVO">
 		insert into tb_offer_detail values (#id#, #masterId#, #prodId#, #qty#, #amt#)
@@ -210,7 +212,7 @@
 		insert into tb_cust_prod_his values (#custId#, #prodId#, #price#, #offerId#)
 	</insert>
 	<insert id="insertPurchaseMaster" parameterClass="PurchaseMasterVO">
-		insert into tb_purchase_master values (#id#, #purchaseDate#, #factId#, #invoiceNbr#, #stockId#, #amt#, #discount#, #total#, #memo#, #back#, #status#)
+		insert into tb_purchase_master values (#id#, #purchaseDate#, #factId#, #invoiceNbr#, #stockId#, #amt#, #discount#, #total#, #memo#, #back#, #status#, #ustamp#, now())
 	</insert>
 	<insert id="insertPurchaseDetail" parameterClass="PurchaseDetailVO">
 		insert into tb_purchase_detail values (#id#, #masterId#, #prodId#, #qty#, #amt#)
@@ -239,24 +241,24 @@
 	<update id="updateCust" parameterClass="CustVO">
 		update tb_cust set 
 			name = #name#, biz_no = #bizNo#, deliver_addr = #deliverAddr#, tel = #tel#, memo = #memo#, 
-			ustamp = user(), tstamp = now() 
+			ustamp = #ustamp#, tstamp = now() 
 		where id = #id#
 	</update>
 	<update id="updateFact" parameterClass="FactVO">
 		update tb_fact set 
 			name = #name#, biz_no = #bizNo#, contact = #contact#, 
 			addr = #addr#,  tel = #tel#, memo = #memo#, 
-			ustamp = user(), tstamp = now() 
+			ustamp = #ustamp#, tstamp = now() 
 		where id = #id#
 	</update>
 	<update id="updateProd" parameterClass="ProdVO">
 		update tb_prod set 
 			name = #name#, unit = #unit#, price = #price#, save_qty = #saveQty#, 
-			ustamp = user(), tstamp = now() 
+			ustamp = #ustamp#, tstamp = now() 
 		where id = #id#
 	</update>
 	<update id="updateProdCost" parameterClass="ProdVO">
-		update tb_prod set cost = #cost#, ustamp = user(), tstamp = now() 
+		update tb_prod set cost = #cost#, ustamp = #ustamp#, tstamp = now() 
 		where id = #id#
 	</update>
 	<update id="updateOfferMaster" parameterClass="OfferMasterVO">
@@ -272,11 +274,13 @@
 			cost = #cost#, 
 			receive_amt = #receiveAmt#, 
 			memo = #memo#, 
-			status = #status#
+			status = #status#,
+			ustamp = #ustamp#,
+			tstamp = now()
 		where id = #id#
 	</update>
 	<update id="updateOfferReceiveAmt" parameterClass="OfferMasterVO">
-		update tb_offer_master set receive_amt = #receiveAmt# where id = #id#
+		update tb_offer_master set receive_amt = #receiveAmt#, ustamp = #ustamp#, tstamp = now() where id = #id#
 	</update>
 	<update id="updateProdStockQty" parameterClass="ProdStockQtyVO">
 		update tb_prod_stock_qty set qty = qty + #qty# 
@@ -299,52 +303,43 @@
 	<update id="deleteFuncAuth" parameterClass="string">
 		delete from tb_func_auth where grade = #value#
 	</update>
-	<update id="deleteCust" parameterClass="int">
-		update tb_cust 
-		set status = 'D', ustamp = user(), tstamp = now() 
-		where id = #value#
+	<update id="deleteCust" parameterClass="CustVO">
+		update tb_cust set status = 'D', ustamp = #ustamp#, tstamp = now()
+		where id = #id#
 	</update>
 	<update id="deleteCusts" parameterClass="string">
-		update tb_cust 
-		set status = 'D', ustamp = user(), tstamp = now() 
+		update tb_cust set status = 'D', ustamp = #ustamp#, tstamp = now() 
 		where id in ($value$)
 	</update>
-	<update id="deleteFact" parameterClass="int">
-		update tb_fact 
-		set status = 'D', ustamp = user(), tstamp = now() 
-		where id = #value#
+	<update id="deleteFact" parameterClass="FactVO">
+		update tb_fact set status = 'D', ustamp = #ustamp#, tstamp = now()
+		where id = #id#
 	</update>
 	<update id="deleteFacts" parameterClass="string">
-		update tb_fact 
-		set status = 'D', ustamp = user(), tstamp = now() 
+		update tb_fact set status = 'D', ustamp = #ustamp#, tstamp = now() 
 		where id in ($value$)
 	</update>	
-	<update id="deleteProd" parameterClass="int">
-		update tb_prod 
-		set status = 'D', ustamp = user(), tstamp = now() 
-		where id = #value#
+	<update id="deleteProd" parameterClass="ProdVO">
+		update tb_prod set status = 'D', ustamp = #ustamp#, tstamp = now()
+		where id = #id#
 	</update>
 	<update id="deleteProds" parameterClass="string">
-		update tb_prod 
-		set status = 'D', ustamp = user(), tstamp = now() 
+		update tb_prod set status = 'D', ustamp = #ustamp#, tstamp = now()
 		where id in ($value$)
 	</update>
 	<delete id="deleteCustProdHis" parameterClass="string">
 		delete from tb_cust_prod_his where offer_id = #value#
 	</delete>
-	<update id="deleteOffer" parameterClass="String">
-		update tb_offer_master 
-		set status = 'D' 
-		where id = #value#
+	<update id="deleteOffer" parameterClass="OfferMasterVO">
+		update tb_offer_master set status = 'D', ustamp = #ustamp#, tstamp = now() 
+		where id = #id#
 	</update>
 	<delete id="deleteOfferDetails" parameterClass="String">
-		delete from tb_offer_detail 
-		where master_id = #value#
+		delete from tb_offer_detail where master_id = #value#
 	</delete>
-	<update id="deletePurchase" parameterClass="String">
-		update tb_purchase_master 
-		set status = 'D' 
-		where id = #value#
+	<update id="deletePurchase" parameterClass="PurchaseMasterVO">
+		update tb_purchase_master set status = 'D', ustamp = #ustamp#, tstamp = now() 
+		where id = #id#
 	</update>
 
 	<select id="selectLookup" parameterClass="LookupVO" resultClass="LookupVO">

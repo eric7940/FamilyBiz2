@@ -87,6 +87,7 @@ public class ProdAction extends BaseAction {
 			prod.setPrice(form.getPrice());
 			prod.setCost(new Double(0));
 			prod.setSaveQty(form.getSaveQty());
+			prod.setUstamp(this.getUserInfo());
 			
 			service.addProd(prod);
 
@@ -143,6 +144,7 @@ public class ProdAction extends BaseAction {
 			prod.setPrice(form.getPrice());
 			prod.setCost(form.getCost());
 			prod.setSaveQty(form.getSaveQty());
+			prod.setUstamp(this.getUserInfo());
 			
 			service.modifyProd(prod);
 			addLocalizationActionSuccess("save");

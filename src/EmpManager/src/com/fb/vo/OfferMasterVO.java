@@ -22,6 +22,7 @@ public class OfferMasterVO implements Serializable {
 	private String memo;
 	private String back;
 	private String status;
+	private String ustamp;
 	
 	private CustVO cust;
 	private UserVO deliveryUser;
@@ -117,6 +118,12 @@ public class OfferMasterVO implements Serializable {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getUstamp() {
+		return ustamp;
+	}
+	public void setUstamp(String ustamp) {
+		this.ustamp = ustamp;
 	}
 	public List<OfferDetailVO> getDetails() {
 		return details;

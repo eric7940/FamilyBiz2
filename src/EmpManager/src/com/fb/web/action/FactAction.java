@@ -75,6 +75,7 @@ public class FactAction extends BaseAction {
 			fact.setAddr(form.getAddr());
 			fact.setTel(form.getTel());
 			fact.setMemo(form.getMemo());
+			fact.setUstamp(this.getUserInfo());
 			
 			service.addFact(fact);
 
@@ -129,6 +130,7 @@ public class FactAction extends BaseAction {
 			fact.setAddr(form.getAddr());
 			fact.setTel(form.getTel());
 			fact.setMemo(form.getMemo());
+			fact.setUstamp(this.getUserInfo());
 			
 			service.modifyFact(fact);
 			addLocalizationActionSuccess("save");

@@ -147,6 +147,7 @@ public class PoAction extends BaseAction {
 			
 			master.setAmt(sum);
 			master.setTotal(total);
+			master.setUstamp(this.getUserInfo());
 			
 			String masterId = service.addPurchase(master, details, false);
 			
@@ -171,14 +172,18 @@ public class PoAction extends BaseAction {
 			
 			PurchaseService service = (PurchaseService) getServiceFactory().getService("purchase");
 			
-			service.removePurchase(form.getMasterId(), false);
+			PurchaseMasterVO master = new PurchaseMasterVO();
+			master.setId(form.getMasterId());
+			master.setUstamp(this.getUserInfo());
+			
+			service.removePurchase(master, false);
 			form.reset();
 
 			addLocalizationActionSuccess("remove");
 			
 		} catch (FamilyBizException e) {
 			logger.error("action fail.", e);
-			this.addActionError(e);
+			this.addLocalizationActionError(e.getMessage());
 		}
 		
 		return DEFAULT;
@@ -251,6 +256,5 @@ public class PoAction extends BaseAction {
 	public PoForm getForm() {
 		return form;
 	}
-
 
 }

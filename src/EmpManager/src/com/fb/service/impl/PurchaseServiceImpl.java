@@ -70,13 +70,17 @@ public class PurchaseServiceImpl extends ServiceImpl implements PurchaseService 
 			ProdVO prod = new ProdVO();
 			prod.setId(detail.getProdId());
 			prod.setCost(detail.getAmt() / detail.getQty());
+			prod.setUstamp(master.getUstamp());
 			this.getFbDao().update("updateProdCost", prod);
 		}
 		return masterId;
 	}
 
-	public int removePurchase(String masterId, boolean back) throws FamilyBizException {
-		PurchaseMasterVO purchase = this.getPurchase(masterId);
+	public int removePurchase(PurchaseMasterVO master, boolean back) throws FamilyBizException {
+		PurchaseMasterVO purchase = this.getPurchase(master.getId());
+		
+		if (purchase.getUstamp().equals(master.getUstamp()) == false)
+			throw new FamilyBizException("global.error.unauthorized");
 		
 		ProdStockQtyVO qty = new ProdStockQtyVO();
 		qty.setStockId(purchase.getStock().getId());
@@ -94,6 +98,6 @@ public class PurchaseServiceImpl extends ServiceImpl implements PurchaseService 
 			this.getFbDao().update("updateProdStockQty", qty);
 		}
 
-		return this.getFbDao().update("deletePurchase", masterId);
+		return this.getFbDao().update("deletePurchase", master);
 	}
 }

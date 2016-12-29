@@ -3,10 +3,10 @@
 <%!
 private static final java.util.Map<Integer,String> errMsg = new java.util.HashMap<Integer,String>();
 static {
-	errMsg.put(javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST, 			"Bad Request");				//400
-	errMsg.put(javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED, 			"Unauthorized");			//401
-	errMsg.put(javax.servlet.http.HttpServletResponse.SC_FORBIDDEN, 			"Forbidden");				//403
-	errMsg.put(javax.servlet.http.HttpServletResponse.SC_NOT_FOUND, 			"Not Found");				//404
+	errMsg.put(javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST,  "Bad Request");   //400
+	errMsg.put(javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");  //401
+	errMsg.put(javax.servlet.http.HttpServletResponse.SC_FORBIDDEN,    "Forbidden");     //403
+	errMsg.put(javax.servlet.http.HttpServletResponse.SC_NOT_FOUND,    "Not Found");     //404
 	errMsg.put(javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error");	//500
 }
 %>

@@ -74,6 +74,7 @@ public class CustAction extends BaseAction {
 			cust.setDeliverAddr(form.getDeliverAddr());
 			cust.setTel(form.getTel());
 			cust.setMemo(form.getMemo());
+			cust.setUstamp(this.getUserInfo());
 			
 			service.addCust(cust);
 
@@ -126,6 +127,7 @@ public class CustAction extends BaseAction {
 			cust.setDeliverAddr(form.getDeliverAddr());
 			cust.setTel(form.getTel());
 			cust.setMemo(form.getMemo());
+			cust.setUstamp(this.getUserInfo());
 			
 			service.modifyCust(cust);
 			addLocalizationActionSuccess("save");

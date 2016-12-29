@@ -13,7 +13,8 @@ public class FactVO implements Serializable {
 	private String addr;
 	private String tel;
 	private String memo;
-	
+	private String ustamp;
+
 	public Integer getId() {
 		return id;
 	}
@@ -56,5 +57,10 @@ public class FactVO implements Serializable {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
-
+	public String getUstamp() {
+		return ustamp;
+	}
+	public void setUstamp(String ustamp) {
+		this.ustamp = ustamp;
+	}
 }

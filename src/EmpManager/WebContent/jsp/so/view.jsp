@@ -18,8 +18,10 @@
 			</div>
 			<div class="col-md-4 text-right">
 				<button type="button" class="btn btn-success print" disabled="disabled" onclick="printOffer()"><s:text name="offer.action.print"/></button>
+<s:if test="%{attr.edit-mode == 'y'}">
 				<button type="button" class="btn btn-success edit" disabled="disabled" onclick="fnInitModify(event,'${form.masterId}','form.keyword')"><s:text name="global.action.edit"/></button>
 				<button type="button" class="btn btn-success remove" disabled="disabled" onclick="fnRemove(event,'<s:text name="offer.message.confirm.remove"/>')"><s:text name="global.action.remove"/></button>
+</s:if>
 			</div>
 		</div>
 

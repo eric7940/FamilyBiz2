@@ -39,12 +39,6 @@
 			</div>
 			<div class="col-md-2">
 				<div class="form-group">
-					<label for="cost"><s:text name="prod.field.cost"/></label>
-					<s:textfield name="form.cost" id="cost" cssClass="form-control form-control-static cost"/>
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
 					<label for="save_qty"><s:text name="prod.field.save_qty"/></label>
 					<s:textfield name="form.saveQty" id="save_qty" cssClass="form-control save_qty" onkeyup="convertNum(this);processSaveQty(this);"/>
 				</div>
