@@ -421,11 +421,11 @@
 		<isNotNull property="name" prepend="and"> p.name like #name#</isNotNull>
 		order by p.name asc
 	</select>
-	<select id="selectProdByCust" parameterClass="CustProdHisVO" resultClass="ProdVO">
-		select 0 offer_id, id, name, price 
+	<select id="selectPriceHistory" parameterClass="CustProdHisVO" resultClass="java.util.HashMap">
+		select '-' offer_id, id prod_id, name prod_name, price, '-' offer_date 
 			from tb_prod where id = #prodId#
 		union distinct
-		select max(b.offer_id) offer_id, b.prod_id id, a.name name, b.price price
+		select max(b.offer_id) offer_id, b.prod_id, a.name prod_name, b.price, (select x.offer_date from tb_offer_master x where x.id = max(b.offer_id)) offer_date
 			from tb_prod a, tb_cust_prod_his b
 			where
 				a.id = b.prod_id and

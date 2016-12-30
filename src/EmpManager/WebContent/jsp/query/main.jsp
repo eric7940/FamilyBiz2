@@ -12,17 +12,41 @@
 		<h3><s:text name="query.tab.price"/></h3>
 		<form class="navbar-form">
 			<div role="main" class="container-fluid">
-				<div class="form-group">
-					<label for="cust"><s:text name="cust.field.name"/></label>
-					<input type="text" name="cust" class="form-control cust" placeholder='<s:text name="global.message.keywordSearch"/>' />
-					<input type="hidden" id="custId"/>
+				<div class="row">
+					<div class="col-md-4 div-search">
+						<div class="form-group">
+							<label for="cust"><s:text name="cust.field.name"/></label>
+							<input type="text" name="cust" class="form-control cust" placeholder='<s:text name="global.message.keywordSearch"/>' />
+							<input type="hidden" id="custId"/>
+						</div>
+					</div>
+					<div class="col-md-4 div-search">
+						<div class="form-group">
+							<label for="prod"><s:text name="prod.field.name"/></label>
+							<input type="text" name="prod" class="form-control prod" placeholder='<s:text name="global.message.keywordSearch"/>'/>
+							<input type="hidden" id="prodId"/>
+						</div>
+					</div>
+					<div class="col-md-4 div-search text-right">
+						<button type="button" class="btn btn-primary query"><s:text name="global.action.query"/></button>
+						<button type="reset" class="btn btn-primary reset"><s:text name="global.action.reset"/></button>
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="prod"><s:text name="prod.field.name"/></label>
-					<input type="text" name="prod" class="form-control prod" placeholder='<s:text name="global.message.keywordSearch"/>'/>
-					<input type="hidden" id="prodId"/>
+				<div class="div-result">
+				<table id="queryResult" class="table table-striped table-hover table-break-all table-list break-table table-condensed">
+					<thead>
+						<tr>
+							<th class="col-md-1"><s:text name="prod.field.id" /></th>
+							<th class="col-md-3"><s:text name="prod.field.name" /></th>
+							<th class="col-md-2"><s:text name="offer.field.master_id" /></th>
+							<th class="col-md-2"><s:text name="offer.field.offer_date" /></th>
+							<th class="col-md-4"><s:text name="prod.field.price" /></th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
 				</div>
-				<button type="button" class="btn btn-primary query"><s:text name="global.action.query"/></button>
 			</div>
 		</form>
 	</div>
@@ -139,8 +163,16 @@ $(function () {
 		    success: function(json) {
 		    		if (json["errCde"] == '00') {
 					var result = json["result"];
+					$('#queryPrice').find('table#queryResult tbody').empty();
 					$.each(result, function(i,v) {
-						alert(v.name);
+						var row = '<tr>' + 
+							'<td data-title="<s:text name="offer.field.master_id" />"><span class="form-control-static">' + v.prod_id + '</span></td>' + 
+							'<td data-title="<s:text name="prod.field.name" />"><span class="form-control-static">' + v.prod_name + '</span></td>' + 
+							'<td data-title="<s:text name="offer.field.id" />"><span class="form-control-static">' + v.offer_id + '</span></td>' + 
+							'<td data-title="<s:text name="offer.field.offer_date" />"><span class="form-control-static">' + v.offer_date + '</span></td>' + 
+							'<td data-title="<s:text name="prod.field.price" />"><span class="form-control-static">' + v.price + '</span></td>';
+						row += '</tr>';
+						$('#queryPrice').find('table#queryResult tbody').append(row);
 					});
 				} else {
 					alert(json["errMsg"]);
@@ -151,8 +183,9 @@ $(function () {
 		    }
 		});
 	});
-	
-
+	$('#queryPrice').on('reset', function() {
+		$('#queryPrice').find('table#queryResult tbody').empty();
+	});
 });
 
 </script>

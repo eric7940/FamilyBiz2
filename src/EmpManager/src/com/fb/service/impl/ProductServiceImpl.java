@@ -58,7 +58,7 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 		CustProdHisVO vo = new CustProdHisVO();
 		vo.setCustId(custId);
 		vo.setProdId(prodId);
-		return this.getFbDao().queryForList("selectProdByCust", vo);
+		return this.getFbDao().queryForList("selectPriceHistory", vo);
 	}
 
 	public void add(ProdVO prod) throws FamilyBizException {
