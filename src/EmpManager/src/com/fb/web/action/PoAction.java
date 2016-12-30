@@ -79,7 +79,7 @@ public class PoAction extends BaseAction {
 			FactoryService service1 = (FactoryService) this.getServiceFactory().getService("factory");
 			StockService service4 = (StockService) this.getServiceFactory().getService("stock");
 			
-			form.setFacts(service1.getFacts());
+			form.setFacts(service1.getList());
 			form.setStocks(service4.getStocks());
 
 			form.setDiscount(new Double(0));

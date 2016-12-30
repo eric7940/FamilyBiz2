@@ -14,12 +14,12 @@
 			<div role="main" class="container-fluid">
 				<div class="form-group">
 					<label for="cust"><s:text name="cust.field.name"/></label>
-					<input type="text" name="cust" class="form-control cust" placeholder='%{getText("global.message.keywordSearch")}'/>
+					<input type="text" name="cust" class="form-control cust" placeholder='<s:text name="global.message.keywordSearch"/>' />
 					<input type="hidden" id="custId"/>
 				</div>
 				<div class="form-group">
 					<label for="prod"><s:text name="prod.field.name"/></label>
-					<input type="text" name="prod" class="form-control prod" placeholder='%{getText("global.message.keywordSearch")}'/>
+					<input type="text" name="prod" class="form-control prod" placeholder='<s:text name="global.message.keywordSearch"/>'/>
 					<input type="hidden" id="prodId"/>
 				</div>
 				<button type="button" class="btn btn-primary query"><s:text name="global.action.query"/></button>
@@ -67,16 +67,6 @@
 
 var custs = [<s:iterator value="form.custs" var="cust" status="idx">{id:"<c:out value="${cust.id}"/>",name:"<c:out value="${cust.name}"/>"},</s:iterator>];
 
-function addUnitRow() {
-	var len = $('table#queryResult tbody tr').length;
-	var row = '<tr>' + 
-			'<td data-title="<s:text name="global.action.remove"/>"><button title="" type="button" class="btn btn-danger remove show_tip" data-original-title="<s:text name="global.action.remove"/>"><i class="fa fa-trash-o"></i></button></td>' + 
-			'<td data-title="<s:text name="config.field.unit_code"/>">&nbsp;</td>' + 
-			'<td data-title="<s:text name="config.field.unit_label"/>"><input name="unit_label" type="text" maxlength="1" class="form-control form-control-fullwidth unit_label" /></td>' + 
-			'</tr>';
-	$('table#queryResult tbody').append(row);
-}
-
 $(function () {
 	$('#queryPrice').on('keydown.autocomplete', '.cust', function() {
 		$(this).autocomplete({
@@ -86,11 +76,7 @@ $(function () {
 					if (v.id === request.term || v.name.indexOf(request.term.toUpperCase()) >= 0) {
 						return {
 							label: v.name,
-							value: v.id,
-							addr: v.addr,
-							biz_no: v.biz_no,
-							tel: v.tel,
-							memo: v.memo
+							value: v.id
 						}
 					};
 				}));
@@ -101,45 +87,61 @@ $(function () {
 			},
 			select: function( event, ui ) {
 				$(this).val( ui.item.label );
-				$('#custId').val(ui.item.value);
-				$('.cust_name').text(ui.item.label);
-				$('.cust_id').text(ui.item.value);
-				$('.biz_no').text(ui.item.biz_no);
-				$('.deliver_addr').text(ui.item.addr);
-				$('.tel').text(ui.item.tel);
-				$('.cust_memo').text(ui.item.memo);
-
-				var d = new Date();
-				var month = d.getMonth() + 1;
-				var day = d.getDate();
-				var today = d.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
-				$(".offer_date").val(today);
-				
-				$('.add').removeAttr('disabled');
-				$('.save').removeAttr('disabled');
-				addDetailRow();
-				
+				$('#queryPrice').find('#custId').val(ui.item.value);
 				return false;
 			}
 		});
-		
+	});
+
+	$('#queryPrice').on('keydown.autocomplete', '.prod', function() {
+		$(this).autocomplete({
+			minLength: 2,
+			source: function(request, response) {
+				$.ajax({
+				    type: "POST",
+				    url: '<s:url action="main" namespace="/query" method="getProdList"/>',
+				    dataType: "json",
+				    data: {a: request.term},
+				    success: function(json) {
+				    		if (json["errCde"] == '00') {
+							response($.map(json["result"], function(v,i){
+								return {
+									label: v.name + '(<s:text name="prod.field.unit"/>:' + v.unit + ')',
+									value: v.id
+								};
+							}));
+						} else {
+							alert(json["errMsg"]);
+						} 
+				    },
+				    error: function (xhr, textStatus, errorThrown) {
+				    		alert(xhr.responseText);
+				    }
+				});
+			},
+			focus: function( event, ui ) {
+				$(this).val( ui.item.label );
+				return false;
+			},
+			select: function( event, ui ) {
+				$(this).val( ui.item.label );
+				$('#queryPrice').find('#prodId').val(ui.item.value);
+				return false;
+			}
+		});
+	});
 	$('#queryPrice').on('click', '.query', function() {
 		$.ajax({
 		    type: "POST",
 		    url: '<s:url action="main" namespace="/query" method="queryPrice"/>',
 		    dataType: "json",
-		    data: {a: $('#queryPrice').find('#custId').val(), $('#queryPrice').find('#prodId').val()},
+		    data: {a: $('#queryPrice').find('#custId').val(), b: $('#queryPrice').find('#prodId').val()},
 		    success: function(json) {
 		    		if (json["errCde"] == '00') {
-					response($.map(json["result"], function(v,i){
-						return {
-							label: v.prod.name + '(<s:text name="prod.field.unit"/>:' + v.prod.unit + ')',
-							value: v.prod.id,
-							unit: v.prod.unit,
-							cost: v.prod.cost,
-							price: v.amt
-						};
-					}));
+					var result = json["result"];
+					$.each(result, function(i,v) {
+						alert(v.name);
+					});
 				} else {
 					alert(json["errMsg"]);
 				} 
@@ -150,9 +152,6 @@ $(function () {
 		});
 	});
 	
-	$("table#queryResult").on("click", ".remove", function () {
-		$(this).closest('tr').remove();
-	});
 
 });
 

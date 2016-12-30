@@ -32,12 +32,12 @@ public class FactAction extends BaseAction {
 			
 			FactoryService service = (FactoryService) this.getServiceFactory().getService("factory");
 			
-			int totalRecord = service.getFactsCount(form.getKeyword());
+			int totalRecord = service.getCount(form.getKeyword());
 			int page = (form.getPageElement() == null) ? 1 : form.getPageElement().getCurrentPage();
 //			PageElement pageElement = new PageElement(totalRecord, page, 1);
 			PageElement pageElement = new PageElement(totalRecord, page, ConstUtil.QUERY_PAGE_SIZE);
 
-			List<FactVO> records = service.getFacts(form.getKeyword(), pageElement.getStart(), pageElement.getPageSize());
+			List<FactVO> records = service.getList(form.getKeyword(), pageElement.getStart(), pageElement.getPageSize());
 			pageElement.setRecords(records);
 			form.setPageElement(pageElement);
 		
@@ -77,7 +77,7 @@ public class FactAction extends BaseAction {
 			fact.setMemo(form.getMemo());
 			fact.setUstamp(this.getUserInfo());
 			
-			service.addFact(fact);
+			service.add(fact);
 
 			addLocalizationActionSuccess("save");
 
@@ -98,7 +98,7 @@ public class FactAction extends BaseAction {
 
 			FactoryService service = (FactoryService) this.getServiceFactory().getService("factory");
 
-			FactVO fact = service.getFact(form.getId());
+			FactVO fact = service.get(form.getId());
 			form.setName(fact.getName());
 			form.setBizNo(fact.getBizNo());
 			form.setContact(fact.getContact());
@@ -132,7 +132,7 @@ public class FactAction extends BaseAction {
 			fact.setMemo(form.getMemo());
 			fact.setUstamp(this.getUserInfo());
 			
-			service.modifyFact(fact);
+			service.modify(fact);
 			addLocalizationActionSuccess("save");
 			
 		} catch (FamilyBizException e) {

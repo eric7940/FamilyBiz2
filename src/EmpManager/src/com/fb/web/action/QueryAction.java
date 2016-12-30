@@ -102,6 +102,49 @@ public class QueryAction extends BaseAction {
 		return null;
 	}
 	
+	public String getProdList() throws Exception {
+		try {
+
+			String keyword = request.getParameter("a");
+			
+			logger.info("param: keyword=" + keyword);
+			
+			ProductService service = (ProductService) this.getServiceFactory().getService("product");
+			List<ProdVO> prods = service.getList(keyword);
+			
+			JsonConfig cfg = new JsonConfig();
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "00");
+			map.put("result", prods);
+			
+			JSONObject jsonObject = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			this.writeResponseJson(jsonObject.toString());
+
+		} catch (Exception e) {
+			logger.error("fail", e);
+
+			JsonConfig cfg = new JsonConfig();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "01");
+			map.put("errMsg", e.getMessage());
+
+			JSONObject jsonObject  = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			try {
+				this.writeResponseJson(jsonObject.toString());
+			} catch (IOException e1) {
+				logger.error("fail", e1);
+			}
+		}
+		
+		return null;
+	}
+	
 	public QueryForm getForm() {
 		return form;
 	}
