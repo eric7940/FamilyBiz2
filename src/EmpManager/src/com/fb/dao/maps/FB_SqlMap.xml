@@ -200,7 +200,7 @@
 		insert into tb_fact values (null, #name#, #bizNo#, #contact#, #addr#, #tel#, #memo#, '', #ustamp#, now())
 	</insert>
 	<insert id="insertProdStockQty" parameterClass="ProdStockQtyVO">
-		insert into tb_prod_stock_qty values (#stockId#, last_insert_id(), #qty#)
+		insert into tb_prod_stock_qty select id, last_insert_id(), #qty# from tb_stock
 	</insert>
 	<insert id="insertOfferMaster" parameterClass="OfferMasterVO">
 		insert into tb_offer_master values (#id#, #offerDate#, #custId#, #invoiceNbr#, #stockId#, #amt#, #discount#, #total#, #cost#, #receiveAmt#, #memo#, #back#, #status#, #deliveryUserId#, #ustamp#, now())
@@ -421,20 +421,18 @@
 		<isNotNull property="name" prepend="and"> p.name like #name#</isNotNull>
 		order by p.name asc
 	</select>
-	<select id="selectProdByCust" parameterClass="map" resultClass="ProdVO">
-		(select id, name, price from tb_prod
-		where 
-			id not in (select prod_id from tb_cust_prod_his where cust_id = #custId#)
-			<isNotNull property="prodName" prepend="and"> name like #prodName#</isNotNull>
-		) union distinct
-		(select his.prod_id as prod_id, prod.name as prod_name, his.price as price
-			from tb_prod prod, tb_cust_prod_his his
+	<select id="selectProdByCust" parameterClass="CustProdHisVO" resultClass="ProdVO">
+		select 0 offer_id, id, name, price 
+			from tb_prod where id = #prodId#
+		union distinct
+		select max(b.offer_id) offer_id, b.prod_id id, a.name name, b.price price
+			from tb_prod a, tb_cust_prod_his b
 			where
-				his.cust_id = #custId# and
-				prod.id = his.prod_id
-				<isNotNull property="prodName" prepend="and"> prod.name like #prodName#</isNotNull>
-		)
-		order by prod_id asc
+				a.id = b.prod_id and
+				b.cust_id = #custId# and
+				prod.id = #prodId# 
+			group by b.cust_id, b.prod_id, b.price 
+		order by offer_id desc
 	</select>
 	<select id="selectCustProdHis" parameterClass="CustProdHisVO" resultClass="CustProdHisVO">
 		select

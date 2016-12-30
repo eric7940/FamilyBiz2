@@ -3,28 +3,28 @@
 
 <div class="container-fluid">	
 <ul class="nav nav-tabs">
-	<li class="nav-item active"><a data-toggle="tab" href="#queryProdPrice" class="nav-link active"><s:text name="query.tab.prod_price"/></a></li>
+	<li class="nav-item active"><a data-toggle="tab" href="#queryPrice" class="nav-link active"><s:text name="query.tab.price"/></a></li>
 	<li class="nav-item"><a data-toggle="tab" href="#queryOffers" class="nav-link"><s:text name="query.tab.offers"/></a></li>
 </ul>
 
 <div class="tab-content">
-	<div id="queryProdPrice" class="tab-pane fade in active">
-		<h3><s:text name="config.tab.memo"/></h3>
-		<s:form method="post" namespace="/query" action="main" theme="simple" cssClass="navbar-form">
+	<div id="queryPrice" class="tab-pane fade in active">
+		<h3><s:text name="query.tab.price"/></h3>
+		<form class="navbar-form">
 			<div role="main" class="container-fluid">
 				<div class="form-group">
-					<label for="cust"><s:text name="config.field.memo"/></label>
-					<input type="text" name="cust" class="form-control cust" placeholder='%{getText("global.message.keywordSearch")}:%{getText("cust.field.name")}'/>
-					<input type="hidden" name="custId" id="custId"/>
+					<label for="cust"><s:text name="cust.field.name"/></label>
+					<input type="text" name="cust" class="form-control cust" placeholder='%{getText("global.message.keywordSearch")}'/>
+					<input type="hidden" id="custId"/>
 				</div>
 				<div class="form-group">
-					<label for="prod"><s:text name="config.field.memo"/></label>
-					<input type="text" name="prod" class="form-control prod" placeholder='%{getText("global.message.keywordSearch")}:%{getText("prod.field.name")}'/>
-					<input type="hidden" name="prodId" id="custId"/>
+					<label for="prod"><s:text name="prod.field.name"/></label>
+					<input type="text" name="prod" class="form-control prod" placeholder='%{getText("global.message.keywordSearch")}'/>
+					<input type="hidden" id="prodId"/>
 				</div>
-				<s:submit key="global.action.query" cssClass="btn btn-primary query" />
+				<button type="button" class="btn btn-primary query"><s:text name="global.action.query"/></button>
 			</div>
-		</s:form>
+		</form>
 	</div>
 	<div id="unit" class="tab-pane fade">
 		<h3><s:text name="config.tab.unit"/></h3>
@@ -65,6 +65,8 @@
 
 <script type='text/javascript'>
 
+var custs = [<s:iterator value="form.custs" var="cust" status="idx">{id:"<c:out value="${cust.id}"/>",name:"<c:out value="${cust.name}"/>"},</s:iterator>];
+
 function addUnitRow() {
 	var len = $('table#queryResult tbody tr').length;
 	var row = '<tr>' + 
@@ -76,8 +78,78 @@ function addUnitRow() {
 }
 
 $(function () {
-	$(".add").on("click", addUnitRow);
+	$('#queryPrice').on('keydown.autocomplete', '.cust', function() {
+		$(this).autocomplete({
+			minLength: 2,
+			source: function(request, response) {
+				response($.map(custs, function(v,i){
+					if (v.id === request.term || v.name.indexOf(request.term.toUpperCase()) >= 0) {
+						return {
+							label: v.name,
+							value: v.id,
+							addr: v.addr,
+							biz_no: v.biz_no,
+							tel: v.tel,
+							memo: v.memo
+						}
+					};
+				}));
+			},
+			focus: function( event, ui ) {
+				$(this).val( ui.item.label );
+				return false;
+			},
+			select: function( event, ui ) {
+				$(this).val( ui.item.label );
+				$('#custId').val(ui.item.value);
+				$('.cust_name').text(ui.item.label);
+				$('.cust_id').text(ui.item.value);
+				$('.biz_no').text(ui.item.biz_no);
+				$('.deliver_addr').text(ui.item.addr);
+				$('.tel').text(ui.item.tel);
+				$('.cust_memo').text(ui.item.memo);
 
+				var d = new Date();
+				var month = d.getMonth() + 1;
+				var day = d.getDate();
+				var today = d.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
+				$(".offer_date").val(today);
+				
+				$('.add').removeAttr('disabled');
+				$('.save').removeAttr('disabled');
+				addDetailRow();
+				
+				return false;
+			}
+		});
+		
+	$('#queryPrice').on('click', '.query', function() {
+		$.ajax({
+		    type: "POST",
+		    url: '<s:url action="main" namespace="/query" method="queryPrice"/>',
+		    dataType: "json",
+		    data: {a: $('#queryPrice').find('#custId').val(), $('#queryPrice').find('#prodId').val()},
+		    success: function(json) {
+		    		if (json["errCde"] == '00') {
+					response($.map(json["result"], function(v,i){
+						return {
+							label: v.prod.name + '(<s:text name="prod.field.unit"/>:' + v.prod.unit + ')',
+							value: v.prod.id,
+							unit: v.prod.unit,
+							cost: v.prod.cost,
+							price: v.amt
+						};
+					}));
+				} else {
+					alert(json["errMsg"]);
+				} 
+		    },
+		    error: function (xhr, textStatus, errorThrown) {
+		    		alert(xhr.responseText);
+		    }
+		});
+	});
+	
 	$("table#queryResult").on("click", ".remove", function () {
 		$(this).closest('tr').remove();
 	});

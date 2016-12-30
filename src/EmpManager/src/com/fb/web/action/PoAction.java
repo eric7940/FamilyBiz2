@@ -204,7 +204,7 @@ public class PoAction extends BaseAction {
 
 			List<PurchaseDetailVO> list = new ArrayList<PurchaseDetailVO>();
 
-			List<ProdVO> prods = service1.getProds(keyword);
+			List<ProdVO> prods = service1.getList(keyword);
 			if (prods != null && prods.size() > 0) {
 				Iterator<ProdVO> it = prods.iterator();
 				while(it.hasNext()) {

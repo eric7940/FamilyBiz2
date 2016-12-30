@@ -32,12 +32,12 @@ public class CustAction extends BaseAction {
 			
 			CustomerService service = (CustomerService) this.getServiceFactory().getService("customer");
 			
-			int totalRecord = service.getCustsCount(form.getKeyword());
+			int totalRecord = service.getCount(form.getKeyword());
 			int page = (form.getPageElement() == null) ? 1 : form.getPageElement().getCurrentPage();
 //			PageElement pageElement = new PageElement(totalRecord, page, 1);
 			PageElement pageElement = new PageElement(totalRecord, page, ConstUtil.QUERY_PAGE_SIZE);
 
-			List<CustVO> records = service.getCusts(form.getKeyword(), pageElement.getStart(), pageElement.getPageSize());
+			List<CustVO> records = service.getList(form.getKeyword(), pageElement.getStart(), pageElement.getPageSize());
 			pageElement.setRecords(records);
 			form.setPageElement(pageElement);
 		
@@ -76,7 +76,7 @@ public class CustAction extends BaseAction {
 			cust.setMemo(form.getMemo());
 			cust.setUstamp(this.getUserInfo());
 			
-			service.addCust(cust);
+			service.add(cust);
 
 			addLocalizationActionSuccess("save");
 
@@ -97,7 +97,7 @@ public class CustAction extends BaseAction {
 
 			CustomerService service = (CustomerService) this.getServiceFactory().getService("customer");
 
-			CustVO cust = service.getCust(form.getId());
+			CustVO cust = service.get(form.getId());
 			form.setName(cust.getName());
 			form.setBizNo(cust.getBizNo());
 			form.setDeliverAddr(cust.getDeliverAddr());
@@ -129,7 +129,7 @@ public class CustAction extends BaseAction {
 			cust.setMemo(form.getMemo());
 			cust.setUstamp(this.getUserInfo());
 			
-			service.modifyCust(cust);
+			service.modify(cust);
 			addLocalizationActionSuccess("save");
 			
 		} catch (FamilyBizException e) {

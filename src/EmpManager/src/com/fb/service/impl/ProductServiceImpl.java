@@ -1,8 +1,6 @@
 package com.fb.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,18 +8,19 @@ import com.fb.service.ProductService;
 import com.fb.util.CommonUtil;
 import com.fb.util.FamilyBizException;
 import com.fb.util.RowBounds;
+import com.fb.vo.CustProdHisVO;
 import com.fb.vo.ProdStockQtyVO;
 import com.fb.vo.ProdVO;
 
 public class ProductServiceImpl extends ServiceImpl implements ProductService {
 
-	public ProdVO getProd(int prodId) throws FamilyBizException {
+	public ProdVO get(int id) throws FamilyBizException {
 		ProdVO prod = new ProdVO();
-		prod.setId(prodId);
+		prod.setId(id);
 		return (ProdVO) this.getFbDao().queryForObject("selectProd", prod);
 	}
 
-	public int getProdsCount(String keyword) throws FamilyBizException {
+	public int getCount(String keyword) throws FamilyBizException {
 		keyword = (keyword != null)? keyword.trim(): null;
 
 		ProdVO cust = new ProdVO();
@@ -31,17 +30,17 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 		return (int) this.getFbDao().queryForObject("selectProdCount", cust);
 	}
 
-	public List<ProdVO> getProds() throws FamilyBizException {
-		return getProds(null, -1, -1);
+	public List<ProdVO> getList() throws FamilyBizException {
+		return getList(null, -1, -1);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List getProds(String prodNme) throws FamilyBizException {
-		return getProds(prodNme, -1, -1);
+	public List getList(String keyword) throws FamilyBizException {
+		return getList(keyword, -1, -1);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<ProdVO> getProds(String keyword, int offset, int limit) throws FamilyBizException {
+	public List<ProdVO> getList(String keyword, int offset, int limit) throws FamilyBizException {
 		keyword = (StringUtils.isNotEmpty(keyword))? keyword.trim(): null;
 
 		ProdVO prod = new ProdVO();
@@ -55,49 +54,31 @@ public class ProductServiceImpl extends ServiceImpl implements ProductService {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List getProds(int custId) throws FamilyBizException {
-		return getProds(custId, null);
+	public List getPriceHistory(int custId, int prodId) throws FamilyBizException {
+		CustProdHisVO vo = new CustProdHisVO();
+		vo.setCustId(custId);
+		vo.setProdId(prodId);
+		return this.getFbDao().queryForList("selectProdByCust", vo);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List getProds(int custId, String prodName) throws FamilyBizException {
-		Map<String,Object> paramMap = new HashMap<String,Object>();
-		paramMap.put("custId", new Integer(custId));
-		if (prodName != null) {
-			paramMap.put("prodName", "%" + prodName + "%");
-		}
-		return this.getFbDao().queryForList("selectProdByCust", paramMap);
-	}
-
-	@SuppressWarnings("rawtypes")
-	public List getOffers(int custId, String prodName) throws FamilyBizException {
-		Map<String,Object> paramMap = new HashMap<String,Object>();
-		paramMap.put("custId", new Integer(custId));
-		if (prodName != null) {
-			paramMap.put("prodName", "%" + prodName + "%");
-		}
-		return this.getFbDao().queryForList("selectOfferByCustAndProd", paramMap);
-	}
-
-	public void addProd(ProdVO prod) throws FamilyBizException {
+	public void add(ProdVO prod) throws FamilyBizException {
 		this.getFbDao().insert("insertProd", prod);
 
 		ProdStockQtyVO qty = new ProdStockQtyVO();
-		qty.setStockId(new Integer(1)); //todo:
 		qty.setQty(new Double(0));
 		this.getFbDao().insert("insertProdStockQty", qty);
 	}	
 
-	public void modifyProd(ProdVO prod) throws FamilyBizException {
+	public void modify(ProdVO prod) throws FamilyBizException {
 		this.getFbDao().update("updateProd", prod);
 	}
 
-	public int removeProd(int prodId) throws FamilyBizException {
-		return this.getFbDao().update("deleteProd", Integer.valueOf(prodId));
+	public int remove(int id) throws FamilyBizException {
+		return this.getFbDao().update("deleteProd", Integer.valueOf(id));
 	}
 
 	@SuppressWarnings("rawtypes")
-	public int removeProds(List prodIds) throws FamilyBizException {
+	public int remove(List prodIds) throws FamilyBizException {
 		String s = CommonUtil.convertListToString(prodIds, ",", true);
 		return this.getFbDao().update("deleteProds", s);
 	}

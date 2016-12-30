@@ -1,6 +1,14 @@
 package com.fb.web.action;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 import org.apache.log4j.Logger;
 
@@ -8,6 +16,7 @@ import com.fb.service.CustomerService;
 import com.fb.service.OfferService;
 import com.fb.service.ProductService;
 import com.fb.util.FamilyBizException;
+import com.fb.vo.ProdVO;
 import com.fb.web.form.QueryForm;
 
 public class QueryAction extends BaseAction {
@@ -30,10 +39,10 @@ public class QueryAction extends BaseAction {
 
 		try {
 			CustomerService service = (CustomerService) this.getServiceFactory().getService("customer");
-			form.setCusts(service.getCusts());
+			form.setCusts(service.getList());
 			
 			ProductService service2 = (ProductService) this.getServiceFactory().getService("product");
-			form.setProds(service2.getProds());
+			form.setProds(service2.getList());
 			
 			OfferService service3 = (OfferService) this.getServiceFactory().getService("offer");
 			form.setDeliveryUsers(service3.getDeliveryUsers());
@@ -46,45 +55,52 @@ public class QueryAction extends BaseAction {
 		return SUCCESS;
 	}	
 
-//	public ActionForward qryPrice(ActionMapping mapping,
-//			ActionForm form,
-//			HttpServletRequest request,
-//			HttpServletResponse response) throws Exception {
-//
-//		logger.info("qryPrice start");
-//		StringBuffer sb = new StringBuffer();
-//		try {
-//			String custId = request.getParameter("custId");
-//			//String prodNme = request.getParameter("q");
-//			String prodNme = new String(request.getParameter("q").getBytes("ISO8859_1"), "UTF-8");
-//			
-//			logger.info("param: custId=" + custId);
-//			logger.info("param: prodNme=" + prodNme);
-//			
-//			if (prodNme != null && ("".equals(prodNme.trim()) || "　".equals(prodNme.trim()))) prodNme = null;
-//	
-//			ProductService service = (ProductService) this.getServiceFactory().getService("Product");
-//			List<ProdProfVO> prods = service.getProds(Integer.parseInt(custId), prodNme);
-//			
-//			if (prods != null && prods.size() > 0) {
-//				Iterator<ProdProfVO> it = prods.iterator();
-//				while(it.hasNext()) {
-//					ProdProfVO prod = it.next();
-//					sb.append(prod.getProdId() + "|" + prod.getProdNme() + "|" + df.format(prod.getPrice()) + "\n");
-//				}
-//			}
-//		} catch (FamilyBizException sce) {
-//			logger.error("", sce);
-//			sb.append(sce.getMessage());
-//		} catch (Exception e) {
-//			logger.error("", e);
-//			MessageResources mr = this.getResources(request);
-//			sb.append(mr.getMessage("all.msg.1"));
-//		}
-//		
-//		logger.info("qryPrice end");
-//		return this.sendAjaxResponse(response, sb.toString());
-//	}
+	public String queryPrice() throws Exception {
+		logger.info("queryPrice start");
+
+		try {
+
+			String custId = request.getParameter("a");
+			String prodId = request.getParameter("b");
+
+			logger.info("param: custId=" + custId);
+			logger.info("param: prodId=" + prodId);
+			
+			ProductService service = (ProductService) this.getServiceFactory().getService("product");
+			List<ProdVO> prods = service.getPriceHistory(Integer.parseInt(custId), Integer.parseInt(prodId));
+			
+			JsonConfig cfg = new JsonConfig();
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "00");
+			map.put("result", prods);
+			
+			JSONObject jsonObject = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			this.writeResponseJson(jsonObject.toString());
+
+		} catch (Exception e) {
+			logger.error("fail", e);
+
+			JsonConfig cfg = new JsonConfig();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "01");
+			map.put("errMsg", e.getMessage());
+
+			JSONObject jsonObject  = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			try {
+				this.writeResponseJson(jsonObject.toString());
+			} catch (IOException e1) {
+				logger.error("fail", e1);
+			}
+		}
+		
+		return null;
+	}
 	
 	public QueryForm getForm() {
 		return form;

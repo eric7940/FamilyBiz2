@@ -12,13 +12,17 @@ import com.fb.vo.CustVO;
 
 public class CustomerServiceImpl extends ServiceImpl implements CustomerService {
 
-	public CustVO getCust(int custId) throws FamilyBizException {
+	public CustVO get(int id) throws FamilyBizException {
 		CustVO cust = new CustVO();
-		cust.setId(custId);
+		cust.setId(id);
 		return (CustVO) this.getFbDao().queryForObject("selectCust", cust);
 	}
 	
-	public int getCustsCount(String keyword) throws FamilyBizException {
+	public List<CustVO> getList() throws FamilyBizException {
+		return getList(null, -1, -1);
+	}
+
+	public int getCount(String keyword) throws FamilyBizException {
 		keyword = (StringUtils.isNotEmpty(keyword))? keyword.trim(): null;
 
 		CustVO cust = new CustVO();
@@ -28,12 +32,8 @@ public class CustomerServiceImpl extends ServiceImpl implements CustomerService 
 		return (int) this.getFbDao().queryForObject("selectCustCount", cust);
 	}
 
-	public List<CustVO> getCusts() throws FamilyBizException {
-		return getCusts(null, -1, -1);
-	}
-
 	@SuppressWarnings("unchecked")
-	public List<CustVO> getCusts(String keyword, int offset, int limit) throws FamilyBizException {
+	public List<CustVO> getList(String keyword, int offset, int limit) throws FamilyBizException {
 		keyword = (StringUtils.isNotEmpty(keyword))? keyword.trim(): null;
 
 		CustVO cust = new CustVO();
@@ -46,20 +46,20 @@ public class CustomerServiceImpl extends ServiceImpl implements CustomerService 
 			return this.getFbDao().queryForList("selectCust", cust, new RowBounds(offset, limit));
 	}
 
-	public void addCust(CustVO cust) throws FamilyBizException {
+	public void add(CustVO cust) throws FamilyBizException {
 		this.getFbDao().insert("insertCust", cust);
 	}
 
-	public void modifyCust(CustVO cust) throws FamilyBizException {
+	public void modify(CustVO cust) throws FamilyBizException {
 		this.getFbDao().update("updateCust", cust);
 	}
 
-	public int removeCust(int custId) throws FamilyBizException {
-		return this.getFbDao().update("deleteCust", Integer.valueOf(custId));
+	public int remove(int id) throws FamilyBizException {
+		return this.getFbDao().update("deleteCust", Integer.valueOf(id));
 	}
 
 	@SuppressWarnings("rawtypes")
-	public int removeCusts(List custIds) throws FamilyBizException {
+	public int remove(List custIds) throws FamilyBizException {
 		String s = CommonUtil.convertListToString(custIds, ",", true);
 		return this.getFbDao().update("deleteCusts", s);
 	}

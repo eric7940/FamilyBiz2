@@ -34,12 +34,12 @@ public class ProdAction extends BaseAction {
 			
 			ProductService service = (ProductService) this.getServiceFactory().getService("product");
 			
-			int totalRecord = service.getProdsCount(form.getKeyword());
+			int totalRecord = service.getCount(form.getKeyword());
 			int page = (form.getPageElement() == null) ? 1 : form.getPageElement().getCurrentPage();
 //			PageElement pageElement = new PageElement(totalRecord, page, 1);
 			PageElement pageElement = new PageElement(totalRecord, page, ConstUtil.QUERY_PAGE_SIZE);
 
-			List<ProdVO> records = service.getProds(form.getKeyword(), pageElement.getStart(), pageElement.getPageSize());
+			List<ProdVO> records = service.getList(form.getKeyword(), pageElement.getStart(), pageElement.getPageSize());
 			pageElement.setRecords(records);
 			form.setPageElement(pageElement);
 		
@@ -89,7 +89,7 @@ public class ProdAction extends BaseAction {
 			prod.setSaveQty(form.getSaveQty());
 			prod.setUstamp(this.getUserInfo());
 			
-			service.addProd(prod);
+			service.add(prod);
 
 			addLocalizationActionSuccess("save");
 
@@ -111,7 +111,7 @@ public class ProdAction extends BaseAction {
 			ProductService service = (ProductService) this.getServiceFactory().getService("product");
 			CommonService service1 = (CommonService) this.getServiceFactory().getService("common");
 			
-			ProdVO prod = service.getProd(form.getId());
+			ProdVO prod = service.get(form.getId());
 			form.setName(prod.getName());
 			form.setUnit(prod.getUnit());
 			form.setPrice(prod.getPrice());
@@ -146,7 +146,7 @@ public class ProdAction extends BaseAction {
 			prod.setSaveQty(form.getSaveQty());
 			prod.setUstamp(this.getUserInfo());
 			
-			service.modifyProd(prod);
+			service.modify(prod);
 			addLocalizationActionSuccess("save");
 			
 		} catch (FamilyBizException e) {

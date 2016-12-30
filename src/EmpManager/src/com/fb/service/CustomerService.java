@@ -7,20 +7,20 @@ import com.fb.vo.CustVO;
 
 public interface CustomerService extends Service {
 
-	public CustVO getCust(int custId) throws FamilyBizException;
-	
-	public int getCustsCount(String keyword) throws FamilyBizException;
+	public CustVO get(int id) throws FamilyBizException;
 
-	public List<CustVO> getCusts() throws FamilyBizException;
+	public List<CustVO> getList() throws FamilyBizException;
 
-	public List<CustVO> getCusts(String keyword, int offset, int limit) throws FamilyBizException;
-	
-	public void addCust(CustVO cust) throws FamilyBizException;
+	public int getCount(String keyword) throws FamilyBizException;
 
-	public void modifyCust(CustVO cust) throws FamilyBizException;
+	public List<CustVO> getList(String keyword, int offset, int limit) throws FamilyBizException;
 	
-	public int removeCust(int custId) throws FamilyBizException;
+	public void add(CustVO cust) throws FamilyBizException;
+
+	public void modify(CustVO cust) throws FamilyBizException;
+	
+	public int remove(int id) throws FamilyBizException;
 	
 	@SuppressWarnings({ "rawtypes" })
-	public int removeCusts(List custIds) throws FamilyBizException;
+	public int remove(List custIds) throws FamilyBizException;
 }

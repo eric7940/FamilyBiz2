@@ -91,7 +91,7 @@ public class SoAction extends BaseAction {
 			OfferService service3 = (OfferService) this.getServiceFactory().getService("offer");
 			StockService service4 = (StockService) this.getServiceFactory().getService("stock");
 			
-			form.setCusts(service1.getCusts());
+			form.setCusts(service1.getList());
 			form.setDeliveryUsers(service3.getDeliveryUsers());
 			form.setStocks(service4.getStocks());
 
@@ -338,7 +338,7 @@ public class SoAction extends BaseAction {
 			//TODO: 整合SERVICE
 			List<OfferDetailVO> list = new ArrayList<OfferDetailVO>();
 			
-			List<ProdVO> prods = service1.getProds(keyword);
+			List<ProdVO> prods = service1.getList(keyword);
 			if (prods != null && prods.size() > 0) {
 				Iterator<ProdVO> it = prods.iterator();
 				while(it.hasNext()) {
@@ -391,7 +391,7 @@ public class SoAction extends BaseAction {
 		try {
 			
 			CustomerService service1 = (CustomerService) this.getServiceFactory().getService("customer");
-			form.setCusts(service1.getCusts());
+			form.setCusts(service1.getList());
 			
 			form.setUnreceivedOffers(null);
 			

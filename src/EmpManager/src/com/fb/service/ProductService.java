@@ -7,26 +7,24 @@ import com.fb.vo.ProdVO;
 
 public interface ProductService extends Service {
 
-	public ProdVO getProd(int prodId) throws FamilyBizException;
+	public ProdVO get(int id) throws FamilyBizException;
 	
-	public int getProdsCount(String keyword) throws FamilyBizException;
+	public int getCount(String keyword) throws FamilyBizException;
 
-	public List<ProdVO> getProds() throws FamilyBizException;
+	public List<ProdVO> getList() throws FamilyBizException;
 	
-	public List<ProdVO> getProds(String keyword, int offset, int limit) throws FamilyBizException;
+	public List<ProdVO> getList(String keyword) throws FamilyBizException;
+
+	public List<ProdVO> getList(String keyword, int offset, int limit) throws FamilyBizException;
 	
-	public List<ProdVO> getProds(String prodNme) throws FamilyBizException;
+	public List<ProdVO> getPriceHistory(int custId, int prodId) throws FamilyBizException;
 
-	public List<ProdVO> getProds(int custId) throws FamilyBizException;
+	public void add(ProdVO prod) throws FamilyBizException;
 
-	public List<ProdVO> getProds(int custId, String prodNme) throws FamilyBizException;
-
-	public void addProd(ProdVO prod) throws FamilyBizException;
-
-	public void modifyProd(ProdVO prod) throws FamilyBizException;
+	public void modify(ProdVO prod) throws FamilyBizException;
 	
-	public int removeProd(int prodId) throws FamilyBizException;
+	public int remove(int id) throws FamilyBizException;
 	
 	@SuppressWarnings("rawtypes")
-	public int removeProds(List prodIds) throws FamilyBizException;
+	public int remove(List prodIds) throws FamilyBizException;
 }

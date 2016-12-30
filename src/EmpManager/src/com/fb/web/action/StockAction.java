@@ -77,7 +77,7 @@ public class StockAction extends BaseAction {
 			StockService service1 = (StockService) this.getServiceFactory().getService("stock");
 			ProductService service2 = (ProductService) this.getServiceFactory().getService("product");
 			
-			form.setProds(service2.getProds());
+			form.setProds(service2.getList());
 			form.setStocks(service1.getStocks());
 		} catch (FamilyBizException e) {
 			logger.error("action fail.", e);
