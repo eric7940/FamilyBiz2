@@ -99,6 +99,10 @@
 		<action name="unreceived" class="soAction" method="unreceived">
 			<result name="success">/jsp/so/unreceived.jsp</result>
 		</action>
+
+		<action name="pickup" class="soAction" method="pickup">
+			<result name="success">/jsp/so/pickup.jsp</result>
+		</action>
 		
 	</package>
 	

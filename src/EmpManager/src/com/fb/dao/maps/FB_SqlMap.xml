@@ -154,17 +154,17 @@
 		<result property="name"			column="c.name"/>
 	</resultMap>
 	<resultMap id="PickProdResult" class="PickProdVO" groupBy="prodId">
-		<result property="prodId"		column="A.PROD_id"/>
-		<result property="prodNme"		column="A.PROD_NME"/>
-		<result property="unit"			column="A.UNIT"/>
-		<result property="sumQty"		column="A.sum_QTY"/>
+		<result property="prodId"		column="a.prod_id"/>
+		<result property="prodName"		column="a.prod_name"/>
+		<result property="unit"			column="a.unit"/>
+		<result property="sumQty"		column="a.sum_qty"/>
 		<result property="offers"		resultMap="FB.PickOfferResult"/>
 	</resultMap>
 	<resultMap id="PickOfferResult" class="PickOfferVO">
-		<result property="masterId"		column="MASTER_id"/>
-		<result property="custId"		column="B.CUST_id"/>
-		<result property="custNme"		column="B.CUST_NME"/>
-		<result property="qty"			column="B.QTY"/>
+		<result property="masterId"		column="master_id"/>
+		<result property="custId"		column="b.cust_id"/>
+		<result property="custName"		column="b.cust_name"/>
+		<result property="qty"			column="b.qty"/>
 	</resultMap>
 
 	<parameterMap id="getSequenceParam" class="map">
@@ -629,7 +629,7 @@
 	<select id="selectCustByOfferDate" parameterClass="string" resultMap="PickCustResult">
 		select distinct c.id, c.name 
 		from tb_offer_master m, tb_cust c 
-		where m.cust_id = c.id and m.offer_date = str_to_date(#offerDate#, '%Y/%m/%d') and m.status != 'D'
+		where m.cust_id = c.id and m.offer_date = str_to_date(#offerDate#, '%Y-%m-%d') and m.status != 'D'
 		order by m.id
 	</select>
 	
@@ -647,14 +647,14 @@
 		    (select d.master_id, d.prod_id, p.name, p.unit, sum(d.qty) sum_qty
 		    from tb_offer_detail d, tb_prod p
 		    where d.prod_id = p.id and d.master_id in (
-		    	select x.id from tb_offer_master x where x.offer_date = str_to_date(#offerDate#, '%Y/%m/%d') and x.status != 'D'
+		    	select x.id from tb_offer_master x where x.offer_date = str_to_date(#offerDate#, '%Y-%m-%d') and x.status != 'D'
 		    		<isNotNull property="custs" prepend="and"> x.cust_id in 
 					<iterate property="custs" open="(" close=")" conjunction="," > #custs[]# </iterate>
 				</isNotNull>
 		    	) group by d.prod_id) a,
 		    (select m.id, m.cust_id, c.name, d.prod_id, d.qty
 		    from tb_offer_master m, tb_offer_detail d, tb_cust c where d.master_id in (
-		        select x.id from tb_offer_master x where x.offer_date = str_to_date(#offerDate#, '%Y/%m/%d') and x.status != 'D'
+		        select x.id from tb_offer_master x where x.offer_date = str_to_date(#offerDate#, '%Y-%m-%d') and x.status != 'D'
 		    		<isNotNull property="custs" prepend="and"> x.cust_id in 
 					<iterate property="custs" open="(" close=")" conjunction="," > #custs[]# </iterate>
 				</isNotNull>

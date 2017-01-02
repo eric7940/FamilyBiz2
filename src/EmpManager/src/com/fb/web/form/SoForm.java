@@ -5,6 +5,7 @@ import java.util.List;
 import com.fb.vo.CustVO;
 import com.fb.vo.OfferDetailVO;
 import com.fb.vo.OfferMasterVO;
+import com.fb.vo.PickProdVO;
 import com.fb.vo.StockVO;
 import com.fb.vo.UserVO;
 
@@ -18,12 +19,15 @@ public class SoForm extends BaseForm {
 	private String unreceivedEndDate;
 	private String unreceivedQueryCust;
 	private String unreceivedQueryCustId;
-	
+
+	private String pickupOfferDate;
+
 	private List<CustVO> custs;
 	private List<UserVO> deliveryUsers;
 	private List<OfferMasterVO> offers;
 	private List<StockVO> stocks;
 	private List<OfferMasterVO> unreceivedOffers;
+	private List<PickProdVO> pickupProds;
 	
 	private String masterId;
 	private Integer custId;
@@ -70,6 +74,12 @@ public class SoForm extends BaseForm {
 	}
 	public void setUnreceivedOffers(List<OfferMasterVO> unreceivedOffers) {
 		this.unreceivedOffers = unreceivedOffers;
+	}
+	public List<PickProdVO> getPickupProds() {
+		return pickupProds;
+	}
+	public void setPickupProds(List<PickProdVO> pickupProds) {
+		this.pickupProds = pickupProds;
 	}
 	public CustVO getCust() {
 		return cust;
@@ -184,6 +194,12 @@ public class SoForm extends BaseForm {
 	}
 	public void setUnreceivedQueryCustId(String unreceivedQueryCustId) {
 		this.unreceivedQueryCustId = unreceivedQueryCustId;
+	}
+	public String getPickupOfferDate() {
+		return pickupOfferDate;
+	}
+	public void setPickupOfferDate(String pickupOfferDate) {
+		this.pickupOfferDate = pickupOfferDate;
 	}
 	
 	@Override

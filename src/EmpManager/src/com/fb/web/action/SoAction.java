@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -25,10 +23,15 @@ import com.fb.service.StockService;
 import com.fb.util.CommonUtil;
 import com.fb.util.DateUtil;
 import com.fb.util.FamilyBizException;
+import com.fb.vo.CustVO;
 import com.fb.vo.OfferDetailVO;
 import com.fb.vo.OfferMasterVO;
+import com.fb.vo.PickProdVO;
 import com.fb.vo.ProdVO;
 import com.fb.web.form.SoForm;
+
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 public class SoAction extends BaseAction {
 
@@ -424,6 +427,84 @@ public class SoAction extends BaseAction {
 				request.setAttribute("query", "y");
 			}	
 		} catch (FamilyBizException e) {
+			logger.error("action fail.", e);
+			this.addActionError(e);
+		}
+
+		return SUCCESS;
+	}
+
+	public String pickup() {
+		logger.debug("pickup start");
+		
+		form.setPickupOfferDate(DateUtil.getDateString(new Date(), "yyyy-MM-dd"));
+//		form.setProducts(new ArrayList<PickProdVO>());
+
+		return SUCCESS;
+	}
+
+	@SuppressWarnings("unchecked")
+	public String getPickupCusts() throws Exception {
+
+		logger.info("getPickupCusts start");
+
+		try {
+			String offerDate = request.getParameter("a");
+	
+			OfferService service = (OfferService) getServiceFactory().getService("offer");
+			List<CustVO> custs = service.getCustByOfferDate(DateUtil.getDateObject(offerDate, "yyyy-MM-dd"));
+			
+			JsonConfig cfg = new JsonConfig();
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "00");
+			map.put("result", custs);
+			
+			JSONObject jsonObject = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			this.writeResponseJson(jsonObject.toString());
+			
+		} catch (Exception e) {
+			logger.error("fail", e);
+
+			JsonConfig cfg = new JsonConfig();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "01");
+			map.put("errMsg", e.getMessage());
+
+			JSONObject jsonObject  = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			try {
+				this.writeResponseJson(jsonObject.toString());
+			} catch (IOException e1) {
+				logger.error("fail", e1);
+			}
+		}
+		
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public String getPickupProds() {
+		logger.info("getPickupProds start");
+		
+		try {
+			String offerDate = form.getPickupOfferDate();
+			String[] custs = request.getParameterValues("custs");
+			if (custs.length > 0) {
+				OfferService service = (OfferService) getServiceFactory().getService("offer");
+				List<PickProdVO> prods = service.getProdQty(DateUtil.getDateObject(offerDate, "yyyy-MM-dd"), Arrays.asList(custs));
+				form.setPickupProds(prods);
+			} else {
+				form.setPickupProds(new ArrayList<PickProdVO>());
+			}
+			
+			request.setAttribute("qry_prod_flag", "Y");
+	
+		} catch (FamilyBizException | ParseException e) {
 			logger.error("action fail.", e);
 			this.addActionError(e);
 		}

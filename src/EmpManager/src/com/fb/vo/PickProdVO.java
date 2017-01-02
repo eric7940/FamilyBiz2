@@ -8,7 +8,7 @@ public class PickProdVO implements Serializable {
 	private static final long serialVersionUID = -6362953251880593277L;
 
 	private Integer prodId;
-	private String prodNme;
+	private String prodName;
 	private String unit;
 	private Double sumQty;
 	
@@ -20,11 +20,11 @@ public class PickProdVO implements Serializable {
 	public void setProdId(Integer prodId) {
 		this.prodId = prodId;
 	}
-	public String getProdNme() {
-		return prodNme;
+	public String getProdName() {
+		return prodName;
 	}
-	public void setProdNme(String prodNme) {
-		this.prodNme = prodNme;
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
 	}
 	public String getUnit() {
 		return unit;

@@ -8,7 +8,7 @@ public class PickOfferVO implements Serializable {
 
 	private String masterId;
 	private Integer custId;
-	private String custNme;
+	private String custName;
 	private Double qty;
 	
 	public String getMasterId() {
@@ -23,11 +23,11 @@ public class PickOfferVO implements Serializable {
 	public void setCustId(Integer custId) {
 		this.custId = custId;
 	}
-	public String getCustNme() {
-		return custNme;
+	public String getCustName() {
+		return custName;
 	}
-	public void setCustNme(String custNme) {
-		this.custNme = custNme;
+	public void setCustName(String custName) {
+		this.custName = custName;
 	}
 	public Double getQty() {
 		return qty;
