@@ -31,10 +31,10 @@
 		<table id="queryResult" class="table table-striped table-hover table-break-all table-list break-table table-condensed">
 			<thead>
 				<tr>
-					<th class="col-md-1"><s:text name="prod.field.name" /></th>
-					<th class="col-md-2"><s:text name="prod.field.unit" /></th>
+					<th class="col-md-3"><s:text name="prod.field.name" /></th>
+					<th class="col-md-1"><s:text name="prod.field.unit" /></th>
 					<th class="col-md-2"><s:text name="offer.field.qty" /></th>
-					<th class="col-md-2"><s:text name="pickup.field.details" /></th>
+					<th class="col-md-5"><s:text name="pickup.field.details" /></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -48,8 +48,16 @@
 					<td data-title="<s:text name="prod.field.name"/>"><span class="form-control-static">${record.prodName}</span></td>
 					<td data-title="<s:text name="prod.field.unit"/>"><span class="form-control-static">${record.unit}</span></td>
 					<td data-title="<s:text name="offer.field.qty"/>"><span class="form-control-static">${record.sumQty}</span></td>
-					<table class="table table-striped table-hover table-break-all table-list break-table table-condensed">
-<s:iterator value="record.offers" var="offer" status="idx">
+					<td data-title="<s:text name="pickup.field.details"/>">
+					<table class="table table-hover table-break-all table-list break-table table-condensed">
+					<thead>
+						<tr>
+							<th class="col-md-3"><s:text name="offer.field.master_id" /></th>
+							<th class="col-md-6"><s:text name="cust.field.name" /></th>
+							<th class="col-md-3"><s:text name="offer.field.qty" /></th>
+						</tr>
+					</thead>
+<s:iterator value="#record.offers" var="offer" status="i">
 					<tr>
 						<td data-title="<s:text name="offer.field.master_id"/>"><span class="form-control-static">${offer.masterId}</span></td>
 						<td data-title="<s:text name="cust.field.name"/>"><span class="form-control-static">${offer.custName}</span></td>
@@ -57,6 +65,7 @@
 					</tr>
 </s:iterator>
 					</table>
+					</td>
 				</tr>
 </s:iterator>
 			</tbody>
@@ -85,8 +94,9 @@ function queryCusts() {
     					var row = '<s:text name="global.message.noResults"/>';
     					$('#custs').append(row);
 	    			} else {
+	    				$('#custs').empty();
 	    				$.each(json["result"], function(k,v) {
-	    					var row = '<label class="checkbox-inline"><input type="checkbox" name="custs" value="' + v.id + '"> ' + v.name + '</label>';
+	    					var row = '<label class="checkbox-inline"><input type="checkbox" name="custs" value="' + v.id + '" checked> ' + v.name + '</label>';
 	    					$('#custs').append(row);
 	    				});
 	    			}

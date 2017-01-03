@@ -503,7 +503,7 @@ public class SoAction extends BaseAction {
 				form.setPickupProds(new ArrayList<PickProdVO>());
 			}
 			
-			request.setAttribute("qry_prod_flag", "Y");
+			request.setAttribute("query", "y");
 	
 		} catch (FamilyBizException | ParseException e) {
 			logger.error("action fail.", e);
