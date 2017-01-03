@@ -10,19 +10,21 @@
 
 		<div class="row">
 			<!-- 查詢條件 -->
-			<div class="col-md-12 div-search">
+			<div class="col-md-5 div-search">
 				<div class="form-group form-input-line-magrin">
 					<s:text name="pickup.message.query"/>
 					<s:textfield name="form.pickupOfferDate" size="10" maxlength="10" cssClass="form-control DateText offer_date"/>
+				</div>
+			</div>
+			<div class="col-md-7 div-search">
+				<div class="form-group form-input-line-magrin">
 					<input type="button" value="<s:text name="pickup.action.query_custs"/>" class="btn btn-primary" onclick="queryCusts(event)"/>
+					<s:submit key="global.action.query" cssClass="btn btn-success query" type="button" disabled="true" onclick="return queryProds(event)" />
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div id="custs" class="col-md-12 div-search">
-			</div>
-			<div class="col-md-12 div-search">
-				<s:submit key="global.action.query" cssClass="btn btn-success query" type="button" onclick="return queryProds(event)" />
 			</div>
 		</div>
 
@@ -92,6 +94,8 @@ function queryCusts() {
 	    					var row = '<label class="checkbox-inline"><input type="checkbox" name="custs" value="' + v.id + '" checked> ' + v.name + '</label>';
 	    					$('#custs').append(row);
 	    				});
+	    				$('.query').removeAttr('disabled');
+	    				$('.div-result').hide();
 	    			}
 			} else {
 				alert(json["errMsg"]);
