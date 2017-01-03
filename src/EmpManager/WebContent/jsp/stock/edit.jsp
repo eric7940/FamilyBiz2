@@ -124,7 +124,7 @@ $(function () {
 	
 	$('table#details').on('keydown.autocomplete', '.detail_prod', function() {
 		$(this).autocomplete({
-			minLength: 2,
+			minLength: 1,
 			source: function(request, response) {
 				$.ajax({
 				    type: "POST",

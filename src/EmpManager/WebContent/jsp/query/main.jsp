@@ -94,7 +94,7 @@ var custs = [<s:iterator value="form.custs" var="cust" status="idx">{id:"<c:out 
 $(function () {
 	$('#queryPrice').on('keydown.autocomplete', '.cust', function() {
 		$(this).autocomplete({
-			minLength: 2,
+			minLength: 1,
 			source: function(request, response) {
 				response($.map(custs, function(v,i){
 					if (v.id === request.term || v.name.indexOf(request.term.toUpperCase()) >= 0) {
@@ -119,7 +119,7 @@ $(function () {
 
 	$('#queryPrice').on('keydown.autocomplete', '.prod', function() {
 		$(this).autocomplete({
-			minLength: 2,
+			minLength: 1,
 			source: function(request, response) {
 				$.ajax({
 				    type: "POST",

@@ -189,7 +189,7 @@ function save(event) {
 	}
 	
 	var count = 0;
-	var error = false;
+	var error = null;
 	$('table#details tbody tr').each(function(i,e) {
 		if ($(this).find('.detail_prodId').val() == '') return; // 等於continue
 		
@@ -198,18 +198,19 @@ function save(event) {
 		
 		if (price == '' || !isDecimal(price) || parseFloat(price) < 0) {
 			alert('<s:text name="offer.message.required.number"/>');
-			error = true;
+			error = $(this);
 			return false; // 等於break
 		}
 				
 		if (parseFloat(price) < parseFloat(cost)) {
 			alert('<s:text name="offer.message.lost_money"/>: ' + cost);
-			error = true;
+			error = $(this);
 			return false; // 等於break
 		}
 		count++;
 	});
 	if (error) {
+		error.find('.detail_price').focus();
 		return false;
 	}
 	
@@ -247,7 +248,7 @@ $(function () {
 	
 	$(".cust").on('keydown.autocomplete', function() {
 		$(this).autocomplete({
-			minLength: 2,
+			minLength: 1,
 			source: function(request, response) {
 				response($.map(custs, function(v,i){
 					if (v.id === request.term || v.name.indexOf(request.term.toUpperCase()) >= 0) {
@@ -293,7 +294,7 @@ $(function () {
 	
 	$('table#details').on('keydown.autocomplete', '.detail_prod', function() {
 		$(this).autocomplete({
-			minLength: 2,
+			minLength: 1,
 			source: function(request, response) {
 				$.ajax({
 				    type: "POST",
@@ -374,11 +375,6 @@ $(function () {
 				alert('<s:text name="offer.message.required.integer"/>');
 				$(this).closest('tr').find('.detail_qty').val(1);
 				return;
-			}
-			
-			// TODO: BUG if price is 0 on qty blur
-			if (parseFloat(price) > 0 && parseFloat(price) < parseFloat(cost)) {
-				alert('<s:text name="offer.message.lost_money"/>: ' + cost);
 			}
 			
 			qty = parseFloat(qty);

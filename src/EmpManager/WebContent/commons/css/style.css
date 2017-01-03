@@ -18,3 +18,11 @@ body{
 .form-control-fullwidth {
 	width: 100% !important;
 }
+.ui-autocomplete {
+	max-height: 150px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+* html .ui-autocomplete {
+	height: 150px;
+}

@@ -56,6 +56,7 @@ public class SoAction extends BaseAction {
 				if (master != null) {
 					form.setMasterId(masterId);
 					form.setDeliveryUserId(master.getDeliveryUserId());
+					form.setDeliveryUser(master.getDeliveryUser());
 					form.setCustId(master.getCustId());
 					form.setCust(master.getCust());
 					form.setStockId(master.getStockId());

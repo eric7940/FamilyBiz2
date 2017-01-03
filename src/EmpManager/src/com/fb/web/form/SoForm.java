@@ -43,6 +43,7 @@ public class SoForm extends BaseForm {
 
 	private CustVO cust;
 	private StockVO stock;
+	private UserVO deliveryUser;
 	private List<OfferDetailVO> details;
 
 	public List<OfferMasterVO> getOffers() {
@@ -92,6 +93,12 @@ public class SoForm extends BaseForm {
 	}
 	public void setStock(StockVO stock) {
 		this.stock = stock;
+	}
+	public UserVO getDeliveryUser() {
+		return deliveryUser;
+	}
+	public void setDeliveryUser(UserVO deliveryUser) {
+		this.deliveryUser = deliveryUser;
 	}
 	public void setDetails(List<OfferDetailVO> details) {
 		this.details = details;

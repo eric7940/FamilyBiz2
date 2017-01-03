@@ -232,7 +232,7 @@ $(function () {
 	
 	$(".fact").on('keydown.autocomplete', function() {
 		$(this).autocomplete({
-			minLength: 2,
+			minLength: 1,
 			source: function(request, response) {
 				response($.map(facts, function(v,i){
 					if (v.id === request.term || v.name.indexOf(request.term.toUpperCase()) >= 0) {
@@ -278,7 +278,7 @@ $(function () {
 	
 	$('table#details').on('keydown.autocomplete', '.detail_prod', function() {
 		$(this).autocomplete({
-			minLength: 2,
+			minLength: 1,
 			source: function(request, response) {
 				$.ajax({
 				    type: "POST",

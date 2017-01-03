@@ -37,16 +37,18 @@
 				<th class="col-md-1"><s:text name="offer.field.stock" /></th><td class="col-md-2"><c:out value="${form.stock.name}" /></td>
 			</tr>
 			<tr>
-				<th class="col-md-1"><s:text name="cust.field.biz_no" /></th><td class="col-md-3" colspan="3"><c:out value="${form.cust.bizNo}"/></td>
-				<th class="col-md-1"><s:text name="cust.field.tel" /></th><td class="col-md-7" colspan="3"><c:out value="${form.cust.tel}"/></td>
+				<th class="col-md-1"><s:text name="cust.field.biz_no" /></th><td class="col-md-5" colspan="3"><c:out value="${form.cust.bizNo}"/></td>
+				<th class="col-md-1"><s:text name="cust.field.tel" /></th><td class="col-md-2"><c:out value="${form.cust.tel}"/></td>
+				<th class="col-md-1"><s:text name="offer.field.invoice_nbr" /></th><td class="col-md-2"><c:out value="${form.invoiceNbr}"/></td>
 			</tr>
 			<tr>
-				<th class="col-md-1"><s:text name="cust.field.deliver_addr" /></th><td class="col-md-7" colspan="3"><c:out value="${form.cust.deliverAddr}"/></td>
-				<th class="col-md-1"><s:text name="offer.field.master_id" /></th><td class="col-md-3 master_id" colspan="3"><c:out value="${form.masterId}"/></td>
+				<th class="col-md-1"><s:text name="cust.field.deliver_addr" /></th><td class="col-md-5" colspan="3"><c:out value="${form.cust.deliverAddr}"/></td>
+				<th class="col-md-1"><s:text name="offer.field.master_id" /></th><td class="col-md-2 master_id"><c:out value="${form.masterId}"/></td>
+				<th class="col-md-1"><s:text name="offer.field.delivery_user" /></th><td class="col-md-2"><c:out value="${form.deliveryUser.name}"/></td>
 			</tr>
 			<tr>
 				<th class="col-md-1"><s:text name="cust.field.memo" /></th><td class="col-md-7" colspan="5"><c:out value="${form.cust.memo}"/></td>
-				<th class="col-md-1"><s:text name="offer.field.invoice_nbr" /></th><td class="col-md-3"><c:out value="${form.invoiceNbr}"/></td>
+				
 			</tr>
 			</tbody>
 		</table>

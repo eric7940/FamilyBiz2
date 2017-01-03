@@ -191,7 +191,7 @@ $(function () {
 
 	$(".cust").on('keydown.autocomplete', function() {
 		$(this).autocomplete({
-			minLength: 2,
+			minLength: 1,
 			source: function(request, response) {
 				response($.map(custs, function(v,i){
 					if (v.id === request.term || v.name.indexOf(request.term.toUpperCase()) >= 0) {
