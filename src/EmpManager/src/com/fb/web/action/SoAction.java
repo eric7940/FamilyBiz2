@@ -70,7 +70,7 @@ public class SoAction extends BaseAction {
 					form.setTotal(master.getTotal());
 					
 					if (master.getUstamp().equals(this.getUserInfo())) {
-						request.setAttribute("edit-mode", "y");
+						request.setAttribute("editmode", "y");
 					}
 				}
 			}
