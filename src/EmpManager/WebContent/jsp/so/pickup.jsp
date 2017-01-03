@@ -89,14 +89,13 @@ function queryCusts() {
     					var row = '<s:text name="global.message.noResults"/>';
     					$('#custs').append(row);
 	    			} else {
-	    				$('#custs').empty();
 	    				$.each(json["result"], function(k,v) {
 	    					var row = '<label class="checkbox-inline"><input type="checkbox" name="custs" value="' + v.id + '" checked> ' + v.name + '</label>';
 	    					$('#custs').append(row);
 	    				});
 	    				$('.query').removeAttr('disabled');
-	    				$('.div-result').hide();
 	    			}
+	    			$('.div-result').hide();
 			} else {
 				alert(json["errMsg"]);
 			} 
