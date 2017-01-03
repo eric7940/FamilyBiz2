@@ -34,7 +34,7 @@
 					<th class="col-md-3"><s:text name="prod.field.name" /></th>
 					<th class="col-md-1"><s:text name="prod.field.unit" /></th>
 					<th class="col-md-2"><s:text name="offer.field.qty" /></th>
-					<th class="col-md-5"><s:text name="pickup.field.details" /></th>
+					<th class="col-md-5 hidden-sm hidden-xs"><s:text name="pickup.field.details" /></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -48,23 +48,16 @@
 					<td data-title="<s:text name="prod.field.name"/>"><span class="form-control-static">${record.prodName}</span></td>
 					<td data-title="<s:text name="prod.field.unit"/>"><span class="form-control-static">${record.unit}</span></td>
 					<td data-title="<s:text name="offer.field.qty"/>"><span class="form-control-static">${record.sumQty}</span></td>
-					<td data-title="<s:text name="pickup.field.details"/>">
-					<table class="table table-hover table-break-all table-list break-table table-condensed">
-					<thead>
-						<tr>
-							<th class="col-md-3"><s:text name="offer.field.master_id" /></th>
-							<th class="col-md-6"><s:text name="cust.field.name" /></th>
-							<th class="col-md-3"><s:text name="offer.field.qty" /></th>
-						</tr>
-					</thead>
+					<td class="hidden-sm hidden-xs" data-title="<s:text name="pickup.field.details"/>">
+					<table class="table table-hover table-condensed"><tbody>
 <s:iterator value="#record.offers" var="offer" status="i">
 					<tr>
-						<td data-title="<s:text name="offer.field.master_id"/>"><span class="form-control-static">${offer.masterId}</span></td>
-						<td data-title="<s:text name="cust.field.name"/>"><span class="form-control-static">${offer.custName}</span></td>
-						<td data-title="<s:text name="offer.field.qty"/>"><span class="form-control-static">${offer.qty}</span></td>
+						<td class="col-md-3"><span class="form-control-static">${offer.masterId}</span></td>
+						<td class="col-md-6"><span class="form-control-static">${offer.custName}</span></td>
+						<td class="col-md-3"><span class="form-control-static">${offer.qty}</span></td>
 					</tr>
 </s:iterator>
-					</table>
+					</tbody></table>
 					</td>
 				</tr>
 </s:iterator>
