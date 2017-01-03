@@ -10,8 +10,8 @@ com.opensymphony.xwork2.ActionContext.getContext().setLocale((java.util.Locale)s
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>${WEB_APP_TITLE} <%=java.net.InetAddress.getLocalHost() %></title>
-<link rel="icon" type="image/gif" href="commons/images/favicon.ico">
+<title>${WEB_APP_TITLE}</title>
+<link rel="icon" type="image/gif" href="commons/images/favicon.png">
 <link href="commons/css/plugins/theme/bootstrap-cerulean.min.css" rel="stylesheet">
 <style type="text/css">
 body {

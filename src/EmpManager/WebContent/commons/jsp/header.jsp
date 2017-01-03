@@ -14,8 +14,8 @@ com.opensymphony.xwork2.ActionContext.getContext().setLocale((java.util.Locale)s
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>${WEB_APP_TITLE} <%=java.net.InetAddress.getLocalHost() %></title>
-	<link rel="icon" type="image/gif" href="<s:url value="/commons/images/favicon.ico"/>" />
+	<title>${WEB_APP_TITLE}</title>
+	<link rel="icon" type="image/gif" href="<s:url value="/commons/images/favicon.png"/>" />
 	
 	<!-- Styles-->
 	<link href='<s:url value="/commons/css/jquery-ui-1.11.1/jquery-ui.min.css"/>' rel="stylesheet"/>

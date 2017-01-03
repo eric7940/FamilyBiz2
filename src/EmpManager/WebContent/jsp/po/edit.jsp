@@ -20,7 +20,7 @@
 					<s:hidden name="form.factId" id="factId"/>
 				</div>
 				<div class="form-group form-input-line-magrin">
-					<s:select name="form.stockId" list="form.stocks" headerKey="0" headerValue="%{getText('global.option.one')}" listKey="id" listValue="name" cssClass="form-control stock"/>
+					<s:select name="form.stockId" list="form.stocks" headerKey="0" headerValue="%{getText('global.option.one',new java.lang.String[]{getText('stock')})}" listKey="id" listValue="name" cssClass="form-control stock"/>
 				</div>
 			</div>
 			<div class="col-md-4 text-right">

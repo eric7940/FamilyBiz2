@@ -392,6 +392,7 @@ public class SoAction extends BaseAction {
 		logger.debug("unreceived start");
 		
 		try {
+			this.clearErrorsAndMessages();
 			
 			CustomerService service1 = (CustomerService) this.getServiceFactory().getService("customer");
 			form.setCusts(service1.getList());

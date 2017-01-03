@@ -20,10 +20,10 @@
 					<s:hidden name="form.custId" id="custId"/>
 				</div>
 				<div class="form-group form-input-line-magrin">
-					<s:select name="form.deliveryUserId" list="form.deliveryUsers" headerKey="0" headerValue="%{getText('global.option.one')}" listKey="id" listValue="name" cssClass="form-control delivery_user"/>
+					<s:select name="form.deliveryUserId" list="form.deliveryUsers" headerKey="0" headerValue="%{getText('global.option.one',new java.lang.String[]{getText('offer.field.delivery_user')})}" listKey="id" listValue="name" cssClass="form-control delivery_user"/>
 				</div>
 				<div class="form-group form-input-line-magrin">
-					<s:select name="form.stockId" list="form.stocks" headerKey="0" headerValue="%{getText('global.option.one')}" listKey="id" listValue="name" cssClass="form-control stock"/>
+					<s:select name="form.stockId" list="form.stocks" headerKey="0" headerValue="%{getText('global.option.one',new java.lang.String[]{getText('stock')})}" listKey="id" listValue="name" cssClass="form-control stock"/>
 				</div>
 				
 			</div>

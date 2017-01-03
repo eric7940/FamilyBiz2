@@ -12,8 +12,8 @@
 			<!-- 查詢條件 -->
 			<div class="col-md-8 div-search">
 				<div class="form-group form-input-line-magrin">
-					<s:select list="form.stocks" name="form.stockId" listKey="id" listValue="name" headerKey="0" headerValue="%{getText('global.option.one')}" cssClass="form-control stock"/>
-					<s:textfield name="form.keyword" theme="simple" placeholder="%{getText('global.message.keywordSearch')}" cssClass="form-control"/>
+					<s:select list="form.stocks" name="form.stockId" listKey="id" listValue="name" headerKey="0" headerValue="%{getText('global.option.one',new java.lang.String[]{getText('stock')})}" cssClass="form-control stock"/>
+					<s:textfield name="form.keyword" theme="simple" placeholder="%{getText('global.message.keywordSearch')}:%{getText('prod.field.name')}" cssClass="form-control"/>
 				</div>
 
 				<s:submit key="global.action.query" cssClass="btn btn-primary" />
