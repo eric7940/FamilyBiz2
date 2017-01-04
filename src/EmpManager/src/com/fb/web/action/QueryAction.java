@@ -8,18 +8,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-
 import org.apache.log4j.Logger;
 
 import com.fb.service.CustomerService;
 import com.fb.service.OfferService;
 import com.fb.service.ProductService;
+import com.fb.util.DateUtil;
 import com.fb.util.FamilyBizException;
 import com.fb.vo.OfferMasterVO;
 import com.fb.vo.ProdVO;
 import com.fb.web.form.QueryForm;
+
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 public class QueryAction extends BaseAction {
 
@@ -156,6 +157,105 @@ public class QueryAction extends BaseAction {
 		return null;
 	}
 	
+	@SuppressWarnings("rawtypes")
+	public String querySales() throws Exception {
+		logger.info("querySales start");
+
+		try {
+
+			String month = request.getParameter("a");
+			String prodId = request.getParameter("b");
+
+			month = DateUtil.getDateString(DateUtil.getDateObject(month, "yyyy-MM-dd"), "yyyyMM");
+			
+			logger.info("param: month=" + month);
+			logger.info("param: prodId=" + prodId);
+			
+			OfferService service = (OfferService) this.getServiceFactory().getService("offer");
+			List prods = service.getOfferQty(Integer.parseInt(prodId), month);
+			
+			JsonConfig cfg = new JsonConfig();
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "00");
+			map.put("result", prods);
+			
+			JSONObject jsonObject = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			this.writeResponseJson(jsonObject.toString());
+
+		} catch (Exception e) {
+			logger.error("fail", e);
+
+			JsonConfig cfg = new JsonConfig();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "01");
+			map.put("errMsg", e.getMessage());
+
+			JSONObject jsonObject  = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			try {
+				this.writeResponseJson(jsonObject.toString());
+			} catch (IOException e1) {
+				logger.error("fail", e1);
+			}
+		}
+		
+		return null;
+	}
+
+	public String queryDelivery() throws Exception {
+		logger.info("queryDelivery start");
+
+		try {
+
+			String sdate = request.getParameter("a");
+			String edate = request.getParameter("b");
+			String deliveryUserId = request.getParameter("c");
+
+			logger.info("param: deliveryUserId=" + deliveryUserId);
+			logger.info("param: sdate=" + sdate);
+			logger.info("param: edate=" + edate);
+
+			OfferService service = (OfferService) this.getServiceFactory().getService("offer");
+			List<OfferMasterVO> offers = service.getOffers(deliveryUserId, DateUtil.getDateObject(sdate, "yyyy-MM-dd"), DateUtil.getDateObject(edate, "yyyy-MM-dd"), false);
+			
+			JsonConfig cfg = new JsonConfig();
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "00");
+			map.put("result", offers);
+			
+			JSONObject jsonObject = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			this.writeResponseJson(jsonObject.toString());
+
+		} catch (Exception e) {
+			logger.error("fail", e);
+
+			JsonConfig cfg = new JsonConfig();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "01");
+			map.put("errMsg", e.getMessage());
+
+			JSONObject jsonObject  = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			try {
+				this.writeResponseJson(jsonObject.toString());
+			} catch (IOException e1) {
+				logger.error("fail", e1);
+			}
+		}
+		
+		return null;
+	}
+
 	public String getProdList() throws Exception {
 		try {
 
