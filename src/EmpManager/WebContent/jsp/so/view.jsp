@@ -112,7 +112,7 @@
       <s:form method="post" namespace="/so" action="main!saveas.do" theme="simple" cssClass="saveas_form">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="exampleModalLabel"><s:text name="pbt.modal.checkin.title"/></h4>
+        <h4 class="modal-title" id="exampleModalLabel"><s:text name="offer.modal.saveas.title"/></h4>
       </div>
       <div class="modal-body">
 			<input type="text" placeholder='<s:text name="offer.action.choose_cust"/>:<s:text name="cust.field.name"/>' class="form-control cust"/>
