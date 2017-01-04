@@ -7,7 +7,6 @@
 	<li class="nav-item"><a data-toggle="tab" href="#queryOffers" class="nav-link"><s:text name="query.tab.offers"/></a></li>
 	<li class="nav-item"><a data-toggle="tab" href="#querySales" class="nav-link"><s:text name="query.tab.sales"/></a></li>
 	<li class="nav-item"><a data-toggle="tab" href="#queryDelivery" class="nav-link"><s:text name="query.tab.delivery"/></a></li>
-	<li class="nav-item"><a data-toggle="tab" href="#queryToday" class="nav-link"><s:text name="query.tab.today"/></a></li>
 	<li class="nav-item"><a data-toggle="tab" href="#queryDiscount" class="nav-link"><s:text name="query.tab.discount"/></a></li>
 </ul>
 
@@ -169,47 +168,6 @@
 							<th class="col-md-2"><s:text name="offer.field.offer_date" /></th>
 							<th class="col-md-5"><s:text name="cust.field.name" /></th>
 							<th class="col-md-3"><s:text name="offer.field.total" /></th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
-				</div>
-			</div>
-		</form>
-	</div>
-	<div id="queryToday" class="tab-pane fade">
-		<h3><s:text name="query.tab.today"/></h3>
-		<form class="navbar-form">
-			<div role="main" class="container-fluid">
-				<div class="row">
-					<div class="col-md-4 div-search">
-						<div class="form-group">
-							<label for="startDate"><s:text name="offer.field.offer_date"/></label>
-							<input type="text" name="startDate" size="10" maxlength="10" class="form-control DateText start_date"/> ～
-							<input type="text" name="endDate" size="10" maxlength="10" class="form-control DateText end_date"/>
-						</div>
-					</div>
-					<div class="col-md-4 div-search">
-						<div class="form-group">
-							<label for="delivery_user"><s:text name="offer.field.delivery_user"/></label>
-							<s:select name="form.deliveryUserId" list="form.deliveryUsers" headerKey="0" headerValue="%{getText('global.option.one',new java.lang.String[]{getText('offer.field.delivery_user')})}" listKey="id" listValue="name" cssClass="form-control delivery_user"/>
-						</div>
-					</div>
-					<div class="col-md-4 div-search text-right">
-						<button type="button" class="btn btn-primary query"><s:text name="global.action.query"/></button>
-						<button type="reset" class="btn btn-primary reset"><s:text name="global.action.reset"/></button>
-					</div>
-				</div>
-				<div class="div-result">
-				<table id="queryResult" class="table table-striped table-hover table-break-all table-list break-table table-condensed">
-					<thead>
-						<tr>
-							<th class="col-md-1"><s:text name="prod.field.id" /></th>
-							<th class="col-md-3"><s:text name="prod.field.name" /></th>
-							<th class="col-md-2"><s:text name="offer.field.master_id" /></th>
-							<th class="col-md-2"><s:text name="offer.field.offer_date" /></th>
-							<th class="col-md-4"><s:text name="prod.field.price" /></th>
 						</tr>
 					</thead>
 					<tbody>
