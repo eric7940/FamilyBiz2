@@ -334,17 +334,21 @@ public class SoAction extends BaseAction {
 			String saveasCustId = request.getParameter("saveasCustId");
 			
 			if (StringUtils.isEmpty(fromId) || StringUtils.isEmpty(saveasCustId)) {
-				throw new FamilyBizException("offer.message.required.saveas");
+				throw new FamilyBizException("offer.message.required.offer");
 			}
 
 			logger.info("save as from masterId:" + fromId);
 			logger.info("save as custId:" + saveasCustId);
-			
+
+			OfferService service = (OfferService) this.getServiceFactory().getService("offer");
+			OfferMasterVO master = service.getOffer(fromId);
+			if (master == null) {
+				throw new FamilyBizException("offer.message.required.offer");
+			}
+
 			Date d = new Date();
 			Date today = DateUtil.getDateObject(DateUtil.getDateString(d, "yyyy-MM-dd"), "yyyy-MM-dd");
 			
-			OfferService service = (OfferService) this.getServiceFactory().getService("offer");
-			OfferMasterVO master = service.getOffer(fromId);
 			master.setOfferDate(today);
 			master.setCustId(Integer.valueOf(saveasCustId));
 			master.setUstamp(this.getUserInfo());
