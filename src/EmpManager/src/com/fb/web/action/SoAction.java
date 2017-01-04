@@ -77,7 +77,7 @@ public class SoAction extends BaseAction {
 			}
 		} catch (FamilyBizException e) {
 			logger.error("action fail.", e);
-			this.addActionError(e);
+			this.addLocalizationActionError(e.getMessage());
 		}
 
 		return VIEW;
@@ -105,7 +105,7 @@ public class SoAction extends BaseAction {
 			
 		} catch (FamilyBizException e) {
 			logger.error("action fail.", e);
-			this.addActionError(e);
+			this.addLocalizationActionError(e.getMessage());
 		}
 		
 		return EDIT;
@@ -185,7 +185,7 @@ public class SoAction extends BaseAction {
 
 		} catch (FamilyBizException e) {
 			logger.error("action fail.", e);
-			this.addActionError(e);
+			this.addLocalizationActionError(e.getMessage());
 		}
 
 		return DEFAULT;
@@ -210,7 +210,7 @@ public class SoAction extends BaseAction {
 			request.setAttribute("modify", "y");
 		} catch (FamilyBizException e) {
 			logger.error("action fail.", e);
-			this.addActionError(e);
+			this.addLocalizationActionError(e.getMessage());
 		}
 		
 		return EDIT;
@@ -325,6 +325,44 @@ public class SoAction extends BaseAction {
 		return DEFAULT;
 	}
 
+	public String saveas() throws Exception {
+
+		logger.info("saveas start");
+		
+		try {
+			String fromId = form.getMasterId();
+			String saveasCustId = request.getParameter("saveasCustId");
+			
+			if (StringUtils.isEmpty(fromId) || StringUtils.isEmpty(saveasCustId)) {
+				throw new FamilyBizException("offer.message.required.saveas");
+			}
+
+			logger.info("save as from masterId:" + fromId);
+			logger.info("save as custId:" + saveasCustId);
+			
+			Date d = new Date();
+			Date today = DateUtil.getDateObject(DateUtil.getDateString(d, "yyyy-MM-dd"), "yyyy-MM-dd");
+			
+			OfferService service = (OfferService) this.getServiceFactory().getService("offer");
+			OfferMasterVO master = service.getOffer(fromId);
+			master.setOfferDate(today);
+			master.setCustId(Integer.valueOf(saveasCustId));
+			master.setUstamp(this.getUserInfo());
+			
+			String masterId = service.copyOffer(master);
+			
+			form.setMasterId(masterId);
+			
+			addLocalizationActionSuccess("save");
+
+		} catch (FamilyBizException e) {
+			logger.error("action fail.", e);
+			this.addLocalizationActionError(e.getMessage());
+		}
+
+		return DEFAULT;
+	}
+	
 	public String getProdList() {
 		logger.debug("getProdList start");
 
@@ -430,7 +468,7 @@ public class SoAction extends BaseAction {
 			}	
 		} catch (FamilyBizException e) {
 			logger.error("action fail.", e);
-			this.addActionError(e);
+			this.addLocalizationActionError(e.getMessage());
 		}
 
 		return SUCCESS;
@@ -439,8 +477,8 @@ public class SoAction extends BaseAction {
 	public String pickup() {
 		logger.debug("pickup start");
 		
+		this.clearErrorsAndMessages();
 		form.setPickupOfferDate(DateUtil.getDateString(new Date(), "yyyy-MM-dd"));
-//		form.setProducts(new ArrayList<PickProdVO>());
 
 		return SUCCESS;
 	}

@@ -218,6 +218,44 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return this.getFbDao().update("deleteOffer", master);
 	}
 
+	public String copyOffer(OfferMasterVO master) throws FamilyBizException {
+		Integer seqNbr = this.getSequenceNbr("SEQ_TB_OFFER_MASTER_ID");
+		DecimalFormat df = new DecimalFormat("0000"); //todo:
+		String seq = df.format(seqNbr.intValue());
+		  
+		String masterId = DateUtil.getDateString(new Date(), "yyMMdd") + seq;
+		
+		master.setId(masterId);
+		this.getFbDao().insert("insertOfferMaster", master);
+		
+		List<OfferDetailVO> details = master.getDetails();
+
+		DecimalFormat df2 = new DecimalFormat("000");
+		for(int i = 0; i < details.size(); i++) {
+			OfferDetailVO detail = details.get(i);
+			detail.setId(masterId + df2.format((i + 1)));
+			detail.setMasterId(masterId);
+			this.getFbDao().insert("insertOfferDetail", detail);
+			
+			CustProdHisVO his = new CustProdHisVO();
+			his.setCustId(master.getCustId());
+			his.setProdId(detail.getProdId());
+			his.setOfferId(masterId);
+			his.setPrice(detail.getAmt() / detail.getQty());
+			this.getFbDao().insert("insertCustProdHis", his);
+			
+			ProdStockQtyVO qty = new ProdStockQtyVO();
+			qty.setStockId(master.getStockId());
+			qty.setProdId(detail.getProdId());
+			if (detail.getQty() < 0)
+				qty.setQty(new Double(Math.abs(detail.getQty().doubleValue())));
+			else
+				qty.setQty(new Double("-" + detail.getQty()));
+			this.getFbDao().update("updateProdStockQty", qty);
+		}
+		return masterId;
+	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getOfferQty(Integer prodId, String month) throws FamilyBizException {
 		Map<String,Object> paramMap = new HashMap<String,Object>();

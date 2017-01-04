@@ -37,6 +37,8 @@ public interface OfferService extends Service {
 	
 	public int removeOffer(OfferMasterVO master, boolean back) throws FamilyBizException;
 
+	public String copyOffer(OfferMasterVO from) throws FamilyBizException;
+
 	@SuppressWarnings("rawtypes")
 	public List getOfferQty(Integer prodId, String month) throws FamilyBizException;
 

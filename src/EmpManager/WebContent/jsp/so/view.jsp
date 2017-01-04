@@ -18,6 +18,7 @@
 			</div>
 			<div class="col-md-4 text-right">
 				<button type="button" class="btn btn-success print" disabled="disabled" onclick="printOffer()"><s:text name="offer.action.print"/></button>
+				<input type="button" class="btn btn-success" value='<s:text name="offer.action.saveas"/>' data-toggle="modal" data-target="#saveasModal" />
 <c:if test="${attr.editmode == 'y'}">
 				<button type="button" class="btn btn-success edit" disabled="disabled" onclick="fnInitModify(event,'${form.masterId}','form.keyword')"><s:text name="global.action.edit"/></button>
 				<button type="button" class="btn btn-success remove" disabled="disabled" onclick="fnRemove(event,'<s:text name="offer.message.confirm.remove"/>')"><s:text name="global.action.remove"/></button>
@@ -105,9 +106,43 @@
 </div>
 </div>
 
+<div class="modal fade" id="saveasModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <s:form method="post" namespace="/so" action="main!saveas.do" theme="simple" cssClass="saveas_form">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="exampleModalLabel"><s:text name="pbt.modal.checkin.title"/></h4>
+      </div>
+      <div class="modal-body">
+			<input type="text" placeholder='<s:text name="offer.action.choose_cust"/>:<s:text name="cust.field.name"/>' class="form-control cust"/>
+			<input type="hidden" name="saveasCustId" id="saveasCustId"/>
+      </div>
+      <div class="modal-footer">
+        <s:submit key="offer.action.saveas" cssClass="btn btn-success saveas" type="button" disabled="true" onclick="return saveasOffer(event)" />
+        <button type="button" class="btn btn-default" data-dismiss="modal"><s:text name="global.action.cancel"/></button>
+      </div>
+      </s:form>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
+
+var custs = [<s:iterator value="form.custs" var="cust" status="idx">{id:"<c:out value="${cust.id}"/>",name:"<c:out value="${cust.name}"/>"},</s:iterator>];
+
 function printOffer() {
 	var printWin = openWindow('/fb2/offer.sheet?id=' + $(".master_id").text(), 'printOffer', 793, 529);
+}
+
+function saveasOffer(event) {
+	if ($("#saveasCustId").val() == '') {
+		alert('<s:text name="offer.message.required.cust"/>');
+		return false;
+	}
+	
+	var oForm = getSelfForm(event, 'saveas');	
+	oForm.submit();
 }
 
 $(function () {
@@ -117,7 +152,32 @@ $(function () {
 		$('.remove').removeAttr('disabled');
 	}
 	
-	//$(".print").on("click", printOffer());
+	$("#saveasModal").on('keydown.autocomplete', '.cust', function() {
+		$(this).autocomplete({
+			minLength: 1,
+			appendTo: ".saveas_form",
+			source: function(request, response) {
+				response($.map(custs, function(v,i){
+					if (v.id === request.term || v.name.indexOf(request.term.toUpperCase()) >= 0) {
+						return {
+							label: v.name,
+							value: v.id
+						}
+					};
+				}));
+			},
+			focus: function( event, ui ) {
+				$(this).val( ui.item.label );
+				return false;
+			},
+			select: function( event, ui ) {
+				$(this).val( ui.item.label );
+				$('#saveasCustId').val(ui.item.value);
+				$('.saveas').removeAttr('disabled');
+				return false;
+			}
+		});
+	});
 });
 </script>
 
