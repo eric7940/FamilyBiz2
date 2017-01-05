@@ -31,7 +31,7 @@ public interface OfferService extends Service {
 
 	public void modifyOfferReceiveAmt(OfferMasterVO offer) throws FamilyBizException;
 
-	public List<OfferMasterVO> getUnReceivedOffers(Integer custId, Date startDate, Date endDate, boolean beforeFlag) throws FamilyBizException;
+	public List<OfferMasterVO> getUnReceivedOffers(Integer custId, Date startDate, Date endDate, boolean beforeFlag, String userId) throws FamilyBizException;
 
 	public int modifyOffer(OfferMasterVO master, List<OfferDetailVO> details) throws FamilyBizException;
 	

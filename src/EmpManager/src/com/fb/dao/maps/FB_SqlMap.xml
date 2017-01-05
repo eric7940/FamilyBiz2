@@ -563,7 +563,8 @@
 			m.back is null and
 			m.status = 'N' and
 			m.receive_amt <![CDATA[<]]> m.total and
-			m.cust_id = c.id
+			m.cust_id = c.id and
+			m.ustamp = #ustamp#
 			<isNotNull property="custId" prepend="and"> m.cust_id = #custId#</isNotNull>
 			<isNull property="beforeFlag" prepend="and"> m.offer_date <![CDATA[>=]]> #startDate#</isNull>
 			and m.offer_date <![CDATA[<=]]> #endDate#

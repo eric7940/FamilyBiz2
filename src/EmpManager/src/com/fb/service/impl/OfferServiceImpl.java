@@ -135,12 +135,13 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<OfferMasterVO> getUnReceivedOffers(Integer custId, Date startDate, Date endDate, boolean beforeFlag) throws FamilyBizException {
+	public List<OfferMasterVO> getUnReceivedOffers(Integer custId, Date startDate, Date endDate, boolean beforeFlag, String userId) throws FamilyBizException {
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("custId", custId);
 		paramMap.put("startDate", startDate);
 		paramMap.put("endDate", endDate);
 		paramMap.put("beforeFlag", beforeFlag? "Y": null);
+		paramMap.put("ustamp", userId);
 		return this.getFbDao().queryForList("selectUnReceivedOffers", paramMap);
 	}
 
