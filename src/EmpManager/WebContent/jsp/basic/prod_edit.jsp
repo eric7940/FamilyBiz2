@@ -11,9 +11,9 @@
 
 		<div class="row">
 			<!-- 查詢條件 -->
-			<div class="col-md-12">
-				<a href="<s:property value="#mainURL" />" role="button" class="btn btn-primary"><s:text name="global.action.cancel" /></a>
-				<s:submit key="global.action.save" cssClass="btn btn-success"/>
+			<div class="col-md-12 text-right">
+				<s:submit key="global.action.save" cssClass="btn btn-primary"/>
+				<a href="<s:property value="#mainURL" />" role="button" class="btn btn-default"><s:text name="global.action.cancel" /></a>
 			</div>
 		</div>
 
@@ -53,13 +53,23 @@
 var modify = '${attr.modify}';
 function save(event) {
 	if ($('.name').val().trim() == '') {
-		alert('請輸入品名/規格');
+		alert('<s:text name="prod.message.required"><s:param><s:text name="prod.field.name"/></s:param></s:text>');
 		$('.name').focus();
+		return false;
+	}
+	if ($('.price').val().trim() == '') {
+		alert('<s:text name="prod.message.required"><s:param><s:text name="prod.field.price"/></s:param></s:text>');
+		$('.price').focus();
+		return false;
+	}
+	if ($('.save_qty').val().trim() == '') {
+		alert('<s:text name="prod.message.required"><s:param><s:text name="prod.field.save_qty"/></s:param></s:text>');
+		$('.save_qty').focus();
 		return false;
 	}
 	
 	if ($('.price').val() != '' && (!isDecimal($('.price').val()) || parseFloat($('.price').val()) < 0)) {
-		alert('請輸入數字，且不可為負數');
+		alert('<s:text name="prod.message.required.number"/>');
 		$('.price').val(0);
 		$('.price').focus();
 		return false;
@@ -67,7 +77,7 @@ function save(event) {
 	$('.price').val(parseFloat($('.price').val()).toFixed(2));
 	
 	if ($('.save_qty').val() != '' && (!isInt($('.save_qty').val()) || parseInt($('.save_qty').val(), 10) < 0)) {
-		alert('請輸入數字，且不可為負數');
+		alert('<s:text name="prod.message.required.number"/>');
 		$('.save_qty').val(0);
 		$('.save_qty').focus();
 		return false;
@@ -83,7 +93,7 @@ function save(event) {
 
 function processPrice(obj) {
 	if (!isDecimal(obj.value) || parseFloat(obj.value) < 0) {
-		alert('請輸入數字，且不可為負數');
+		alert('<s:text name="prod.message.required.number"/>');
 		obj.value = 0;
 		return;
 	}
@@ -96,7 +106,7 @@ function processPrice(obj) {
 
 function processSaveQty(obj) {
 	if (!isInt(obj.value) || parseInt(obj.value, 10) < 0) {
-		alert('請輸入數字，且不可為負數');
+		alert('<s:text name="prod.message.required.number"/>');
 		obj.value = 0;
 		return;
 	}

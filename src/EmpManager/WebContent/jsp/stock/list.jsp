@@ -16,10 +16,10 @@
 					<s:textfield name="form.keyword" theme="simple" placeholder="%{getText('global.message.keywordSearch')}:%{getText('prod.field.name')}" cssClass="form-control"/>
 				</div>
 
-				<s:submit key="global.action.query" cssClass="btn btn-primary" />
+				<s:submit key="global.action.query" cssClass="btn btn-success" />
 			</div>
 			<div class="col-md-4 text-right">
-				<s:submit key="stock.action.adjust" cssClass="btn btn-success" onclick="return initAdjust(event)" />
+				<s:submit key="stock.action.adjust" cssClass="btn btn-primary" onclick="return initAdjust(event)" />
 			</div>
 		</div>
 

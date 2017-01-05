@@ -295,21 +295,9 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return this.getFbDao().queryForList("selectUser", user);
 	}
 
-	public BigDecimal getTotalDiscount(String month) throws FamilyBizException {
-		return (BigDecimal) this.getFbDao().queryForObject("selectTotalDiscount", month);
-	}
-
 	@SuppressWarnings("rawtypes")
-	public List getTopDiscountCusts(String month) throws FamilyBizException {
-		return this.getFbDao().queryForList("selectTopDiscountCusts", month);
-	}
-
-	@SuppressWarnings("rawtypes")
-	public List getTopDiscountOffers(String month, String custId) throws FamilyBizException {
-		Map<String,String> paramMap = new HashMap<String,String>();
-		paramMap.put("month", month);
-		paramMap.put("custId", custId);
-		return this.getFbDao().queryForList("selectDiscountOffers", paramMap);
+	public List getTopDiscountOffers(String month) throws FamilyBizException {
+		return this.getFbDao().queryForList("selectDiscountOffers", month);
 	}
 
 	@SuppressWarnings("rawtypes")

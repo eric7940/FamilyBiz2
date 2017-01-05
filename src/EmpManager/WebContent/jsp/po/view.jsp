@@ -14,10 +14,10 @@
 				<div class="form-group form-input-line-magrin">
 					<s:textfield name="form.keyword" theme="simple" placeholder="%{getText('global.message.keywordSearch')}:%{getText('purchase.field.master_id')}" cssClass="form-control"/>
 				</div>
-				<s:submit key="global.action.query" cssClass="btn btn-primary" />
+				<s:submit key="global.action.query" cssClass="btn btn-success" />
 			</div>
 			<div class="col-md-4 text-right">
-				<button type="button" class="btn btn-success remove" disabled="disabled" onclick="fnRemove(event,'<s:text name="purchase.message.confirm.remove"/>')"><s:text name="global.action.remove"/></button>
+				<button type="button" class="btn btn-danger remove" disabled="disabled" onclick="fnRemove(event,'<s:text name="purchase.message.confirm.remove"/>')"><s:text name="global.action.remove"/></button>
 			</div>
 		</div>
 

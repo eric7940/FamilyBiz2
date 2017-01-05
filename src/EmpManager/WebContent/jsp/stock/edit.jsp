@@ -15,8 +15,8 @@
 			<div class="col-md-8 div-search">
 			</div>
 			<div class="col-md-4 text-right">
-				<s:submit key="global.action.save" cssClass="btn btn-success save" onclick="return save(event)" />
-				<a href="<s:property value="#mainURL" />" role="button" class="btn btn-success"><s:text name="global.action.cancel" /></a>
+				<s:submit key="global.action.save" cssClass="btn btn-primary save" onclick="return save(event)" />
+				<a href="<s:property value="#mainURL" />" role="button" class="btn btn-default"><s:text name="global.action.cancel" /></a>
 			</div>
 		</div>
 

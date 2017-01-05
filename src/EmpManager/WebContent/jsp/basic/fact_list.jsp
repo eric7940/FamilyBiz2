@@ -15,11 +15,11 @@
 					<s:textfield name="form.keyword" theme="simple" placeholder="%{getText('global.message.keywordSearch')}" cssClass="form-control"/>
 				</div>
 
-				<s:submit key="global.action.query" cssClass="btn btn-primary" />
-				<s:submit key="global.action.reset" cssClass="btn btn-primary" type="button" onclick="fnReload(event)" />
+				<s:submit key="global.action.query" cssClass="btn btn-success" />
+				<s:submit key="global.action.reset" cssClass="btn btn-success" type="button" onclick="fnReload(event)" />
 			</div>
 			<div class="col-md-4 text-right">
-				<s:submit key="global.action.add" cssClass="btn btn-success" type="button" onclick="fnInitAdd(event,'','form.id')" />
+				<s:submit key="global.action.add" cssClass="btn btn-primary" type="button" onclick="fnInitAdd(event,'','form.id')" />
 			</div>
 		</div>
 

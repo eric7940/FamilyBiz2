@@ -26,8 +26,8 @@
 			</div>
 			<div class="col-sm-5 text-right">
 				<s:submit key="global.action.query" cssClass="btn btn-primary" onclick="return query(event)"/>
-				<s:submit key="unreceived.action.print" cssClass="btn btn-primary print" type="button" onclick="printUnreceived()" />
-				<input type="button" value="<s:text name="global.action.reset"/>" class="btn btn-primary reset" onclick="init()"/>
+				<s:submit key="unreceived.action.print" cssClass="btn btn-warning print" type="button" onclick="printUnreceived()" />
+				<input type="button" value="<s:text name="global.action.reset"/>" class="btn btn-success reset" onclick="init()"/>
 			</div>
 		</div>
 

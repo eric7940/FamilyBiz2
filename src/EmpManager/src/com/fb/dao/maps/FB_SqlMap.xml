@@ -144,10 +144,12 @@
 	</resultMap>
 	<resultMap id="TopDiscountOfferResult" class="OfferMasterVO">
 		<result property="id"			column="m.id"/>
+		<result property="custId"		column="m.cust_id"/>
 		<result property="offerDate"		column="m.offer_date"/>
 		<result property="amt"			column="m.amt"/>
 		<result property="discount"		column="m.discount"/>
-		<result property="receiveAmt"	column="m.receive_amt"/>
+		<result property="total"			column="m.total"/>
+		<result property="cust"			resultMap="FB.CustResult"/>
 	</resultMap>
 	<resultMap id="PickCustResult" class="CustVO">
 		<result property="id"			column="c.id"/>
@@ -589,18 +591,8 @@
 		)
 	</select>
 
-	<select id="selectTotalDiscount" parameterClass="string" resultClass="decimal">
-		select sum(m.discount) 
-		from
-			tb_offer_master M
-		where
-			m.back is null and
-			m.status = 'N' and
-			date_format(m.offer_date,'%Y%m') = #month#
-	</select>
-	
-	<select id="selectTopDiscountCusts" parameterClass="string" resultClass="java.util.HashMap">
-		select m.cust_id, sum(m.discount) as discount, c.name as cust_name
+	<select id="selectDiscountOffers" parameterClass="string" resultMap="TopDiscountOfferResult">
+		select *
 		from
 			tb_offer_master m, tb_cust c
 		where
@@ -609,21 +601,7 @@
 			m.status = 'N' and 
 			m.discount != 0 and
 			date_format(m.offer_date,'%Y%m') = #month#
-		group by m.cust_id
-		order by m.discount desc
-	</select>
-
-	<select id="selectDiscountOffers" parameterClass="map" resultMap="TopDiscountOfferResult">
-		select *
-		from
-			tb_offer_master m
-		where
-			m.back is null and
-			m.status = 'N' and 
-			m.discount != 0 and
-			date_format(m.offer_date,'%Y%m') = #month# and
-			m.cust_id = #custId#
-		order by m.discount desc
+		order by m.cust_id, m.discount desc
 	</select>
 	
 	<select id="selectCustByOfferDate" parameterClass="string" resultMap="PickCustResult">

@@ -18,8 +18,8 @@
 			</div>
 			<div class="col-md-7 div-search">
 				<div class="form-group form-input-line-magrin">
-					<input type="button" value="<s:text name="pickup.action.query_custs"/>" class="btn btn-primary" onclick="queryCusts(event)"/>
-					<s:submit key="global.action.query" cssClass="btn btn-success query" type="button" disabled="true" onclick="return queryProds(event)" />
+					<input type="button" value="<s:text name="pickup.action.query_custs"/>" class="btn btn-success" onclick="queryCusts(event)"/>
+					<s:submit key="global.action.query" cssClass="btn btn-primary query" type="button" disabled="true" onclick="return queryProds(event)" />
 				</div>
 			</div>
 		</div>

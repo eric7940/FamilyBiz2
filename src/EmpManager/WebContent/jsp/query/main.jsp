@@ -32,7 +32,7 @@
 					</div>
 					<div class="col-md-4 div-search text-right">
 						<button type="button" class="btn btn-primary query"><s:text name="global.action.query"/></button>
-						<button type="reset" class="btn btn-primary reset"><s:text name="global.action.reset"/></button>
+						<button type="reset" class="btn btn-success reset"><s:text name="global.action.reset"/></button>
 					</div>
 				</div>
 				<div class="div-result">
@@ -74,7 +74,7 @@
 					</div>
 					<div class="col-md-4 div-search text-right">
 						<button type="button" class="btn btn-primary query"><s:text name="global.action.query"/></button>
-						<button type="reset" class="btn btn-primary reset"><s:text name="global.action.reset"/></button>
+						<button type="reset" class="btn btn-success reset"><s:text name="global.action.reset"/></button>
 					</div>
 				</div>
 				<div class="div-result">
@@ -117,7 +117,7 @@
 					</div>
 					<div class="col-md-4 div-search text-right">
 						<button type="button" class="btn btn-primary query"><s:text name="global.action.query"/></button>
-						<button type="reset" class="btn btn-primary reset"><s:text name="global.action.reset"/></button>
+						<button type="reset" class="btn btn-success reset"><s:text name="global.action.reset"/></button>
 					</div>
 				</div>
 				<div class="div-result">
@@ -142,22 +142,22 @@
 		<form class="navbar-form">
 			<div role="main" class="container-fluid">
 				<div class="row">
-					<div class="col-md-4 div-search">
+					<div class="col-md-7 div-search">
 						<div class="form-group">
 							<label for="startDate"><s:text name="offer.field.offer_date"/></label>
 							<input type="text" name="startDate" size="10" maxlength="10" class="form-control DateText start_date"/> ～
 							<input type="text" name="endDate" size="10" maxlength="10" class="form-control DateText end_date"/>
 						</div>
 					</div>
-					<div class="col-md-4 div-search">
+					<div class="col-md-3 div-search">
 						<div class="form-group">
 							<label for="delivery_user"><s:text name="offer.field.delivery_user"/></label>
 							<s:select name="form.deliveryUserId" list="form.deliveryUsers" headerKey="0" headerValue="%{getText('global.option.one',new java.lang.String[]{getText('offer.field.delivery_user')})}" listKey="id" listValue="name" cssClass="form-control delivery_user"/>
 						</div>
 					</div>
-					<div class="col-md-4 div-search text-right">
+					<div class="col-md-2 div-search text-right">
 						<button type="button" class="btn btn-primary query"><s:text name="global.action.query"/></button>
-						<button type="reset" class="btn btn-primary reset"><s:text name="global.action.reset"/></button>
+						<button type="reset" class="btn btn-success reset"><s:text name="global.action.reset"/></button>
 					</div>
 				</div>
 				<div class="div-result">
@@ -168,6 +168,41 @@
 							<th class="col-md-2"><s:text name="offer.field.offer_date" /></th>
 							<th class="col-md-5"><s:text name="cust.field.name" /></th>
 							<th class="col-md-3"><s:text name="offer.field.total" /></th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div id="queryDiscount" class="tab-pane fade">
+		<h3><s:text name="query.tab.discount"/></h3>
+		<form class="navbar-form">
+			<div role="main" class="container-fluid">
+				<div class="row">
+					<div class="col-md-4 div-search">
+						<div class="form-group">
+							<label for="offerDate"><s:text name="offer.field.offer_date"/></label>
+							<input type="text" name="offerDate" size="10" maxlength="10" class="form-control DateText offer_date"/>
+						</div>
+					</div>
+					<div class="col-md-8 div-search text-right">
+						<button type="button" class="btn btn-primary query"><s:text name="global.action.query"/></button>
+						<button type="reset" class="btn btn-success reset"><s:text name="global.action.reset"/></button>
+					</div>
+				</div>
+				<div class="div-result">
+				<table id="queryResult" class="table table-striped table-hover table-break-all table-list break-table table-condensed">
+					<thead>
+						<tr>
+							<th class="col-md-1"><s:text name="cust.field.id" /></th>
+							<th class="col-md-4"><s:text name="cust.field.name" /></th>
+							<th class="col-md-2"><s:text name="offer.field.master_id" /></th>
+							<th class="col-md-1"><s:text name="offer.field.discount" /></th>
+							<th class="col-md-2"><s:text name="cust" /><s:text name="offer.field.amt" /></th>
+							<th class="col-md-2"><s:text name="offer.field.total" /></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -544,6 +579,93 @@ $(function () {
 	$('#queryDelivery').find('.start_date').val(today);
 	$('#queryDelivery').find('.end_date').val(today);
 
+	$('#queryDiscount').on('click', '.query', function() {
+		if ($('#queryDiscount').find('.offer_date').val() == '') {
+			alert('<s:text name="query.error.required.condition"/>');
+			return;
+		}
+		$.ajax({
+		    type: "POST",
+		    url: '<s:url action="main" namespace="/query" method="queryDiscount"/>',
+		    dataType: "json",
+		    data: {a: $('#queryDiscount').find('.offer_date').val()},
+		    success: function(json) {
+		    		if (json["errCde"] == '00') {
+					var result = json["result"];
+					$('#queryDiscount').find('table#queryResult tbody').empty();
+					if (result.length == 0) {
+						var row = '<tr><td colspan="6" class="text-center"><s:text name="query.message.result.empty"/></td></tr>';
+						$('#queryDiscount').find('table#queryResult tbody').append(row);
+					} else {
+						var custId = 0;
+						var sum = 0;
+						var total = 0;
+						$.each(result, function(i,v) {
+							if (custId === 0) custId = v.custId;
+							if (custId !== v.custId) {
+								var row = '<tr>' + 
+									'<td>&nbsp;</td>' + 
+									'<td>&nbsp;</td>' + 
+									'<td>&nbsp;</td>' + 
+									'<td>&nbsp;</td>' + 
+									'<td data-title="<s:text name="cust" /><s:text name="offer.field.amt" />" class="text-right"><span class="form-control-static">' + parseFloat(sum).toFixed(2) + '</span></td>' +
+									'<td>&nbsp;</td>';
+								row += '</tr>';
+								$('#queryDiscount').find('table#queryResult tbody').append(row);
+								
+								custId = v.custId;
+								sum = 0;
+							}
+							total += v.total;
+							sum += v.discount;
+
+							var row = '<tr>' + 
+								'<td data-title="<s:text name="cust.field.id"/>"><span class="form-control-static">' + v.custId + '</span></td>' + 
+								'<td data-title="<s:text name="cust.field.name"/>"><span class="form-control-static">' + v.cust.name + '</span></td>' + 
+								'<td data-title="<s:text name="offer.field.master_id"/>"><span class="form-control-static">' + v.id + '</span></td>' + 
+								'<td data-title="<s:text name="offer.field.discount"/>" class="text-right"><span class="form-control-static">' + parseFloat(v.discount).toFixed(2) + '</span></td>' +
+								'<td>&nbsp;</td>' +
+								'<td>&nbsp;</td>';
+							row += '</tr>';
+							$('#queryDiscount').find('table#queryResult tbody').append(row);
+						});
+						
+						if (custId !== 0) {
+							var row = '<tr>' + 
+								'<td>&nbsp;</td>' + 
+								'<td>&nbsp;</td>' + 
+								'<td>&nbsp;</td>' + 
+								'<td>&nbsp;</td>' + 
+								'<td data-title="<s:text name="cust" /><s:text name="global.message.sum" />" class="text-right"><span class="form-control-static">' + parseFloat(sum).toFixed(2) + '</span></td>' +
+								'<td>&nbsp;</td>';
+							row += '</tr>';
+							$('#queryDiscount').find('table#queryResult tbody').append(row);
+
+							var row = '<tr>' + 
+								'<td>&nbsp;</td>' + 
+								'<td>&nbsp;</td>' + 
+								'<td>&nbsp;</td>' + 
+								'<td>&nbsp;</td>' + 
+								'<td>&nbsp;</td>' + 
+								'<td data-title="<s:text name="global.message.sum" />" class="text-right"><span class="form-control-static">' + parseFloat(total).toFixed(2) + '</span></td>';
+							row += '</tr>';
+							$('#queryDiscount').find('table#queryResult tbody').append(row);
+						}
+					}
+				} else {
+					alert(json["errMsg"]);
+				} 
+		    },
+		    error: function (xhr, textStatus, errorThrown) {
+		    		alert(xhr.responseText);
+		    }
+		});
+	});
+	$('#queryDiscount').on('reset', function() {
+		$('#queryDiscount').find('.offer_date').val(today);
+		$('#queryDiscount').find('table#queryResult tbody').empty();
+	});
+	$('#queryDiscount').find('.offer_date').val(today);
 });
 
 </script>

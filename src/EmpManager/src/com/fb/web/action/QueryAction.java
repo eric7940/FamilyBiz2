@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -222,6 +223,52 @@ public class QueryAction extends BaseAction {
 
 			OfferService service = (OfferService) this.getServiceFactory().getService("offer");
 			List<OfferMasterVO> offers = service.getOffers(deliveryUserId, DateUtil.getDateObject(sdate, "yyyy-MM-dd"), DateUtil.getDateObject(edate, "yyyy-MM-dd"), false);
+			
+			JsonConfig cfg = new JsonConfig();
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "00");
+			map.put("result", offers);
+			
+			JSONObject jsonObject = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			this.writeResponseJson(jsonObject.toString());
+
+		} catch (Exception e) {
+			logger.error("fail", e);
+
+			JsonConfig cfg = new JsonConfig();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "01");
+			map.put("errMsg", e.getMessage());
+
+			JSONObject jsonObject  = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			try {
+				this.writeResponseJson(jsonObject.toString());
+			} catch (IOException e1) {
+				logger.error("fail", e1);
+			}
+		}
+		
+		return null;
+	}
+
+	public String queryDiscount() throws Exception {
+		logger.info("queryDiscount start");
+
+		try {
+
+			String month = request.getParameter("a");
+			month = DateUtil.getDateString(DateUtil.getDateObject(month, "yyyy-MM-dd"), "yyyyMM");
+			
+			logger.info("param: month=" + month);
+
+			OfferService service = (OfferService) this.getServiceFactory().getService("offer");
+			List offers = service.getTopDiscountOffers(month);
 			
 			JsonConfig cfg = new JsonConfig();
 			

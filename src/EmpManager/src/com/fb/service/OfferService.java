@@ -44,13 +44,8 @@ public interface OfferService extends Service {
 
 	public List<UserVO> getDeliveryUsers() throws FamilyBizException;
 
-	public BigDecimal getTotalDiscount(String month) throws FamilyBizException;
-	
 	@SuppressWarnings("rawtypes")
-	public List getTopDiscountCusts(String month) throws FamilyBizException;
-
-	@SuppressWarnings("rawtypes")
-	public List getTopDiscountOffers(String month, String custId) throws FamilyBizException;
+	public List getTopDiscountOffers(String month) throws FamilyBizException;
 	
 	@SuppressWarnings("rawtypes")
 	public List getProdQty(Date offerDate, List<String> custs) throws FamilyBizException;

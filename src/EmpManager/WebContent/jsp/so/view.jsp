@@ -14,15 +14,15 @@
 				<div class="form-group form-input-line-magrin">
 					<s:textfield name="form.keyword" theme="simple" placeholder="%{getText('global.message.keywordSearch')}:%{getText('offer.field.master_id')}" cssClass="form-control"/>
 				</div>
-				<s:submit key="global.action.query" cssClass="btn btn-primary" />
+				<s:submit key="global.action.query" cssClass="btn btn-success" />
 			</div>
 			<div class="col-md-4 text-right">
-				<button type="button" class="btn btn-success print" disabled="disabled" onclick="printOffer()"><s:text name="offer.action.print"/></button>
-				<input type="button" class="btn btn-success" value='<s:text name="offer.action.saveas"/>' data-toggle="modal" data-target="#saveasModal" />
 <c:if test="${attr.editmode == 'y'}">
-				<button type="button" class="btn btn-success edit" disabled="disabled" onclick="fnInitModify(event,'${form.masterId}','form.keyword')"><s:text name="global.action.edit"/></button>
-				<button type="button" class="btn btn-success remove" disabled="disabled" onclick="fnRemove(event,'<s:text name="offer.message.confirm.remove"/>')"><s:text name="global.action.remove"/></button>
+				<button type="button" class="btn btn-primary edit" disabled="disabled" onclick="fnInitModify(event,'${form.masterId}','form.keyword')"><s:text name="global.action.edit"/></button>
+				<button type="button" class="btn btn-danger remove" disabled="disabled" onclick="fnRemove(event,'<s:text name="offer.message.confirm.remove"/>')"><s:text name="global.action.remove"/></button>
 </c:if>
+				<button type="button" class="btn btn-warning print" disabled="disabled" onclick="printOffer()"><s:text name="offer.action.print"/></button>
+				<input type="button" class="btn btn-warning saveas" disabled="disabled" value='<s:text name="offer.action.saveas"/>' data-toggle="modal" data-target="#saveasModal" />
 			</div>
 		</div>
 
@@ -119,7 +119,7 @@
 			<input type="hidden" name="saveasCustId" id="saveasCustId"/>
       </div>
       <div class="modal-footer">
-        <s:submit key="offer.action.saveas" cssClass="btn btn-success saveas" type="button" disabled="true" onclick="return saveasOffer(event)" />
+        <s:submit key="offer.action.saveas" cssClass="btn btn-warning saveas" type="button" disabled="true" onclick="return saveasOffer(event)" />
         <button type="button" class="btn btn-default" data-dismiss="modal"><s:text name="global.action.cancel"/></button>
       </div>
       </s:form>
@@ -148,6 +148,7 @@ function saveasOffer(event) {
 $(function () {
 	if ($('.master_id').text() !== '') {
 		$('.print').removeAttr('disabled');
+		$('.saveas').removeAttr('disabled');
 		$('.edit').removeAttr('disabled');
 		$('.remove').removeAttr('disabled');
 	}
