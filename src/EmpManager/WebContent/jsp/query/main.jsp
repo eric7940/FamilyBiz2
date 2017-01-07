@@ -40,10 +40,10 @@
 					<thead>
 						<tr>
 							<th class="col-md-1"><s:text name="prod.field.id" /></th>
-							<th class="col-md-3"><s:text name="prod.field.name" /></th>
-							<th class="col-md-2"><s:text name="offer.field.master_id" /></th>
+							<th class="col-md-4"><s:text name="prod.field.name" /></th>
+							<th class="col-md-3"><s:text name="offer.field.master_id" /></th>
 							<th class="col-md-2"><s:text name="offer.field.offer_date" /></th>
-							<th class="col-md-4"><s:text name="prod.field.price" /></th>
+							<th class="col-md-2 text-right"><s:text name="prod.field.price" /></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -85,9 +85,9 @@
 							<th class="col-md-2"><s:text name="offer.field.offer_date" /></th>
 							<th class="col-md-3"><s:text name="prod.field.name" /></th>
 							<th class="col-md-1"><s:text name="prod.field.unit" /></th>
-							<th class="col-md-1"><s:text name="offer.field.qty" /></th>
-							<th class="col-md-1"><s:text name="prod.field.price" /></th>
-							<th class="col-md-2"><s:text name="offer.field.detail_amt" /></th>
+							<th class="col-md-1 text-right"><s:text name="offer.field.qty" /></th>
+							<th class="col-md-1 text-right"><s:text name="prod.field.price" /></th>
+							<th class="col-md-2 text-right"><s:text name="offer.field.detail_amt" /></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -124,9 +124,9 @@
 				<table id="queryResult" class="table table-striped table-hover table-break-all table-list break-table table-condensed">
 					<thead>
 						<tr>
-							<th class="col-md-1"><s:text name="cust.field.id" /></th>
+							<th class="col-md-2"><s:text name="cust.field.id" /></th>
 							<th class="col-md-6"><s:text name="cust.field.name" /></th>
-							<th class="col-md-3"><s:text name="offer.field.qty" /></th>
+							<th class="col-md-2 text-right"><s:text name="offer.field.qty" /></th>
 							<th class="col-md-2"><s:text name="prod.field.unit" /></th>
 						</tr>
 					</thead>
@@ -166,8 +166,8 @@
 						<tr>
 							<th class="col-md-2"><s:text name="offer.field.master_id" /></th>
 							<th class="col-md-2"><s:text name="offer.field.offer_date" /></th>
-							<th class="col-md-5"><s:text name="cust.field.name" /></th>
-							<th class="col-md-3"><s:text name="offer.field.total" /></th>
+							<th class="col-md-6"><s:text name="cust.field.name" /></th>
+							<th class="col-md-2 text-right"><s:text name="offer.field.total" /></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -200,9 +200,9 @@
 							<th class="col-md-1"><s:text name="cust.field.id" /></th>
 							<th class="col-md-4"><s:text name="cust.field.name" /></th>
 							<th class="col-md-2"><s:text name="offer.field.master_id" /></th>
-							<th class="col-md-1"><s:text name="offer.field.discount" /></th>
-							<th class="col-md-2"><s:text name="cust" /><s:text name="offer.field.amt" /></th>
-							<th class="col-md-2"><s:text name="offer.field.total" /></th>
+							<th class="col-md-1 text-right"><s:text name="offer.field.discount" /></th>
+							<th class="col-md-2 text-right"><s:text name="cust" /><s:text name="offer.field.amt" /></th>
+							<th class="col-md-2 text-right"><s:text name="query.message.result.this_month.sum" /></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -219,6 +219,7 @@
 
 var custs = [<s:iterator value="form.custs" var="cust" status="idx">{id:"<c:out value="${cust.id}"/>",name:"<c:out value="${cust.name}"/>"},</s:iterator>];
 var today = getToday();
+var mainURL = '<s:url action="main" namespace="/so"><s:param name="form.keyword">master_id</s:param></s:url>';
 
 function getToday() {
 	var d = new Date();
@@ -307,11 +308,11 @@ $(function () {
 					} else {
 						$.each(result, function(i,v) {
 							var row = '<tr>' + 
-								'<td data-title="<s:text name="prod.field.id" />"><span class="form-control-static">' + v.prod_id + '</span></td>' + 
-								'<td data-title="<s:text name="prod.field.name" />"><span class="form-control-static">' + v.prod_name + '</span></td>' + 
-								'<td data-title="<s:text name="offer.field.master_id" />"><span class="form-control-static">' + v.offer_id + '</span></td>' + 
-								'<td data-title="<s:text name="offer.field.offer_date" />"><span class="form-control-static">' + v.offer_date + '</span></td>' + 
-								'<td data-title="<s:text name="prod.field.price" />"><span class="form-control-static">' + v.price + '</span></td>';
+								'<td data-title="<s:text name="prod.field.id"/>"><span class="form-control-static">' + v.prod_id + '</span></td>' + 
+								'<td data-title="<s:text name="prod.field.name"/>"><span class="form-control-static">' + v.prod_name + '</span></td>' + 
+								'<td data-title="<s:text name="offer.field.master_id"/>"><span class="form-control-static">' + v.offer_id + '</span>' + (v.offer_id != '-'? ' <a href="' + mainURL.replace('master_id', v.offer_id) + '" role="button" class="btn btn-warning show_tip" data-original-title="<s:text name="offer.message.detail"/>" ><i class="fa fa-external-link"></i></a>':'') + '</td>' + 
+								'<td data-title="<s:text name="offer.field.offer_date"/>"><span class="form-control-static">' + v.offer_date + '</span></td>' + 
+								'<td data-title="<s:text name="prod.field.price"/>" class="text-right"><span class="form-control-static">' + parseFloat(v.price).toFixed(2) + '</span></td>';
 							row += '</tr>';
 							$('#queryPrice').find('table#queryResult tbody').append(row);
 						});
@@ -416,7 +417,7 @@ $(function () {
 							dd.setTime(v.offerDate.time);
 							
 							var row = '<tr>' + 
-								'<td data-title="<s:text name="offer.field.master_id"/>"><span class="form-control-static">' + v.id + '</span></td>' + 
+								'<td data-title="<s:text name="offer.field.master_id"/>"><span class="form-control-static">' + v.id + '</span> <a href="' + mainURL.replace('master_id', v.id) + '" role="button" class="btn btn-warning show_tip" data-original-title="<s:text name="offer.message.detail"/>" ><i class="fa fa-external-link"></i></a></td>' + 
 								'<td data-title="<s:text name="offer.field.offer_date"/>"><span class="form-control-static">' + $.datepicker.formatDate('yy-mm-dd', dd) + '</span></td>' + 
 								'<td data-title="<s:text name="prod.field.name"/>"><span class="form-control-static">' + d.prod.name + '</span></td>' + 
 								'<td data-title="<s:text name="prod.field.unit"/>"><span class="form-control-static">' + d.prod.unit + '</span></td>' + 
@@ -499,10 +500,10 @@ $(function () {
 					} else {
 						$.each(result, function(i,v) {
 							var row = '<tr>' + 
-								'<td data-title="<s:text name="cust.field.id" />"><span class="form-control-static">' + v.cust_id + '</span></td>' + 
-								'<td data-title="<s:text name="cust.field.name" />"><span class="form-control-static">' + v.cust_name + '</span></td>' + 
-								'<td data-title="<s:text name="offer.field.qty" />"><span class="form-control-static">' + v.qty + '</span></td>' + 
-								'<td data-title="<s:text name="prod.field.unit" />"><span class="form-control-static">' + v.unit + '</span></td>';
+								'<td data-title="<s:text name="cust.field.id"/>"><span class="form-control-static">' + v.cust_id + '</span></td>' + 
+								'<td data-title="<s:text name="cust.field.name"/>"><span class="form-control-static">' + v.cust_name + '</span></td>' + 
+								'<td data-title="<s:text name="offer.field.qty"/>" class="text-right"><span class="form-control-static">' + parseFloat(v.qty).toFixed(2) + '</span></td>' + 
+								'<td data-title="<s:text name="prod.field.unit"/>"><span class="form-control-static">' + v.unit + '</span></td>';
 							row += '</tr>';
 							$('#querySales').find('table#queryResult tbody').append(row);
 						});
@@ -531,7 +532,7 @@ $(function () {
 		    type: "POST",
 		    url: '<s:url action="main" namespace="/query" method="queryDelivery"/>',
 		    dataType: "json",
-		    data: {a: $('#queryDelivery').find('.start_date').val(), b: $('#queryDelivery').find('.end_date').val(), c: $('#querySales').find('.delivery_user').val()},
+		    data: {a: $('#queryDelivery').find('.start_date').val(), b: $('#queryDelivery').find('.end_date').val(), c: $('#queryDelivery').find('.delivery_user').val()},
 		    success: function(json) {
 		    		if (json["errCde"] == '00') {
 					var result = json["result"];
@@ -548,7 +549,7 @@ $(function () {
 							total += v.total;
 							
 							var row = '<tr>' + 
-								'<td data-title="<s:text name="offer.field.master_id"/>"><span class="form-control-static">' + v.id + '</span></td>' + 
+								'<td data-title="<s:text name="offer.field.master_id"/>"><span class="form-control-static">' + v.id + '</span> <a href="' + mainURL.replace('master_id', v.id) + '" role="button" class="btn btn-warning show_tip" data-original-title="<s:text name="offer.message.detail"/>" ><i class="fa fa-external-link"></i></a></td>' + 
 								'<td data-title="<s:text name="offer.field.offer_date"/>"><span class="form-control-static">' + $.datepicker.formatDate('yy-mm-dd', dd) + '</span></td>' + 
 								'<td data-title="<s:text name="cust.field.name"/>"><span class="form-control-static">' + v.cust.name + '</span></td>' + 
 								'<td data-title="<s:text name="offer.field.total"/>" class="text-right"><span class="form-control-static">' + parseFloat(v.total).toFixed(2) + '</span></td>';
@@ -616,13 +617,13 @@ $(function () {
 								custId = v.custId;
 								sum = 0;
 							}
-							total += v.total;
-							sum += v.discount;
+							total += parseFloat(v.discount);
+							sum += parseFloat(v.discount);
 
 							var row = '<tr>' + 
 								'<td data-title="<s:text name="cust.field.id"/>"><span class="form-control-static">' + v.custId + '</span></td>' + 
 								'<td data-title="<s:text name="cust.field.name"/>"><span class="form-control-static">' + v.cust.name + '</span></td>' + 
-								'<td data-title="<s:text name="offer.field.master_id"/>"><span class="form-control-static">' + v.id + '</span></td>' + 
+								'<td data-title="<s:text name="offer.field.master_id"/>"><span class="form-control-static">' + v.id + '</span> <a href="' + mainURL.replace('master_id', v.id) + '" role="button" class="btn btn-warning show_tip" data-original-title="<s:text name="offer.message.detail"/>" ><i class="fa fa-external-link"></i></a></td>' + 
 								'<td data-title="<s:text name="offer.field.discount"/>" class="text-right"><span class="form-control-static">' + parseFloat(v.discount).toFixed(2) + '</span></td>' +
 								'<td>&nbsp;</td>' +
 								'<td>&nbsp;</td>';
@@ -647,7 +648,7 @@ $(function () {
 								'<td>&nbsp;</td>' + 
 								'<td>&nbsp;</td>' + 
 								'<td>&nbsp;</td>' + 
-								'<td data-title="<s:text name="global.message.sum" />" class="text-right"><span class="form-control-static">' + parseFloat(total).toFixed(2) + '</span></td>';
+								'<td data-title="<s:text name="query.message.result.this_month.sum" />" class="text-right"><span class="form-control-static">' + parseFloat(total).toFixed(2) + '</span></td>';
 							row += '</tr>';
 							$('#queryDiscount').find('table#queryResult tbody').append(row);
 						}

@@ -35,8 +35,8 @@
 				<tr>
 					<th class="col-md-3"><s:text name="prod.field.name" /></th>
 					<th class="col-md-1"><s:text name="prod.field.unit" /></th>
-					<th class="col-md-2"><s:text name="offer.field.qty" /></th>
-					<th class="col-md-5 hidden-sm hidden-xs"><s:text name="pickup.field.details" /></th>
+					<th class="col-md-1 text-right"><s:text name="offer.field.qty" /></th>
+					<th class="col-md-7 text-center hidden-sm hidden-xs"><s:text name="pickup.field.details" /></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -49,12 +49,13 @@
 				<tr>
 					<td data-title="<s:text name="prod.field.name"/>"><span class="form-control-static">${record.prodName}</span></td>
 					<td data-title="<s:text name="prod.field.unit"/>"><span class="form-control-static">${record.unit}</span></td>
-					<td data-title="<s:text name="offer.field.qty"/>"><span class="form-control-static">${record.sumQty}</span></td>
+					<td data-title="<s:text name="offer.field.qty"/>" class="text-right"><span class="form-control-static">${record.sumQty}</span></td>
 					<td class="hidden-sm hidden-xs" data-title="<s:text name="pickup.field.details"/>">
 					<table class="table table-hover table-condensed"><tbody>
 <s:iterator value="#record.offers" var="offer" status="i">
+<s:url action="main" namespace="/so" var="mainURL"><s:param name="form.keyword">${offer.masterId}</s:param></s:url>
 					<tr>
-						<td class="col-md-3"><span class="form-control-static">${offer.masterId}</span></td>
+						<td class="col-md-3"><span class="form-control-static">${offer.masterId}</span> <a href="<s:property value="#mainURL" />" role="button" class="btn btn-warning show_tip" data-original-title="<s:text name="offer.message.detail"/>" ><i class="fa fa-external-link"></i></a></td>
 						<td class="col-md-6"><span class="form-control-static">${offer.custName}</span></td>
 						<td class="col-md-3"><span class="form-control-static">${offer.qty}</span></td>
 					</tr>
