@@ -15,6 +15,7 @@
 					<s:textfield name="form.keyword" theme="simple" placeholder="%{getText('global.message.keywordSearch')}:%{getText('offer.field.master_id')}" cssClass="form-control"/>
 				</div>
 				<s:submit key="global.action.query" cssClass="btn btn-success" />
+				<input type="button" class="btn btn-warning queryCusts" value='<s:text name="offer.action.query_custs"/>' data-toggle="modal" data-target="#queryModal" />
 			</div>
 			<div class="col-md-4 text-right">
 <c:if test="${attr.editmode == 'y'}">
@@ -106,6 +107,47 @@
 </div>
 </div>
 
+<div class="modal fade" id="queryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <s:form method="post" namespace="/so" action="main!query.do" theme="simple" cssClass="query_form">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="exampleModalLabel"><s:text name="offer.modal.query.title"/></h4>
+      </div>
+      <div class="modal-body">
+		<div class="row">
+			<div class="col-md-8 div-search">
+				<input type="text" placeholder='<s:text name="offer.action.choose_cust"/>:<s:text name="cust.field.name"/>' class="form-control cust"/>
+				<input type="hidden" name="queryCustId" id="queryCustId"/>
+			</div>
+			<div class="col-md-4">
+				<input type="button" value="<s:text name="global.action.query"/>" class="btn btn-warning queryCusts query"/>
+			</div>
+		</div>
+  		<div style="overflow: auto;">
+		<table id="queryResult4" class="table table-striped table-hover table-break-all table-list break-table" style="table-layout: fixed;">
+			<thead>
+				<tr>
+					<th><s:text name="offer.field.master_id"/></th>
+					<th><s:text name="offer.field.offer_date"/></th>
+					<th><s:text name="offer.field.total"/></th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <s:submit key="global.action.submit" cssClass="btn btn-warning query" type="button" disabled="true" onclick="return saveasOffer(event)" />
+        <button type="button" class="btn btn-default" data-dismiss="modal"><s:text name="global.action.cancel"/></button>
+      </div>
+      </s:form>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="saveasModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -153,6 +195,33 @@ $(function () {
 		$('.remove').removeAttr('disabled');
 	}
 	
+	$("#queryModal").on('keydown.autocomplete', '.cust', function() {
+		$(this).autocomplete({
+			minLength: 1,
+			appendTo: ".query_form",
+			source: function(request, response) {
+				response($.map(custs, function(v,i){
+					if (v.id === request.term || v.name.indexOf(request.term.toUpperCase()) >= 0) {
+						return {
+							label: v.name,
+							value: v.id
+						}
+					};
+				}));
+			},
+			focus: function( event, ui ) {
+				$(this).val( ui.item.label );
+				return false;
+			},
+			select: function( event, ui ) {
+				$(this).val( ui.item.label );
+				$('#queryCustId').val(ui.item.value);
+				$('.query').removeAttr('disabled');
+				return false;
+			}
+		});
+	});
+
 	$("#saveasModal").on('keydown.autocomplete', '.cust', function() {
 		$(this).autocomplete({
 			minLength: 1,
