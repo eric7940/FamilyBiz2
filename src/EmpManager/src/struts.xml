@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.action.extension" value="do"/>
+	<constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.devMode" value="false" />
+    <constant name="struts.multipart.maxSize" value="52428800"/> <!-- 上傳檔案最大值:50M -->
+    
+    <constant name="struts.custom.i18n.resources" value="global" />
+
+	<package name="default" namespace="/" extends="struts-default">
+		<global-results>
+			<result name="error">/jsp/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		
+		<action name="loginform">
+			<result>/jsp/login.jsp</result>
+		</action>
+		
+		<action name="index">
+			<result type="redirectAction">
+				<param name="actionName">main</param>
+			</result>
+		</action>
+		
+		<action name="login" class="com.fb.web.action.LoginAction">	
+			<result name="success" type="redirect">
+				<param name="location">/index.do</param>
+			</result>
+			<result name="input">/jsp/login.jsp</result>
+		</action>
+		<action name="logout" class="com.fb.web.action.LoginAction" method="logout">	
+			<result name="success" type="redirectAction">loginform</result>
+		</action>
+		
+		<action name="main">
+			<result>/jsp/main.jsp</result>
+		</action>
+	</package>
+		
+	<package name="basic" namespace="/basic" extends="struts-default,json-default">
+		<global-results>
+			<result name="error">/jsp/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		
+		<action name="cust" class="custAction">
+			<result name="success">/jsp/basic/cust_list.jsp</result>
+			<result name="edit">/jsp/basic/cust_edit.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">cust</param>
+				<param name="redirect">1</param>
+			</result>
+		</action>
+
+		<action name="prod" class="prodAction">
+			<result name="success">/jsp/basic/prod_list.jsp</result>
+			<result name="edit">/jsp/basic/prod_edit.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">prod</param>
+				<param name="redirect">1</param>
+			</result>
+		</action>
+
+		<action name="fact" class="factAction">
+			<result name="success">/jsp/basic/fact_list.jsp</result>
+			<result name="edit">/jsp/basic/fact_edit.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">fact</param>
+				<param name="redirect">1</param>
+			</result>
+		</action>
+	</package>
+
+	<package name="so" namespace="/so" extends="struts-default,json-default">
+		<global-results>
+			<result name="error">/jsp/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		
+		<action name="main" class="soAction">
+			<result name="view">/jsp/so/view.jsp</result>
+			<result name="edit">/jsp/so/edit.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">main</param>
+				<param name="form.keyword">${form.masterId}</param>
+				<param name="redirect">1</param>
+			</result>
+		</action>
+		
+		<action name="unreceived" class="soAction" method="unreceived">
+			<result name="success">/jsp/so/unreceived.jsp</result>
+		</action>
+
+		<action name="pickup" class="soAction" method="pickup">
+			<result name="success">/jsp/so/pickup.jsp</result>
+		</action>
+		
+	</package>
+	
+	<package name="po" namespace="/po" extends="struts-default,json-default">
+		<global-results>
+			<result name="error">/jsp/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		
+		<action name="main" class="poAction">
+			<result name="view">/jsp/po/view.jsp</result>
+			<result name="edit">/jsp/po/edit.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">main</param>
+				<param name="form.keyword">${form.masterId}</param>
+				<param name="redirect">1</param>
+			</result>
+		</action>
+	</package>
+
+	<package name="stock" namespace="/stock" extends="struts-default,json-default">
+		<global-results>
+			<result name="error">/jsp/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		
+		<action name="qty" class="stockAction">
+			<result name="success">/jsp/stock/list.jsp</result>
+			<result name="edit">/jsp/stock/edit.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">qty</param>
+				<param name="redirect">1</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="query" namespace="/query" extends="struts-default,json-default">
+		<global-results>
+			<result name="error">/jsp/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		
+		<action name="main" class="queryAction">
+			<result name="success">/jsp/query/main.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">main</param>
+				<param name="redirect">1</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="admin" namespace="/admin" extends="struts-default,json-default">
+		<global-results>
+			<result name="error">/jsp/exception.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		
+		<action name="config" class="configAction" method="initConfig">
+			<result name="success">/jsp/admin/config.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">config</param>
+				<param name="redirect">1</param>
+			</result>
+		</action>
+		<action name="menu" class="configAction" method="initMenu">
+			<result name="success">/jsp/admin/menu.jsp</result>
+			<result name="default" type="redirectAction">
+				<param name="actionName">menu</param>
+				<param name="redirect">1</param>
+			</result>
+		</action>
+	</package>	
+</struts> 

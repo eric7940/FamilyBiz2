@@ -1,0 +1,28 @@
+body{
+	word-break:break-all;/*自動換行*/
+}
+.div-button-area{	
+	margin-bottom: 10px; 
+}
+.div-search{
+	margin-bottom: 10px; 
+}
+.form-horizontal .panel-info .panel-heading {
+	color: #777;
+    background-color: #DDD;
+    border-color: #dddddd;
+}
+.top-block-fix {	
+	background: linear-gradient(to top,rgba(30,87,153,0.2) 0%,rgba(125,185,232,0) 100%);
+}
+.form-control-fullwidth {
+	width: 100% !important;
+}
+.ui-autocomplete {
+	max-height: 150px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+* html .ui-autocomplete {
+	height: 150px;
+}

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Services -->
+	<bean id="serviceParent" abstract="true" class="com.fb.service.impl.ServiceImpl">
+		<property name="serviceFactory" ref="serviceFactory" />
+		<property name="fbDao" ref="daoFB" />
+	</bean>
+	<bean id="serviceProxyParent" abstract="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager" ref="txmFB" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED, -Exception,-org.springframework.dao.DataAccessException</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- Service Factory -->
+	<bean id="serviceFactory" class="com.fb.service.impl.ServiceFactoryImpl" />
+
+	<!-- Services -->
+	<bean id="common" parent="serviceParent" scope="singleton" class="com.fb.service.impl.CommonServiceImpl" />
+	<bean id="commonProxy" parent="serviceProxyParent">
+		<property name="target" ref="common" />
+	</bean>
+	
+	<bean id="authentication" parent="serviceParent" scope="singleton" class="com.fb.service.impl.AuthenticationServiceImpl" />
+	<bean id="authenticationProxy" parent="serviceProxyParent">
+		<property name="target" ref="authentication" />
+	</bean>
+
+	<bean id="account" parent="serviceParent" scope="singleton" class="com.fb.service.impl.AccountServiceImpl" />
+	<bean id="accountProxy" parent="serviceProxyParent">
+		<property name="target" ref="account" />
+	</bean>
+
+	<bean id="func" parent="serviceParent" scope="singleton" class="com.fb.service.impl.FuncServiceImpl" />
+	<bean id="funcProxy" parent="serviceProxyParent">
+		<property name="target" ref="func" />
+	</bean>
+
+	<bean id="customer" parent="serviceParent" scope="singleton" class="com.fb.service.impl.CustomerServiceImpl" />
+	<bean id="customerProxy" parent="serviceProxyParent">
+		<property name="target" ref="customer" />
+	</bean>
+
+	<bean id="product" parent="serviceParent" scope="singleton" class="com.fb.service.impl.ProductServiceImpl" />
+	<bean id="productProxy" parent="serviceProxyParent">
+		<property name="target" ref="product" />
+	</bean>
+
+	<bean id="factory" parent="serviceParent" scope="singleton" class="com.fb.service.impl.FactoryServiceImpl" />
+	<bean id="factoryProxy" parent="serviceProxyParent">
+		<property name="target" ref="factory" />
+	</bean>
+
+	<bean id="qryPrice" parent="serviceParent" scope="singleton" class="com.fb.service.impl.QryPriceServiceImpl" />
+	<bean id="qryPriceProxy" parent="serviceProxyParent">
+		<property name="target" ref="qryPrice" />
+	</bean>
+
+	<bean id="offer" parent="serviceParent" scope="singleton" class="com.fb.service.impl.OfferServiceImpl" />
+	<bean id="offerProxy" parent="serviceProxyParent">
+		<property name="target" ref="offer" />
+	</bean>
+
+	<bean id="purchase" parent="serviceParent" scope="singleton" class="com.fb.service.impl.PurchaseServiceImpl" />
+	<bean id="purchaseProxy" parent="serviceProxyParent">
+		<property name="target" ref="purchase" />
+	</bean>
+
+	<bean id="stock" parent="serviceParent" scope="singleton" class="com.fb.service.impl.StockServiceImpl" />
+	<bean id="stockProxy" parent="serviceProxyParent">
+		<property name="target" ref="stock" />
+	</bean>
+
+	<bean id="sheetUtil" scope="singleton" class="com.fb.util.SheetUtil">
+		<property name="sheetPageWidth"			value="${sheet.page.width}" />
+		<property name="sheetPageHeight"			value="${sheet.page.height}" />
+		<property name="sheetBorder"				value="${sheet.table.border}" />
+		<property name="sheetMarginLeft"			value="${sheet.margin.left}" />
+		<property name="sheetMarginRight"		value="${sheet.margin.right}" />
+		<property name="sheetMarginTop"			value="${sheet.margin.top}" />
+		<property name="sheetMarginBottom"		value="${sheet.margin.bottom}" />
+		<property name="sheetFontFile"			value="${sheet.font.file}" />
+		<property name="sheetBaseFontSize"		value="${sheet.font.basesize}" />
+		<property name="sheetRowCount"			value="${sheet.row.count}" />
+		<property name="sheetRowFixedHeight"		value="${sheet.row.fixed.height}" />
+		<property name="serviceFactory"			ref="serviceFactory" />
+	</bean>
+
+</beans>

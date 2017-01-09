@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project>
+<project name="FB2" basedir="." default="">
+
+	<property file="env.properties" />
+	
+	<property name="source.dir"			value="src" />
+	<property name="properties.dir"		value="properties" />
+	<property name="env.dir"				value="${properties.dir}/env" />
+	<property name="webroot.dir"			value="WebContent" />
+	<property name="classes.dir"			value="${webroot.dir}/WEB-INF/classes" />
+	<property name="lib.dir"				value="${webroot.dir}/WEB-INF/lib" />
+	<property name="config.dir"			value="${webroot.dir}/WEB-INF/config" />
+	<property name="build.dir"			value="build" />
+
+	<property name="server.lib.dir"			value="${build.server.home}/lib" />
+	<property name="server.bin.dir"			value="${build.server.home}/bin" />
+	
+	<path id="main-classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<path id ="j2ee-classpath">
+		<fileset dir="${server.lib.dir}">
+			<include name="servlet-api.jar" />
+			<include name="catalina.jar" />
+		</fileset>
+		<fileset dir="${server.bin.dir}">
+			<include name="tomcat-juli.jar" />
+		</fileset>
+	</path>
+
+	<tstamp>
+		<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+	</tstamp>
+
+	<target name="init" depends="clean" description="">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${classes.dir}" />
+	</target>
+
+	<target name="clean" description="">
+		<delete dir="${build.dir}" quiet="true" />
+	</target>
+
+	<target name="config" description="">
+		<copy file="${properties.dir}/config.properties"	tofile="${config.dir}/config.properties" overwrite="true" />
+		<property name="env.properties" value="${env.dir}/${env}.properties"/>
+		<replace file="${config.dir}/config.properties" value="defaultvalue" propertyFile="${env.properties}" encoding="UTF-8" summary="true">
+			<replacefilter token="{main.jndi}"	property="main.jndi"/>
+			<replacefilter token="{sheet.font.file}"	property="sheet.font.file"/>
+		</replace>
+	</target>
+
+	<target name="compile" depends="config" description="">
+		<javac destdir="${classes.dir}" source="1.7" target="1.7" debug="on" deprecation="false" optimize="false" failonerror="true" encoding="UTF-8" includeAntRuntime="false">
+			<src path="${source.dir}" />
+			<classpath refid="main-classpath" />
+			<classpath refid="j2ee-classpath" />
+		</javac>
+		<copy todir="${classes.dir}" preservelastmodified="true" verbose="true">
+			<fileset dir="${source.dir}" includes="**/*.properties,**/*.xml,**/*.vm" />
+		</copy>
+	</target>
+
+	<target name="package-war" depends="compile" description="">
+		<war destfile="${build.dir}/fb2.war" webxml="${webroot.dir}/WEB-INF/web.xml">
+			<manifest>
+				<attribute name="Built-Date" value="${TODAY}" />
+				<attribute name="Built-By" value="${user.name}"/>
+				<attribute name="Implementation-Vendor" value=""/>
+				<attribute name="Implementation-Title" value="${ant.project.name}"/>
+				<attribute name="Implementation-Version" value="HEAD"/>
+			</manifest>
+			<fileset dir="${webroot.dir}">
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+		</war>
+	</target>
+
+	<target name="workflow" description="">
+		<echo message="target env: ${env}"/>
+		<echo message="ant.java.version = ${ant.java.version}"/>
+		<echo message="ant.version = ${ant.version}"/>
+		<echo message="java.classpath = ${java.class.path}"/>
+		<echo message="java.home = ${java.home}"/>
+		<echo message="java.version = ${java.version}"/>
+		<echo message="java.class.version = ${java.class.version}"/>
+		<echo message="jre.name = ${java.runtime.name}"/>
+		<echo message="jre.version = ${java.runtime.version}"/>
+		<antcall inheritAll="true" target="init"/>
+		<antcall inheritAll="true" target="package-war"/>
+	</target>
+
+	<target name="build-dev" description="">
+		<property name="env" value="dev"/>
+		<antcall inheritAll="true" target="workflow"/>
+	</target>
+	<target name="build-docker" description="">
+		<property name="env" value="docker"/>
+		<antcall inheritAll="true" target="workflow"/>
+	</target>
+	<target name="build-prod" description="">
+		<property name="env" value="prod"/>
+		<antcall inheritAll="true" target="workflow"/>
+	</target>
+	
+</project>

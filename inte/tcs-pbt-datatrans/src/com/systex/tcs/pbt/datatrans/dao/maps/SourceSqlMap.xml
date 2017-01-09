@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="source">
+	
+	<typeAlias alias="pipelineVO" type="com.systex.tcs.pbt.datatrans.vo.source.PipeLineVO"/>
+	<typeAlias alias="pipelineDetailVO" type="com.systex.tcs.pbt.datatrans.vo.source.PipeLineDetailVO"/>
+	<typeAlias alias="backlogVO" type="com.systex.tcs.pbt.datatrans.vo.source.BacklogVO"/>
+	<typeAlias alias="backlogDetailVO" type="com.systex.tcs.pbt.datatrans.vo.source.BacklogDetailVO"/>
+	<typeAlias alias="permissionSetVO" type="com.systex.tcs.pbt.datatrans.vo.source.PermissionSetVO"/>
+	<typeAlias alias="roleVO" type="com.systex.tcs.pbt.datatrans.vo.source.RoleVO"/>
+	<typeAlias alias="opportunityVO" type="com.systex.tcs.pbt.datatrans.vo.source.OpportunityVO"/>
+
+	<resultMap id="pipelineResult" class="pipelineVO" groupBy="oin">
+		<result property="oin"				column="OIN"/>
+		<result property="status"			column="Status"/>
+		<result property="creator"			column="Creator"/>
+		<result property="createDate"		column="CreateDate"/>
+		<result property="modifier"			column="Modifier"/>
+		<result property="modifyDate"		column="ModifyDate"/>
+		<result property="details"			resultMap="source.pipelineDetailResult"/>
+	</resultMap>
+	<resultMap id="pipelineDetailResult" class="pipelineDetailVO" groupBy="{ou,roleId,jobLevel}">
+		<result property="ou"				column="OU"/>
+		<result property="roleId"			column="RoleID"/>
+		<result property="jobLevel"			column="JobLevel"/>
+		<result property="manDayCost"		column="ManDayCost"/>
+		<result property="manDay"			column="ManDay"/>
+		<result property="headCount"			column="HeadCount"/>
+		<result property="confirmType"		column="ConfirmType"/>
+	</resultMap>
+
+	<resultMap id="backlogResult" class="backlogVO" groupBy="id">
+		<result property="id"				column="id"/>
+		<result property="version"			column="Version"/>
+		<result property="oin"				column="OIN"/>
+		<result property="description"		column="Description"/>
+		<result property="startDate"			column="StartDate"/>
+		<result property="endDate"			column="EndDate"/>
+		<result property="status"			column="Status"/>
+		<result property="creator"			column="Creator"/>
+		<result property="modifyDate"		column="ModifyDate"/>
+		<result property="confirmDate"		column="ConfirmDate"/>
+		<result property="formId"			column="FormID"/>
+		<result property="details"			resultMap="source.backlogDetailResult"/>
+	</resultMap>
+	<resultMap id="backlogDetailResult" class="backlogDetailVO" groupBy="{ou,empId,roleId}">
+		<result property="ou"				column="OU"/>
+		<result property="empId"				column="Emp"/>
+		<result property="roleId"			column="RoleID"/>
+		<result property="jobLevel"			column="JobLevel"/>
+		<result property="manDayCost"		column="ManDayCost"/>
+		<result property="confirmType"		column="ConfirmType"/>
+		<result property="days"				resultMap="source.backlogDetailDaysResult"/>
+	</resultMap>
+	<resultMap id="backlogDetailDaysResult" class="double">
+		<result property="ManDay"			column="ManDay"/>
+	</resultMap>
+
+	<resultMap id="internalOpportunityResult" class="opportunityVO">
+		<result property="formId"			column="FormId"/>
+		<result property="formType"			column="FormType"/>
+		<result property="oin"				column="OIN"/>
+		<result property="name"				column="Name"/>
+		<result property="assignedDeptCode"		column="Assigned_Dept_Code"/>
+		<result property="assignedEmployeeId"	column="Assigned_Employee_ID"/>
+		<result property="pmDeptCode"			column="PM_Dept_Code"/>
+		<result property="pmEmployeeId"			column="PM_Employee_ID"/>
+		<result property="companyGroupId"		column="company_group_id"/>
+		<result property="dateModified"		column="date_modified"/>
+	</resultMap>
+	
+	<resultMap id="permissionResult" class="permissionSetVO">
+		<result property="permissionId"		column="PermissionID"/>
+		<result property="empId"				column="EmpID"/>
+		<result property="value"				column="Value"/>
+		<result property="empName"			column="EmpName"/>
+	</resultMap>
+	<resultMap id="roleResult" class="roleVO">
+		<result property="roleId"			column="RoleID"/>
+		<result property="roleName"			column="RoleName"/>
+	</resultMap>
+	
+	<select id="selectPipeLines" resultMap="pipelineResult">
+		select 
+			upper(a.OIN) OIN,
+			a.OU, a.RoleID, a.JobLevel, a.ManDayCost, a.ManDay, a.HeadCount, 
+			(select top 1 x.Status from Pipeline x where x.OIN = a.OIN order by x.ModifyDate desc) Status, 
+			a.Creator, a.CreateDate, a.Creator Modifier,
+			(select top 1 x.ConfirmDate from ConfirmLog x where x.OIN = a.OIN and x.OU = a.OU and x.PBTType = 'Pipeline' order by x.ConfirmDate desc) ModifyDate,
+			(select top 1 x.confirmType from ConfirmLog x where x.OIN = a.OIN and x.OU = a.OU and x.PBTType = 'Pipeline' order by x.ConfirmDate desc) confirmType
+		from Pipeline a
+		order by a.OIN
+	</select>
+	
+	<select id="selectBacklogs" resultMap="backlogResult">
+		select
+			(a.OIN + a.Version) id, 
+			a.OIN, a.Version, a.OU, a.Description, a.StartDate, a.EndDate,
+			(select top 1 x.ConfirmType from ConfirmLog x where x.OIN = a.OIN and x.Version = a.Version and x.PBTType = 'Backlog' order by x.ConfirmDate desc) Status, 
+			coalesce(a.Creator,(select x.PM_Employee_ID from smalldb.tcsadm.opportunities x where x.OIN = a.OIN)) Creator, 
+			a.ModifyDate,
+			case when charindex(b.OU, b.EmpID) > 0 then '-' else b.EmpID end as Emp,
+			b.RoleID, b.JobLevel, b.ManDayCost, b.ManDay, 
+			(select top 1 x.ConfirmType from ConfirmLog x where x.OIN = a.OIN and x.Version = a.Version and x.OU = a.OU and x.PBTType = 'Backlog' order by x.ConfirmDate desc) ConfirmType, 
+			(select top 1 x.ConfirmDate from ConfirmLog x where x.OIN = a.OIN and x.Version = a.Version and x.OU = a.OU and x.PBTType = 'Backlog' order by x.ConfirmDate desc) ConfirmDate, 
+			null FormID
+		from Backlog_Version a, Backlog_VersionDetail b
+		where 
+			a.OIN = b.OIN and a.Version = b.Version and a.OU = b.OU
+		order by a.OIN, a.Version
+	</select>
+
+	<select id="selectDraftBacklogs" resultMap="backlogResult">
+		select 
+			(a.OIN + '9999') id,
+			a.OIN, '9999' Version,
+			a.OU, null Description, a.StartDate, a.EndDate,
+			'Draft' Status,
+			a.Creator, a.CreateDate ModifyDate,
+			case when charindex(b.OU, b.EmpID) > 0 then '-' else b.EmpID end as Emp,
+			b.RoleID, b.JobLevel, b.ManDayCost, b.ManDay, 'Draft' ConfirmType, a.CreateDate ConfirmDate, null FormID
+		from Backlog a, Backlog_Detail b, Backlog_Version c
+		where 
+			a.OIN = b.OIN and a.OU = b.OU and a.OIN = c.OIN and a.OU = c.OU
+			and c.Version = (select max(x.Version) from Backlog_Version x where x.OIN = a.OIN and x.OU = a.OU)
+			and a.CreateDate > c.ModifyDate
+	</select>
+
+	<select id="selectInternals" resultMap="backlogResult">
+		select
+			(a.OIN + a.Version) id, 
+			a.OIN, a.Version, a.OU, a.Description, a.StartDate, a.EndDate, 
+			(select top 1 x.ConfirmType from ConfirmLog x where x.OIN = a.OIN and x.Version = a.Version and x.PBTType = 'Internal' order by x.ConfirmDate desc) Status, 
+			a.Creator, a.ModifyDate,
+			case when charindex(b.OU, b.EmpID) > 0 then '-' else b.EmpID end as Emp,
+			b.RoleID, b.JobLevel, b.ManDayCost, b.ManDay, 
+			(select top 1 x.ConfirmType from ConfirmLog x where x.OIN = a.OIN and x.Version = a.Version and x.OU = a.OU and x.PBTType = 'Internal' order by x.ConfirmDate desc) ConfirmType, 
+			(select top 1 x.ConfirmDate from ConfirmLog x where x.OIN = a.OIN and x.Version = a.Version and x.OU = a.OU and x.PBTType = 'Internal' order by x.ConfirmDate desc) ConfirmDate, 
+			(select x.FormID from opportunities x where x.OIN = a.OIN) FormID
+		from Internal_Version a, Internal_VersionDetail b
+		where 
+			a.OIN = b.OIN and a.Version = b.Version and a.OU = b.OU 
+		order by a.OIN, a.Version
+	</select>
+	
+	<select id="selectInternalOpportunities" resultMap="internalOpportunityResult">
+		select 
+			FormId, FormType, OIN, Name,
+			Assigned_Dept_Code, Assigned_Employee_ID, 
+			PM_Dept_Code, PM_Employee_ID,
+			company_group_id, date_modified 
+		from opportunities;
+	</select>
+	
+	<select id="selectPermissionSet" resultMap="permissionResult">
+		select PermissionID, EmpID,
+			substring((select case b.permissionid 
+				when 'SystemAdmin' then null
+		            when 'CpnyAdmin' then ',' + b.Cpny 
+		            when 'DepMgr' then ',' + b.Depid
+		            when 'DepAst' then ',' + b.Depid end
+		        from PermissionSet b
+		        where b.PermissionID = a.PermissionID and b.EmpID = a.EmpID
+		        order by b.Cpny
+		        FOR XML PATH('')),2,9999) value,
+	 		(select givenname from smalldb.tcsadm.SYSTEX_SYNCEMP x where x.cn = a.EmpID) empName
+		from PermissionSet a 
+		where permissionid != 'Admin' group by permissionID, EmpID
+	</select>
+	
+	<select id="selectRoles" resultMap="roleResult">
+		select RoleID, RoleName from Role order by SortBy
+	</select>
+</sqlMap>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="custForm" class="com.fb.web.form.CustForm" scope="session" />
+	<bean id="custAction" class="com.fb.web.action.CustAction" scope="session">
+		<property name="form" ref="custForm" />
+	</bean>
+
+	<bean id="prodForm" class="com.fb.web.form.ProdForm" scope="session" />
+	<bean id="prodAction" class="com.fb.web.action.ProdAction" scope="session">
+		<property name="form" ref="prodForm" />
+	</bean>
+
+	<bean id="factForm" class="com.fb.web.form.FactForm" scope="session" />
+	<bean id="factAction" class="com.fb.web.action.FactAction" scope="session">
+		<property name="form" ref="factForm" />
+	</bean>
+
+	<bean id="soForm" class="com.fb.web.form.SoForm" scope="session" />
+	<bean id="soAction" class="com.fb.web.action.SoAction" scope="session">
+		<property name="form" ref="soForm" />
+	</bean>
+	 
+	<bean id="poForm" class="com.fb.web.form.PoForm" scope="session" />
+	<bean id="poAction" class="com.fb.web.action.PoAction" scope="session">
+		<property name="form" ref="poForm" />
+	</bean>
+
+	<bean id="stockForm" class="com.fb.web.form.StockForm" scope="session" />
+	<bean id="stockAction" class="com.fb.web.action.StockAction" scope="session">
+		<property name="form" ref="stockForm" />
+	</bean>
+
+	<bean id="queryForm" class="com.fb.web.form.QueryForm" scope="session" />
+	<bean id="queryAction" class="com.fb.web.action.QueryAction" scope="session">
+		<property name="form" ref="queryForm" />
+	</bean>
+
+	<bean id="configForm" class="com.fb.web.form.ConfigForm" scope="session" />
+	<bean id="configAction" class="com.fb.web.action.ConfigAction" scope="session">
+		<property name="form" ref="configForm" />
+	</bean>
+
+</beans>

@@ -1,0 +1,33 @@
+#wrapper .navbar-fixed-top {
+    background-color: #2fa4e7;
+    border-color: #1995dc;
+} 
+#wrapper .navbar-top-links a {
+    color: #fff;
+}
+#wrapper .navbar-top-links a:hover {
+    color: #337ab7;
+}
+#wrapper .icon-bar {
+    background-color: #fff;
+}
+#wrapper .navbar-toggle {
+    background-color: #178acc;
+}
+#wrapper .sidebar {
+    /*box-shadow: 0 0 10px #BDBDBD;*/
+	border-bottom: 0px;
+}
+#wrapper .sidebar a {
+    color: #178acc;
+}
+#wrapper form {
+    padding: 0 0 0 0px;
+    margin: 0 0 0 0px;
+}
+
+.test{
+	color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}

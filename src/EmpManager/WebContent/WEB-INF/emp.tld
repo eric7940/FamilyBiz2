@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd" version="2.0">
+
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>emp</short-name>
+	<uri>/emp-cloud</uri>
+
+	<tag>
+		<description>Message</description>
+		<name>message</name>
+		<tag-class>com.systex.emp.base.tag.MessageTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute memo="語系鍵值(resourceKey)">
+			<name>key</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute memo="區域代碼(areaId)">
+			<name>language</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute memo="備註(預設值)">
+			<name>memo</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<description>Button</description>
+		<name>button</name>
+		<tag-class>com.systex.emp.base.tag.ButtonTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute memo="物件名稱[i18n key]">
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+		<attribute memo="禁用[true,false(預設)]">
+			<name>disabled</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute memo="type[button,icon,li(預設)]">
+			<name>type</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute memo="滑鼠按下事件">
+			<name>onclick</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute memo="圖示[+(加項),-(減項),search(查),plus(增),edit(存),delete(刪),refresh(清),recycle(重載),back(回上頁)]">
+			<name>icon</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+</taglib>
