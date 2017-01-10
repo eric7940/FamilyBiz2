@@ -15,7 +15,7 @@
 					<s:textfield name="form.keyword" theme="simple" placeholder="%{getText('global.message.keywordSearch')}:%{getText('offer.field.master_id')}" cssClass="form-control"/>
 				</div>
 				<s:submit key="global.action.query" cssClass="btn btn-success" />
-				<input type="button" class="btn btn-warning queryCusts" value='<s:text name="offer.action.query_custs"/>' data-toggle="modal" data-target="#queryModal" />
+				<input type="button" class="btn btn-warning" value='<s:text name="offer.action.query"/>' data-toggle="modal" data-target="#queryModal" />
 			</div>
 			<div class="col-md-4 text-right">
 <c:if test="${attr.editmode == 'y'}">
@@ -110,7 +110,7 @@
 <div class="modal fade" id="queryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <s:form method="post" namespace="/so" action="main!query.do" theme="simple" cssClass="query_form">
+      <s:form method="post" namespace="/so" action="main" theme="simple" cssClass="query_form">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title" id="exampleModalLabel"><s:text name="offer.modal.query.title"/></h4>
@@ -122,11 +122,11 @@
 				<input type="hidden" name="queryCustId" id="queryCustId"/>
 			</div>
 			<div class="col-md-4">
-				<input type="button" value="<s:text name="global.action.query"/>" class="btn btn-warning queryCusts query"/>
+				<input type="button" value="<s:text name="global.action.query"/>" disabled="true" class="btn btn-warning query"/>
 			</div>
 		</div>
   		<div style="overflow: auto;">
-		<table id="queryResult4" class="table table-striped table-hover table-break-all table-list break-table" style="table-layout: fixed;">
+		<table id="queryResult" class="table table-striped table-hover table-break-all table-list break-table" style="table-layout: fixed;">
 			<thead>
 				<tr>
 					<th><s:text name="offer.field.master_id"/></th>
@@ -140,7 +140,7 @@
 		</div>
       </div>
       <div class="modal-footer">
-        <s:submit key="global.action.submit" cssClass="btn btn-warning query" type="button" disabled="true" onclick="return saveasOffer(event)" />
+        <s:submit key="global.action.submit" cssClass="btn btn-warning submit" type="button" disabled="true" />
         <button type="button" class="btn btn-default" data-dismiss="modal"><s:text name="global.action.cancel"/></button>
       </div>
       </s:form>
@@ -195,6 +195,18 @@ $(function () {
 		$('.remove').removeAttr('disabled');
 	}
 	
+	$('#queryModal').find('table#queryResult').on("click", "tr", function (e) {
+		if (e.target.type !== 'radio') {
+			$(':radio', this).trigger('click');
+		}
+	});
+	$('#queryModal').on('show.bs.modal', function (event) {
+		$('#queryModal').find('.cust').val('');
+		$('#queryModal').find('#queryCustId').val('');
+		$('#queryModal').find('table#queryResult tbody').empty();
+		$('#queryModal').find('.query').attr('disabled','disabled');
+		$('#queryModal').find('.submit').attr('disabled','disabled');
+	});
 	$("#queryModal").on('keydown.autocomplete', '.cust', function() {
 		$(this).autocomplete({
 			minLength: 1,
@@ -210,7 +222,6 @@ $(function () {
 				}));
 			},
 			focus: function( event, ui ) {
-				$(this).val( ui.item.label );
 				return false;
 			},
 			select: function( event, ui ) {
@@ -221,7 +232,48 @@ $(function () {
 			}
 		});
 	});
-
+	$('#queryModal').on('click', '.query', function() {
+		if ($('#queryModal').find('#queryCustId').val() == '') {
+			alert('<s:text name="offer.message.required.cust"/>');
+			return;
+		}
+		$.ajax({
+		    type: "POST",
+		    url: '<s:url action="main" namespace="/so" method="getOfferList"/>',
+		    dataType: "json",
+		    data: {a: $('#queryModal').find('#queryCustId').val()},
+		    success: function(json) {
+		    		if (json["errCde"] == '00') {
+					var result = json["result"];
+					$('#queryModal').find('table#queryResult tbody').empty();
+					if (result.length == 0) {
+						var row = '<tr><td colspan="3" class="text-center"><s:text name="offer.message.result.empty"/></td></tr>';
+						$('#queryModal').find('table#queryResult tbody').append(row);
+					} else {
+						$.each(result, function(i,v) {
+							var dd = new Date();
+							dd.setTime(v.offerDate.time);
+							
+							var row = '<tr>' +
+								'<td><input type="radio" name="form.keyword" value="' + v.id + '"/> ' + v.id + '</td>' +
+								'<td>' + $.datepicker.formatDate('yy-mm-dd', dd) + '</td>' +
+								'<td>' + v.total + '</td></tr>';
+							$('#queryModal').find('table#queryResult tbody').append(row);
+						});
+					}
+				} else {
+					alert(json["errMsg"]);
+				} 
+		    },
+		    error: function (xhr, textStatus, errorThrown) {
+		    		alert(xhr.responseText);
+		    }
+		});
+	});
+	$('#queryModal').on('click', 'input:radio', function() {
+		$('#queryModal').find('.submit').removeAttr('disabled');
+	});
+	
 	$("#saveasModal").on('keydown.autocomplete', '.cust', function() {
 		$(this).autocomplete({
 			minLength: 1,
@@ -237,7 +289,6 @@ $(function () {
 				}));
 			},
 			focus: function( event, ui ) {
-				$(this).val( ui.item.label );
 				return false;
 			},
 			select: function( event, ui ) {

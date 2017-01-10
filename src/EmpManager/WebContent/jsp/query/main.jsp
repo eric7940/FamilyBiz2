@@ -241,7 +241,6 @@ $(function () {
 				}));
 			},
 			focus: function( event, ui ) {
-				$(this).val( ui.item.label );
 				return false;
 			},
 			select: function( event, ui ) {
@@ -278,7 +277,6 @@ $(function () {
 				});
 			},
 			focus: function( event, ui ) {
-				$(this).val( ui.item.label );
 				return false;
 			},
 			select: function( event, ui ) {
@@ -346,7 +344,6 @@ $(function () {
 				}));
 			},
 			focus: function( event, ui ) {
-				$(this).val( ui.item.label );
 				return false;
 			},
 			select: function( event, ui ) {
@@ -383,7 +380,6 @@ $(function () {
 				});
 			},
 			focus: function( event, ui ) {
-				$(this).val( ui.item.label );
 				return false;
 			},
 			select: function( event, ui ) {
@@ -470,7 +466,6 @@ $(function () {
 				});
 			},
 			focus: function( event, ui ) {
-				$(this).val( ui.item.label );
 				return false;
 			},
 			select: function( event, ui ) {

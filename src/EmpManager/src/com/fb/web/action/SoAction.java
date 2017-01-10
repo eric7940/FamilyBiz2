@@ -48,6 +48,9 @@ public class SoAction extends BaseAction {
 			this.clearErrorsAndMessages();
 		
 		try {
+			CustomerService service1 = (CustomerService) this.getServiceFactory().getService("customer");
+			form.setCusts(service1.getList());
+
 			String masterId = form.getKeyword();
 				
 			if (StringUtils.isNotEmpty(masterId)) {
@@ -365,6 +368,49 @@ public class SoAction extends BaseAction {
 		}
 
 		return DEFAULT;
+	}
+
+	public String getOfferList() throws Exception {
+
+		logger.info("getOfferList start");
+
+		try {
+			String custId = request.getParameter("a");
+	
+			OfferService service = (OfferService) getServiceFactory().getService("offer");
+			List<OfferMasterVO> list = service.getOffers(Integer.parseInt(custId), false);
+			
+			JsonConfig cfg = new JsonConfig();
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "00");
+			map.put("result", list);
+			
+			JSONObject jsonObject = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			this.writeResponseJson(jsonObject.toString());
+			
+		} catch (Exception e) {
+			logger.error("fail", e);
+
+			JsonConfig cfg = new JsonConfig();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "01");
+			map.put("errMsg", e.getMessage());
+
+			JSONObject jsonObject  = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			try {
+				this.writeResponseJson(jsonObject.toString());
+			} catch (IOException e1) {
+				logger.error("fail", e1);
+			}
+		}
+		
+		return null;
 	}
 	
 	public String getProdList() {

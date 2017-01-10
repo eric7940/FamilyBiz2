@@ -8,6 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -22,9 +25,6 @@ import com.fb.vo.ProdVO;
 import com.fb.vo.PurchaseDetailVO;
 import com.fb.vo.PurchaseMasterVO;
 import com.fb.web.form.PoForm;
-
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
 
 public class PoAction extends BaseAction {
 
@@ -41,6 +41,9 @@ public class PoAction extends BaseAction {
 			this.clearErrorsAndMessages();
 		
 		try {
+			FactoryService service1 = (FactoryService) this.getServiceFactory().getService("factory");
+			form.setFacts(service1.getList());
+
 			String masterId = form.getKeyword();
 				
 			if (StringUtils.isNotEmpty(masterId)) {
@@ -189,6 +192,49 @@ public class PoAction extends BaseAction {
 		return DEFAULT;
 	}
 
+	public String getPurchaseList() throws Exception {
+
+		logger.info("getPurchaseList start");
+
+		try {
+			String factId = request.getParameter("a");
+	
+			PurchaseService service = (PurchaseService) getServiceFactory().getService("purchase");
+			List<PurchaseMasterVO> list = service.getPurchases(Integer.parseInt(factId), false);
+			
+			JsonConfig cfg = new JsonConfig();
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "00");
+			map.put("result", list);
+			
+			JSONObject jsonObject = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			this.writeResponseJson(jsonObject.toString());
+			
+		} catch (Exception e) {
+			logger.error("fail", e);
+
+			JsonConfig cfg = new JsonConfig();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("errCde", "01");
+			map.put("errMsg", e.getMessage());
+
+			JSONObject jsonObject  = JSONObject.fromObject(map, cfg);
+			logger.debug(jsonObject.toString());
+			
+			try {
+				this.writeResponseJson(jsonObject.toString());
+			} catch (IOException e1) {
+				logger.error("fail", e1);
+			}
+		}
+		
+		return null;
+	}
+	
 	public String getProdList() {
 		logger.debug("getProdList start");
 

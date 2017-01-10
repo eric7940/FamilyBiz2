@@ -522,7 +522,7 @@
 			tb_fact f 
 		where
 			d.prod_id = p.id and 
-			m.stock_id = s.stock_id and
+			m.stock_id = s.id and
 			m.fact_id = f.id and
 			m.status = 'N' and
 			m.fact_id = #factId#
