@@ -203,7 +203,7 @@ function save(event) {
 		}
 				
 		if (parseFloat(price) < parseFloat(cost)) {
-			if (!confirm('<s:text name="offer.message.lost_money"/>: ' + cost)) {
+			if (!confirm('<s:text name="offer.message.confirm.lost_money"/>: ' + cost)) {
 				error = $(this);
 				return false; // 等於break
 			}
