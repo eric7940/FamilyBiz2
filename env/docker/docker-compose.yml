@@ -1,0 +1,35 @@
+version: '2'
+services:
+  mariadb:
+    image: mariadb:10.1
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Asia/Taipei
+    volumes:
+      - ./volume/mysql/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+
+  fb:
+    image: tomcat:7
+    depends_on:
+      - mariadb
+    cap_drop:
+      - setuid
+      - setgid
+    restart: always    
+    mem_limit: 1024m
+    links:
+      - mariadb 
+    volumes:
+      - ./volume/tomcat/webapps:/usr/local/tomcat/webapps
+      - ./volume/tomcat/logs:/usr/local/tomcat/logs
+      - ./volume/tomcat/conf/context.xml:/usr/local/tomcat/conf/context.xml
+      - ./volume/tomcat/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+      - ./volume/tomcat/conf/microsoft-jhenghei.ttf:/usr/local/tomcat/conf/microsoft-jhenghei.ttf
+    environment:
+      TZ: Asia/Taipei
+    ports: 
+      - 8888:8080
