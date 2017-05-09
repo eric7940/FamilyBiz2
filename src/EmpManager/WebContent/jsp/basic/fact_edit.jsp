@@ -13,6 +13,7 @@
 			<!-- 查詢條件 -->
 			<div class="col-md-12 text-right">
 				<s:submit key="global.action.save" cssClass="btn btn-primary" type="button" onclick="save(event)" />
+				<s:submit key="global.action.remove" cssClass="btn btn-danger" type="button" onclick="remove(event)" />
 				<a href="<s:property value="#mainURL" />" role="button" class="btn btn-default"><s:text name="global.action.cancel" /></a>
 			</div>
 		</div>
@@ -64,6 +65,7 @@
 <script type='text/javascript'>
 var modify = '${attr.modify}';
 function save(event) {
+	event.preventDefault();
 	if ($('.name').val().trim() == '') {
 		alert('<s:text name="fact.message.required"><s:param><s:text name="fact.field.name"/></s:param></s:text>');
 		$('.name').focus();
@@ -75,7 +77,9 @@ function save(event) {
 		fnAdd(event);
 	}
 }
-
+function remove(event) {
+	fnRemove(event, '<s:text name="global.message.confirm"/>');
+}
 </script>
 
 <%@ include file="/commons/jsp/footer.jsp"%>

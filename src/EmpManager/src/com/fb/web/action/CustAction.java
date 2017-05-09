@@ -139,51 +139,24 @@ public class CustAction extends BaseAction {
 		
 		return DEFAULT;
 	}
-//
-//	public ActionForward delete(ActionMapping mapping,
-//			ActionForm form, HttpServletRequest request,
-//			HttpServletResponse response) throws Exception {
-//
-//		logger.info("delete start");
-//		ActionMessages messages = new ActionMessages();
-//
-//		try {
-//			CustForm formBean = (CustForm)form;
-//			CustomerService service = (CustomerService) this.getServiceFactory().getService("Customer");
-//			
-//			int result = 0;
-//			List<CustProfVO> custs = formBean.getCusts();
-//			String[] selectIdx = request.getParameterValues("selectIdx");
-//			if (selectIdx.length > 1) {
-//				List<Integer> custIds = new ArrayList<Integer>();
-//				for(int i = 0; i < selectIdx.length; i++) {
-//					int idx = Integer.parseInt(selectIdx[i]);
-//					CustProfVO cust = custs.get(idx);
-//					custIds.add(cust.getCustId());
-//				}
-//				result = service.removeCusts(custIds);
-//			} else {
-//				int idx = Integer.parseInt(selectIdx[0]);
-//				CustProfVO cust = (CustProfVO)custs.get(idx);
-//				result = service.removeCust(cust.getCustId());
-//			}
-//			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("basic.msg.2", result));
-//			
-//		} catch (FamilyBizException sce) {
-//			logger.error("",sce);
-//			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("all.0", sce.getMessage()));
-//			saveMessages(request, messages);
-//		} catch (Exception e) {
-//			logger.error("",e);
-//			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("all.msg.1"));
-//			saveMessages(request, messages);
-//		}
-//		
-//		logger.info("delete end");
-//		saveMessages(request, messages);
-//		
-//		return new ActionForward("/cust.do?state=init", false);
-//	}
+
+	public String remove() throws Exception {
+
+		logger.info("remove start");
+		
+		try {
+			CustomerService service = (CustomerService) this.getServiceFactory().getService("customer");
+			
+			service.remove(form.getId());
+			addLocalizationActionSuccess("remove");
+			
+		} catch (FamilyBizException e) {
+			logger.error("action fail.", e);
+			this.addActionError(e);
+		}
+		
+		return DEFAULT;
+	}
 	
 	public void setForm(CustForm form) {
 		this.form = form;

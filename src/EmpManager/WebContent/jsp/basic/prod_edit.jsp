@@ -5,14 +5,15 @@
 
 <div class="container-fluid">	
 
-<s:form method="post" namespace="/basic" action="prod" theme="simple" onsubmit="return save(event)">
+<s:form method="post" namespace="/basic" action="prod" theme="simple">
 <s:hidden name="form.id"/>
 	<div role="main" class="container-fluid">
 
 		<div class="row">
 			<!-- 查詢條件 -->
 			<div class="col-md-12 text-right">
-				<s:submit key="global.action.save" cssClass="btn btn-primary"/>
+				<s:submit key="global.action.save" cssClass="btn btn-primary" type="button" onclick="save(event)" />
+				<s:submit key="global.action.remove" cssClass="btn btn-danger" type="button" onclick="remove(event)" />
 				<a href="<s:property value="#mainURL" />" role="button" class="btn btn-default"><s:text name="global.action.cancel" /></a>
 			</div>
 		</div>
@@ -52,6 +53,7 @@
 <script type='text/javascript'>
 var modify = '${attr.modify}';
 function save(event) {
+	event.preventDefault();
 	if ($('.name').val().trim() == '') {
 		alert('<s:text name="prod.message.required"><s:param><s:text name="prod.field.name"/></s:param></s:text>');
 		$('.name').focus();
@@ -90,7 +92,9 @@ function save(event) {
 		fnAdd(event);
 	}
 }
-
+function remove(event) {
+	fnRemove(event, '<s:text name="global.message.confirm"/>');
+}
 function processPrice(obj) {
 	if (!isDecimal(obj.value) || parseFloat(obj.value) < 0) {
 		alert('<s:text name="prod.message.required.number"/>');

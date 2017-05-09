@@ -305,7 +305,7 @@
 	<update id="deleteFuncAuth" parameterClass="string">
 		delete from tb_func_auth where grade = #value#
 	</update>
-	<update id="deleteCust" parameterClass="CustVO">
+	<update id="deleteCust" parameterClass="int">
 		update tb_cust set status = 'D', ustamp = #ustamp#, tstamp = now()
 		where id = #id#
 	</update>
@@ -313,7 +313,7 @@
 		update tb_cust set status = 'D', ustamp = #ustamp#, tstamp = now() 
 		where id in ($value$)
 	</update>
-	<update id="deleteFact" parameterClass="FactVO">
+	<update id="deleteFact" parameterClass="int">
 		update tb_fact set status = 'D', ustamp = #ustamp#, tstamp = now()
 		where id = #id#
 	</update>
@@ -321,7 +321,7 @@
 		update tb_fact set status = 'D', ustamp = #ustamp#, tstamp = now() 
 		where id in ($value$)
 	</update>	
-	<update id="deleteProd" parameterClass="ProdVO">
+	<update id="deleteProd" parameterClass="int">
 		update tb_prod set status = 'D', ustamp = #ustamp#, tstamp = now()
 		where id = #id#
 	</update>
@@ -562,7 +562,7 @@
 		where
 			m.back is null and
 			m.status = 'N' and
-			m.receive_amt <![CDATA[<]]> m.total and
+			(m.receive_amt <![CDATA[<]]> m.total or (m.total <![CDATA[<]]> 0 and m.receive_amt = 0)) and
 			m.cust_id = c.id and
 			m.ustamp = #ustamp#
 			<isNotNull property="custId" prepend="and"> m.cust_id = #custId#</isNotNull>

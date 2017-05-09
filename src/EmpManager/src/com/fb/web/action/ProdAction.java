@@ -157,50 +157,23 @@ public class ProdAction extends BaseAction {
 		return DEFAULT;
 	}
 
-//	public ActionForward delete(ActionMapping mapping,
-//			ActionForm form, HttpServletRequest request,
-//			HttpServletResponse response) throws Exception {
-//
-//		logger.info("delete start");
-//		ActionMessages messages = new ActionMessages();
-//
-//		try {
-//			ProdForm formBean = (ProdForm)form;
-//			ProductService service = (ProductService) this.getServiceFactory().getService("Product");
-//			
-//			int result = 0;
-//			List<ProdProfVO> prods = formBean.getProds();
-//			String[] selectIdx = request.getParameterValues("selectIdx");
-//			if (selectIdx.length > 1) {
-//				List<Integer> prodIds = new ArrayList<Integer>();
-//				for(int i = 0; i < selectIdx.length; i++) {
-//					int idx = Integer.parseInt(selectIdx[i]);
-//					ProdProfVO prod = prods.get(idx);
-//					prodIds.add(prod.getProdId());
-//				}
-//				result = service.removeProds(prodIds);
-//			} else {
-//				int idx = Integer.parseInt(selectIdx[0]);
-//				ProdProfVO prod = (ProdProfVO)prods.get(idx);
-//				result = service.removeProd(prod.getProdId());
-//			}
-//			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("basic.msg.2", result));
-//			
-//		} catch (FamilyBizException sce) {
-//			logger.error("",sce);
-//			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("all.0", sce.getMessage()));
-//			saveMessages(request, messages);
-//		} catch (Exception e) {
-//			logger.error("",e);
-//			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("all.msg.1"));
-//			saveMessages(request, messages);
-//		}
-//		
-//		logger.info("delete end");
-//		saveMessages(request, messages);
-//		
-//		return new ActionForward("/prod.do?state=init", false);
-//	}
+	public String remove() throws Exception {
+
+		logger.info("remove start");
+		
+		try {
+			ProductService service = (ProductService) this.getServiceFactory().getService("product");
+			
+			service.remove(form.getId());
+			addLocalizationActionSuccess("remove");
+			
+		} catch (FamilyBizException e) {
+			logger.error("action fail.", e);
+			this.addActionError(e);
+		}
+		
+		return DEFAULT;
+	}
 
 	public void setForm(ProdForm form) {
 		this.form = form;
