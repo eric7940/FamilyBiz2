@@ -291,7 +291,7 @@ $(function () {
 									label: v.prod.name + '(<s:text name="prod.field.unit"/>:' + v.prod.unit + ')',
 									value: v.prod.id,
 									unit: v.prod.unit,
-									price: v.amt
+									price: v.prod.cost
 								};
 							}));
 						} else {
