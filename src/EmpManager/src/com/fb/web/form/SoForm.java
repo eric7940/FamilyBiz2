@@ -29,6 +29,8 @@ public class SoForm extends BaseForm {
 	private List<OfferMasterVO> unreceivedOffers;
 	private List<PickProdVO> pickupProds;
 	
+	private Double discountTotal;
+	
 	private String masterId;
 	private Integer custId;
 	private String deliveryUserId;
@@ -81,6 +83,12 @@ public class SoForm extends BaseForm {
 	}
 	public void setPickupProds(List<PickProdVO> pickupProds) {
 		this.pickupProds = pickupProds;
+	}
+	public Double getDiscountTotal() {
+		return discountTotal;
+	}
+	public void setDiscountTotal(Double discountTotal) {
+		this.discountTotal = discountTotal;
 	}
 	public CustVO getCust() {
 		return cust;

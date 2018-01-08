@@ -1,6 +1,5 @@
 package com.fb.service;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +32,8 @@ public interface OfferService extends Service {
 
 	public List<OfferMasterVO> getUnReceivedOffers(Integer custId, Date startDate, Date endDate, boolean beforeFlag, String userId) throws FamilyBizException;
 
+	public double getTotalDiscount(Date startDate, Date endDate, boolean beforeFlag) throws FamilyBizException;
+	
 	public int modifyOffer(OfferMasterVO master, List<OfferDetailVO> details) throws FamilyBizException;
 	
 	public int removeOffer(OfferMasterVO master, boolean back) throws FamilyBizException;

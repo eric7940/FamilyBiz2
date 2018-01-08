@@ -168,6 +168,7 @@ $(function () {
 		cost += parseFloat(c);
 	});
 	
+	var discount = '<c:out value="${form.discountTotal}"/>';
 	var profit = total - cost;
 	var row1 = '<tr>' + 
 		'<td>&nbsp;</td>' + 
@@ -180,8 +181,8 @@ $(function () {
 
 	var row2 = '<tr>' + 
 		'<td>&nbsp;</td>' + 
-		'<td>&nbsp;</td>' + 
-		'<td>&nbsp;</td>' + 
+		'<td><h4 class="text-success"><s:text name="purchase"/><s:text name="purchase.field.discount"/></h4></td>' + 
+		'<td><h4 class="text-success">' + parseFloat(discount).toFixed(2) + '</h4></td>' + 
 		'<td>' + ((profit > 0)? '<h4 class="text-success"><s:text name="unreceived.field.profile"/></h4>': ((profit < 0)? '<h4 class="text-danger"><s:text name="unreceived.field.loss"/></h4>': '<h4 class="text-primary"><s:text name="unreceived.field.balance"/></h4>')) + '</td>' + 
 		'<td>&nbsp;</td>' + 
 		'<td>&nbsp;</td>' + 

@@ -145,6 +145,15 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return this.getFbDao().queryForList("selectUnReceivedOffers", paramMap);
 	}
 
+	public double getTotalDiscount(Date startDate, Date endDate, boolean beforeFlag) throws FamilyBizException {
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("startDate", startDate);
+		paramMap.put("endDate", endDate);
+		paramMap.put("beforeFlag", beforeFlag? "Y": null);
+		Object discount = this.getFbDao().queryForObject("selectTotalDiscount", paramMap);
+		return (discount == null)? 0: (Double) discount;
+	}
+
 	public int modifyOffer(OfferMasterVO master, List<OfferDetailVO> details) throws FamilyBizException {
 		String masterId = master.getId();
 		OfferMasterVO offer = this.getOffer(masterId);

@@ -512,7 +512,9 @@ public class SoAction extends BaseAction {
 				
 				OfferService service = (OfferService) getServiceFactory().getService("offer");
 				List<OfferMasterVO> unreceivedOffers = service.getUnReceivedOffers(custId, startDate, endDate, false, this.getUserInfo());
+				Double discountTotal = service.getTotalDiscount(startDate, endDate, false);
 				form.setUnreceivedOffers(unreceivedOffers);
+				form.setDiscountTotal(discountTotal);
 				
 				request.setAttribute("query", "y");
 			}	

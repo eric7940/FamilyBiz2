@@ -570,6 +570,16 @@
 			and m.offer_date <![CDATA[<=]]> #endDate#
 		order by m.cust_id asc, m.offer_date asc
 	</select>
+	<select id="selectTotalDiscount" parameterClass="map" resultClass="double">
+		select sum(m.discount)
+		from
+			tb_purchase_master m
+		where
+			m.back is null and
+			m.status = 'N' 
+			<isNull property="beforeFlag" prepend="and"> m.purchase_date <![CDATA[>=]]> #startDate#</isNull>
+			and m.purchase_date <![CDATA[<=]]> #endDate#
+	</select>
 	<select id="selectOfferQty" parameterClass="map" resultClass="java.util.HashMap">
 		select m.cust_id, c.name cust_name, sum(d.qty) as qty, p.unit
 		from tb_offer_master m, tb_offer_detail d, tb_cust c, tb_prod p
