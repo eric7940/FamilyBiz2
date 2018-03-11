@@ -132,8 +132,9 @@ function printUnreceived() {
 		var masterId = $(this).find('.detail_id').text();
 		id += "," + masterId;
 	});
-
-	var printWin = openWindow('/fb2/unreceived.sheet?id=' + id + '&before=' + before, 'printUnReceived', 793, 529);
+	var start = $('.start_date').val();
+	var end = $('.end_date').val();
+	var printWin = openWindow('/fb2/unreceived.sheet?s=' + start + '&e=' + end + '&id=' + id + '&before=' + before, 'printUnReceived', 793, 529);
 }
 
 var query = '${attr.query}';

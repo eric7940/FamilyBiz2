@@ -68,6 +68,9 @@ public class UnreceivedSheetServlet extends HttpServlet {
 				beforeIds = CommonUtil.convertStringToList(bids.substring(1), ",");	
 			}
 			
+			String d1 = request.getParameter("s");
+			String d2 = request.getParameter("e");
+			
 			OfferService service = (OfferService)SheetUtil.getServiceFactory().getService("offer");
 			List<OfferMasterVO> unreceivedOffers = service.getOffers(masterIds, false);
 
@@ -77,6 +80,8 @@ public class UnreceivedSheetServlet extends HttpServlet {
 			Map<String,Object> paramMap = new HashMap<String,Object>();
 			paramMap.put("list", unreceivedOffers);
 			paramMap.put("before", beforeIds);
+			paramMap.put("start", DateUtil.getDateObject(d1, "yyyy-MM-dd"));
+			paramMap.put("end", DateUtil.getDateObject(d2, "yyyy-MM-dd"));
 			ByteArrayOutputStream baos = generatePDFDocumentBytes(paramMap);
 
 			StringBuffer sbFilename = new StringBuffer();
@@ -132,6 +137,8 @@ public class UnreceivedSheetServlet extends HttpServlet {
 		
 		List unreceivedOffers = (List) paramMap.get("list");
 		List beforeIds = (List)paramMap.get("before");
+		Date startDate = (Date)paramMap.get("start");
+		Date endDate = (Date)paramMap.get("end");
 		
 		List custs = groupByCust(unreceivedOffers);
 		int pageSize = getPageSize(custs);
@@ -158,7 +165,7 @@ public class UnreceivedSheetServlet extends HttpServlet {
 				if (custPageIdx > 1) document.newPage();
 	
 				document.add(SheetUtil.buildTitleTable("應收帳款對帳單", width));
-				document.add(buildPrintTable(today, pageIdx, pageSize));
+				document.add(buildPrintTable(today, pageIdx, pageSize, startDate, endDate));
 				document.add(buildCustTable(cust));
 	
 				int fromIdx = (custPageIdx - 1) * rowSize;
@@ -272,8 +279,8 @@ public class UnreceivedSheetServlet extends HttpServlet {
 		return table;
 	}
 
-	private PdfPTable buildPrintTable(Date date, int pageIdx, int pageSize) throws FamilyBizException {
-		float width[] = {5f, 5f};
+	private PdfPTable buildPrintTable(Date date, int pageIdx, int pageSize, Date startDate, Date endDate) throws FamilyBizException {
+		float width[] = {3f, 5f, 2f};
 		PdfPTable table = SheetUtil.getTableInstance(width);
 
 		PdfPCell cell1 = new PdfPCell();
@@ -283,9 +290,16 @@ public class UnreceivedSheetServlet extends HttpServlet {
 		PdfPCell cell2 = new PdfPCell();
 		cell2.setBorder(PdfPCell.NO_BORDER);
 		cell2.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-		
+
+		PdfPCell cell3 = new PdfPCell();
+		cell3.setBorder(PdfPCell.NO_BORDER);
+		cell3.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+
 		cell1.setPhrase(new Phrase("列印日期：" + DateUtil.getDateString(date), SheetUtil.getTitleFont3()));
 		table.addCell(cell1);
+
+		cell3.setPhrase(new Phrase("查詢期間：" + DateUtil.getDateString(startDate) + " ~ " + DateUtil.getDateString(endDate), SheetUtil.getTitleFont3()));
+		table.addCell(cell3);
 
 		cell2.setPhrase(new Phrase("頁次：" + pageIdx + "/" + pageSize, SheetUtil.getTitleFont3()));
 		table.addCell(cell2);
