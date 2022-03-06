@@ -33,7 +33,7 @@ public interface OfferService extends Service {
 
 	public List<OfferMasterVO> getUnReceivedOffers(Integer custId, Date startDate, Date endDate, boolean beforeFlag, String userId) throws FamilyBizException;
 
-	public int modifyOffer(OfferMasterVO master, List<OfferDetailVO> details) throws FamilyBizException;
+	public String modifyOffer(OfferMasterVO master, List<OfferDetailVO> details) throws FamilyBizException;
 	
 	public int removeOffer(OfferMasterVO master, boolean back) throws FamilyBizException;
 

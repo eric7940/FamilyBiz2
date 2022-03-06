@@ -203,9 +203,10 @@ function save(event) {
 		}
 				
 		if (parseFloat(price) < parseFloat(cost)) {
-			alert('<s:text name="offer.message.lost_money"/>: ' + cost);
-			error = $(this);
-			return false; // 等於break
+			if (!confirm('<s:text name="offer.message.lost_money"/>: ' + cost)) {
+				error = $(this);
+				return false; // 等於break
+			}
 		}
 		count++;
 	});

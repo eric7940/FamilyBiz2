@@ -145,7 +145,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 		return this.getFbDao().queryForList("selectUnReceivedOffers", paramMap);
 	}
 
-	public int modifyOffer(OfferMasterVO master, List<OfferDetailVO> details) throws FamilyBizException {
+	public String modifyOffer(OfferMasterVO master, List<OfferDetailVO> details) throws FamilyBizException {
 		String masterId = master.getId();
 		OfferMasterVO offer = this.getOffer(masterId);
 		
@@ -191,7 +191,7 @@ public class OfferServiceImpl extends ServiceImpl implements OfferService {
 				qty.setQty(new Double("-" + detail.getQty()));
 			this.getFbDao().update("updateProdStockQty", qty);
 		}
-		return Integer.parseInt(masterId);
+		return masterId;
 	}
 
 	public int removeOffer(OfferMasterVO master, boolean back) throws FamilyBizException {
